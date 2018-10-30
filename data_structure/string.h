@@ -8,9 +8,9 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include "mgmt/constant.h"
-#include "mgmt/namespace.h"
-#include "mgmt/selectors.h"
+#include "management/constant.h"
+#include "management/namespace.h"
+#include "management/selectors.h"
 
 #include "boolean.h"
 
@@ -22,7 +22,7 @@ typedef struct {
   int MaxEl;
 } string;
 
-//For selectors, refer to ~/mgmt/selectors
+//For selectors, refer to ~/management/selectors
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong  */

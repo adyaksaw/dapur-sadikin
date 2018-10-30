@@ -1,6 +1,9 @@
 /* File : namespace.h */
 /* Manajemen definisi tipe custom ADT */
 
+#ifndef NAMESPACE_H
+#define NAMESPACE_H
+
 /* ********** GLOBAL ********** */
 typedef int IdxType;
 typedef int IdType;   /* type elemen tabel */
@@ -14,3 +17,5 @@ typedef struct {
   IdType foodId;
   boolean ready;
 } infotype_food;
+
+#endif

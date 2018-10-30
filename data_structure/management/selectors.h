@@ -1,5 +1,8 @@
-/* File : namespace.h */
+/* File : selectors.h */
 /* Manajemen selektor ADT */
+
+#ifndef SELECTOR_H
+#define SELECTOR_H
 
 /* ********** GLOBAL ********** */
 #define Neff(X)     (X).Neff
@@ -21,3 +24,5 @@
 /* *** String Stack *** */
 #define Top(S)      (S).TOP
 #define InfoTop(S)  (S).T[(S).TOP]
+
+#endif

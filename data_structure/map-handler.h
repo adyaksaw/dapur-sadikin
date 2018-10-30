@@ -59,5 +59,3 @@ void Print_Map (Matrix M);
 */
 
 #endif
-
-#endif

@@ -1,5 +1,8 @@
-/* File : namespace.h */
+/* File : constants.h */
 /* Manajemen konstanta & enumerator */
+
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 /* *** Empty *** */
 #define EMPTY 0;
@@ -50,3 +53,5 @@ typedef enum {
   STOVE,
   TRAY
 } gameObj;
+
+#endif

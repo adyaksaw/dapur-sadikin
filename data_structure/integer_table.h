@@ -9,9 +9,9 @@
 
 #include <stdio.h>
 
-#include "mgmt/constants.h"
-#include "mgmt/namespace.h"
-#include "mgmt/selectors.h
+#include "management/constants.h"
+#include "management/namespace.h"
+#include "management/selectors.h"
 
 #include "../file-controller.h"
 
