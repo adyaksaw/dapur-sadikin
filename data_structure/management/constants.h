@@ -8,8 +8,6 @@
 #define EMPTY 0;
 
 /* ********** STRUKTUR DATA ********** */
-/* *** String *** */
-#define MIN_STRING 1;
 
 /* *** Integer Table *** */
 #define IDX_MAX_TI 100
@@ -38,13 +36,13 @@ typedef enum {
   DOWN,
   LEFT,
   RIGHT
-} direction;
+} Direction;
 
 /* ********** SORTING ********** */
 typedef enum {
 	ASC = 1,
 	DSC = 2
-} sortType;
+} SortType;
 
 /* ********** GAME OBJECTS ********** */
 typedef enum {
@@ -52,6 +50,6 @@ typedef enum {
   TABLE,
   STOVE,
   TRAY
-} gameObj;
+} GameObj;
 
 #endif

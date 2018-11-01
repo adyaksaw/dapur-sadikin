@@ -5,7 +5,8 @@
 #define Point_H
 
 #include "boolean.h"
-#include "management/selectors.h"
+
+#include "../management/selectors.h"
 
 typedef struct {
 	float X; /* absis   */

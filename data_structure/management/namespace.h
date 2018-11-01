@@ -7,15 +7,6 @@
 /* ********** GLOBAL ********** */
 typedef int IdxType;
 typedef int IdType;   /* type elemen tabel */
-typedef int address;   /* indeks tabel */
-
-/* *** String *** */
-typedef char ElType_Str;
-
-/* *** Food Tuple *** */
-typedef struct {
-  IdType foodId;
-  boolean ready;
-} infotype_food;
+typedef int Address;   /* indeks tabel */
 
 #endif

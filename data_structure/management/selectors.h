@@ -9,9 +9,6 @@
 #define Array(X)    (X).T
 #define Elmt(X,i)   (X).T[(i)]
 
-/* *** String *** */
-#define MaxEl(S)    (S).MaxEl
-
 /* *** Point *** */
 #define Absis(P) (P).X
 #define Ordinat(P) (P).Y

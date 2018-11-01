@@ -6,9 +6,11 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "management/constants.h"
-#include "management/namespace.h"
-#include "management/selectors.h"
+#include "../management/constants.h"
+#include "../management/namespace.h"
+#include "../management/selectors.h"
+
+#include "../item.h"
 
 #include "../file-controller.h"
 
@@ -18,8 +20,8 @@
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/
 typedef struct {
-	infotype_food T[MAX_ELMT_STACK_STR+1]; /* tabel penyimpan elemen */
-	address TOP;  /* alamat TOP: elemen puncak */
+	Item T[MAX_ELMT_STACK_STR+1]; /* tabel penyimpan elemen */
+	Address TOP;  /* alamat TOP: elemen puncak */
 } Stack;
 /* Definisi stack S kosong : S.TOP = NULL_STACK_STR */
 /* Elemen yang dipakai menyimpan nilai Stack T[1]..T[MAX_ELMT_STACK_STR] */
