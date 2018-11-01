@@ -1,15 +1,15 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
-#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#include "data_structure/adt/point.h"
-#include "data_structure/adt/integer_table.h"
-#include "data_structure/adt/stack.h"
-#include "data_structure/adt/matrix.h"
+#include "../data_type.h"
+
+#include "../adt/point.h"
 
 /* *** Customer *** */
-#define Amount(C)       (C).num
+#define Amount(C)       (C).amount
 #define FoodOrderID(C)  (C).orderID
 #define TableNumber(C)  (C).tableNum
 #define Patience(C)     (C).patience
@@ -17,11 +17,11 @@
 #define Status(C)       (C).stat
 
 typedef struct {
-  unsigned short amount;
-  IdType orderID;
+  SmallNum amount;
+  SmallNum orderID;
   Point tableNum;
-  short patience;
-  unsigned short star;
+  SmallNum patience;
+  SmallNum star;
   enum {
     QUEUE = 1,
     SEATED = 2

@@ -1,25 +1,32 @@
 /* File : queue.h */
+/* Queue of Customer */
 /* Definisi ADT Queue dengan representasi array secara eksplisit dan alokasi dinamik */
 /* Model Implementasi Versi III dengan circular buffer */
 
-#ifndef queue_H
-#define queue_H
+#ifndef QUEUE_H
+#define QUEUE_H
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "boolean.h"
 
-#define Nil 0
+#include "../gdt/customer.h"
+
+#define Nil_Queue 0
 /* Konstanta untuk mendefinisikan address tak terdefinisi */
 
 /* Definisi elemen dan address */
-typedef Customer infotype;
-typedef int address;   /* indeks tabel */
+typedef Customer ElType_Queue;
+typedef int Address_Queue;   /* indeks tabel */
 /* Contoh deklarasi variabel bertype Queue : */
 /* Versi I : tabel dinamik, Head dan Tail eksplisit, ukuran disimpan */
-typedef struct { infotype * T;   /* tabel penyimpan elemen */
-                 address HEAD;  /* alamat penghapusan */
-                 address TAIL;  /* alamat penambahan */
-                 int MaxEl;     /* Max elemen queue */
-               } Queue;
+typedef struct {
+    ElType_Queue * T;   /* tabel penyimpan elemen */
+    Address_Queue HEAD;  /* alamat penghapusan */
+    Address_Queue TAIL;  /* alamat penambahan */
+    int MaxEl;     /* Max elemen queue */
+} Queue;
 /* Definisi Queue kosong: HEAD=Nil; TAIL=Nil. */
 /* Catatan implementasi: T[0] tidak pernah dipakai */
 

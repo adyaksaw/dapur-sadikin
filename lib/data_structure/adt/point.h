@@ -1,12 +1,16 @@
 /* File: point.h */
 /* *** Definisi ABSTRACT DATA TYPE Point *** */
 
-#ifndef Point_H
-#define Point_H
+#ifndef POINT_H
+#define POINT_H
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "boolean.h"
 
-#include "../management/selectors.h"
+#define Absis(P) (P).X
+#define Ordinat(P) (P).Y
 
 typedef struct {
 	float X; /* absis   */

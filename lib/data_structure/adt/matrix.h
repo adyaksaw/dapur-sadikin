@@ -1,23 +1,32 @@
-/* File : map-handler.h */
+/* File : matrix.h */
+/* Map Matrix of Object */
 /* Dapur SADIKIN Map Definition & Handler */
 
-#ifndef MAP_HANDLER_H
-#define MAP_HANDLER_H
+#ifndef MATRIX_H
+#define MATRIX_H
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "point.h"
-
-#include "../adt/boolean.h"
+#include "boolean.h"
 
 #include "../gdt/object.h"
 
-#define MAP_REF_DIR "~dir/map.txt"
-#define SAVE_MAP_DIR "~savedir/map.txt"
+#define MIN_ROW_MAP 1
+#define MAX_ROW_MAP 100
+#define MIN_COL_MAP 1
+#define MAX_COL_MAP 100
 
-typedef Object ElType_Map;
+#define NRowEff(M)      (M).NRowEff
+#define NColEff(M)      (M).NColEff
+#define ElmtMx(M,i,j)  (M).Mem[(i)][(j)]
+
+typedef Object ElType_Matrix;
 
 typedef struct {
-	ElType_Map Mem[MAX_ROW_MAP+1][MAX_COL_MAP+1];
-  int NRowEff; /* banyaknya/ukuran baris yg terdefinisi */
+	ElType_Matrix Mem[MAX_ROW_MAP+1][MAX_COL_MAP+1];
+  	int NRowEff; /* banyaknya/ukuran baris yg terdefinisi */
 	int NColEff; /* banyaknya/ukuran kolom yg terdefinisi */
 } Matrix;
 /* NRowEff <= 1 dan NColEff <= 1 */
@@ -33,7 +42,7 @@ void MakeEmpty_Map (int NB, int NK, Matrix * M);
 boolean IsEmptyPoint_Map (Matriks M, Point p);
 /* Mengirimkan true jika i, j tidak diisi objek */
 
-Object CloseToWhat_Map (Matriks M, Point p);
+ElType_Matrix CloseToWhat_Map (Matriks M, Point p);
 
 
 /* ********** KELOMPOK BACA/TULIS ********** */

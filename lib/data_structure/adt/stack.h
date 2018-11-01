@@ -1,4 +1,5 @@
 /* File : stack.h */
+/* Stack of Items */
 /* Deklarasi stack yang diimplementasi dengan tabel kontigu dan ukuran sama */
 /* TOP adalah alamat elemen puncak */
 /* Implementasi dalam bahasa C dengan alokasi statik */
@@ -6,22 +7,29 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "../management/constants.h"
-#include "../management/namespace.h"
-#include "../management/selectors.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-#include "../item.h"
+#include "../data_type.h"
 
-#include "../file-controller.h"
+#include "../gdt/item.h"
 
 #include "boolean.h"
-#include "string.h"
+
+#define NULL_STACK_STR 0
+#define MAX_ELMT_STACK_STR 10
+
+#define Top(S)      (S).TOP
+#define InfoTop(S)  (S).T[(S).TOP]
+
+typedef Item ElType_Stack;
+typedef SmallNum Address_Stack;
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/
 typedef struct {
-	Item T[MAX_ELMT_STACK_STR+1]; /* tabel penyimpan elemen */
-	Address TOP;  /* alamat TOP: elemen puncak */
+	ElType_Stack T[MAX_ELMT_STACK_STR+1]; /* tabel penyimpan elemen */
+	Address_Stack TOP;  /* alamat TOP: elemen puncak */
 } Stack;
 /* Definisi stack S kosong : S.TOP = NULL_STACK_STR */
 /* Elemen yang dipakai menyimpan nilai Stack T[1]..T[MAX_ELMT_STACK_STR] */
