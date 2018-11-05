@@ -6,17 +6,17 @@
 Bapak Sadikin, M.T. adalah seorang insinyur informatika sukses. Namun karena merasa desperate mengerjakan tugas - tugas dan praktikum logif, Pak Sadikin memilih menjadi Chef dan mendirikan sebuah restoran. Karena Pak Sadikin adalah seorang yang peduli dengan adik tingkatnya, beliau meminta kami untuk membantunya membuat simulasi restoran yang efisien dan tepat guna.
 
 ## Contributors
-AIDIL	  agate 	(stack master, game master)
-EDWARD	db 		  (file master, API, handler imple)
-HARRY	  kuli 	  (API, stack, UI master)
-IWANG	  backend (API master, debug master)
-RIDWAN	qa 		  (file, stack, flow/test master)
-VINCENT	qa      (handler imple, flow/test)
+AIDIL	  Agate 	(Stack Master, Game Master)
+EDWARD  DB 		  (File Master, Implementer)
+HARRY   kuli 	  (Stack, Game, Implementer, UI)
+IWANG	  Backend (API Master, Master Debugger)
+RIDWAN	QA 		  (File, Implementer, Test Master)
+VINCENT	QA      (Implementer, Flow Master)
 
 ## Directories
-<lib>
+<lib> -- CODING PHASE
 > datatype.h
-> <adt>
+> <adt> -- IMPLEMENTATION STAGE
 	>> boolean.h
   >> graph.h
   >> matrix.h
@@ -25,25 +25,25 @@ VINCENT	qa      (handler imple, flow/test)
 	>> stack.h
 	>> table.h
   >> tree.h
-> <gdt>
+> <gdt> -- ADT DESIGN
 	>> customer.h
   >> item.h
   >> player.h
   >> static_obj.h
 
-<handler>
-> <core>
+<handler> -- DESIGN PHASE
+> <core> -- DESIGN
 	>> <session>
 	>> <ui>
 
-> <map>
+> <map> -- PLANNING
 	>> <adt>
 		>>> mesinkar.h
 	>> obj_matrix.h
 
-> file_handler.h
+> file_handler.h -- WAITING FOR <db>
 
-<db>
+<db> -- PLANNING
 > <template>
 	>> ui.txt
 > <save files>
