@@ -7,6 +7,48 @@ Bapak Sadikin, M.T adalah seorang insinyur koding sukses. Namun karena merasa de
 Karena bapak Sadikin adalah seorang yang peduli dengan adik tingkatnya. Beliau meminta kami untuk membantunya membuat simulasi Restoran yang efisien dan tepat guna.
 
 ## How To Play
-Harap bersabar, game ini masih dalam tahap pengerjaan, atau mungkin baru akan dikerjakan. Terima kasih
-## Dokumentasi
-EYYY, jangan ngegas, belum jadi juga ini programnya
+Harap bersabar, game ini masih dalam tahap pengerjaan, atau mungkin baru akan dikerjakan. Terima kasih.
+
+## Contributors
+AIDIL	  agate 	(stack master, game master)
+EDWARD	db 		  (file master, API, handler imple)
+HARRY	  kuli 	  (API, stack, UI master)
+IWANG	  backend (API master, debug master)
+RIDWAN	qa 		  (file, stack, flow/test master)
+VINCENT	qa      (handler imple, flow/test)
+
+
+--------DIRECTORY /blm benerin/--------
+<lib>
+> <ref>
+	>> datatype.h
+> <adt>
+	>> boolean.h
+	>> point.h
+	>> queue.h
+	>> stack.h
+	>> TI.h
+	>> matrix.h
+	>> graph.h
+> <gdt>
+	>> player.h
+	>> customer.h
+	>> static_obj.h
+	>> item.h
+
+<engine>
+> <game>
+	>> <session>
+	>> <ui>
+
+> <map>
+	>> <prc>
+		>>> mesinkar.h
+	>> obj_matrix.h
+
+> file_handler.h
+
+<db>
+> <template>
+	>> ui.txt
+>
