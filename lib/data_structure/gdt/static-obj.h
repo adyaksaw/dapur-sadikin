@@ -10,19 +10,6 @@
 
 #include "customer.h"
 
-/* *** GAME OBJECTS *** */
-#define Tag(O)   (O).tag
-
-    /* *** Table *** */
-    #define TableNumber(O)  (O).data.table.num
-    #define CapacityOf(O)   (O).data.table.size
-    #define IsOccupied(O)   (O).data.table.isOccupied
-    #define OrdersAt(O)     (CustomerAt(O).orderID)
-    #define CustomerAt(O)   (*((O).data.table.customer_here))
-
-    /* *** Stove *** */
-    #define ItemsIn(O) (O).data.stove.item
-
 typedef enum {
   EMPTY,
   TABLE,
@@ -51,5 +38,18 @@ typedef struct {
   } data;
 
 } Object;
+
+/* *** GAME OBJECTS *** */
+#define Tag(O)   (O).tag
+
+/* *** Table *** */
+#define TableNumber(O)  (O).data.table.num
+#define CapacityOf(O)   (O).data.table.size
+#define IsOccupied(O)   (O).data.table.isOccupied
+#define OrdersAt(O)     (CustomerAt(O).orderID)
+#define CustomerAt(O)   (*((O).data.table.customer_here))
+
+/* *** Stove *** */
+#define ItemsIn(O) (O).data.stove.item
 
 #endif

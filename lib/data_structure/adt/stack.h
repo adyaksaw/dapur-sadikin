@@ -19,9 +19,6 @@
 #define NULL_STACK_STR 0
 #define MAX_ELMT_STACK_STR 10
 
-#define Top(S)      (S).TOP
-#define InfoTop(S)  (S).T[(S).TOP]
-
 typedef Item ElType_Stack;
 typedef SmallNum Address_Stack;
 
@@ -34,6 +31,9 @@ typedef struct {
 /* Definisi stack S kosong : S.TOP = NULL_STACK_STR */
 /* Elemen yang dipakai menyimpan nilai Stack T[1]..T[MAX_ELMT_STACK_STR] */
 /* Jika S adalah Stack maka akses elemen : */
+
+#define Top(S)      (S).TOP
+#define InfoTop(S)  (S).T[(S).TOP]
    /* S.T[(S.TOP)] untuk mengakses elemen TOP */
    /* S.TOP adalah alamat elemen TOP */
 

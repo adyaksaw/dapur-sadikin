@@ -10,12 +10,12 @@
 
 #include "../data_type.h"
 
+typedef struct{
+  SmallNum id;
+  string name;
+} Item;
+
 #define ItemID(I)   (I).id
 #define ItemName(I) (I).name
-
-typedef struct{
-    SmallNum id;
-    string name;
-} Item;
 
 #endif

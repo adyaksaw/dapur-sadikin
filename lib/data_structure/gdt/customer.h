@@ -8,14 +8,6 @@
 
 #include "../adt/point.h"
 
-/* *** Customer *** */
-#define Amount(C)       (C).amount
-#define FoodOrderID(C)  (C).orderID
-#define TableNumber(C)  (C).tableNum
-#define Patience(C)     (C).patience
-#define Priority(C)     (C).star
-#define Status(C)       (C).stat
-
 typedef struct {
   SmallNum amount;
   SmallNum orderID;
@@ -27,5 +19,13 @@ typedef struct {
     SEATED = 2
   } stat;
 } Customer;
+
+/* *** Customer *** */
+#define Amount(C)       (C).amount
+#define FoodOrderID(C)  (C).orderID
+#define TableNumber(C)  (C).tableNum
+#define Patience(C)     (C).patience
+#define Priority(C)     (C).star
+#define Status(C)       (C).stat
 
 #endif

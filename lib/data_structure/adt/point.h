@@ -9,13 +9,13 @@
 
 #include "boolean.h"
 
-#define Absis(P) (P).X
-#define Ordinat(P) (P).Y
-
 typedef struct {
 	float X; /* absis   */
 	float Y; /* ordinat */
 } Point;
+
+#define Absis(P) (P).X
+#define Ordinat(P) (P).Y
 
 /* *** DEFINISI PROTOTIPE PRIMITIF *** */
 /* *** Konstruktor membentuk Point *** */

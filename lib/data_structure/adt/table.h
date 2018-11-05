@@ -20,10 +20,6 @@
 #define IDX_MIN_TI 1
 /* Indeks minimum array */
 
-#define NEff(X)     (X).NEff
-#define Array(X)    (X).T
-#define Elmt(X,i)   (X).T[(i)]
-
 typedef int IdxType_Table;
 typedef Item ElType_Table;   /* type elemen tabel */
 
@@ -44,6 +40,10 @@ typedef struct {
    T.Neff  untuk mengetahui banyaknya elemen
    T.T    untuk mengakses seluruh nilai elemen tabel
    T.T[i] untuk mengakses elemen ke-i */
+
+#define NEff(X)     (X).NEff
+#define Array(X)    (X).T
+#define Elmt(X,i)   (X).T[(i)]
 /* Definisi :
   Tabel kosong: T.Neff = 0
   Definisi elemen pertama : T.T[i] dengan i=1

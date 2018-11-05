@@ -10,13 +10,6 @@
 #include "../adt/table.h"
 #include "../adt/stack.h"
 
-/* *** Player *** */
-#define Name(P)   (P).name
-#define Money(P)  (P).money
-#define Life(P)   (P).life
-#define Hand(P)   (P).hand
-#define Food(P)   (P).food
-
 typedef enum {
   UP,
   DOWN,
@@ -32,6 +25,13 @@ typedef struct {
   Table hand;          // refer to 'data_structure/arraystr.h'
   Stack food;           // refer to 'data_structure/stackt.h'
 } Player;
+
+/* *** Player *** */
+#define Name(P)   (P).name
+#define Money(P)  (P).money
+#define Life(P)   (P).life
+#define Hand(P)   (P).hand
+#define Food(P)   (P).food
 
 void Load_Player (Player * player, file * player_save_file);
 
