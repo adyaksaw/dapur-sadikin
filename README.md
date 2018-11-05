@@ -18,25 +18,26 @@ RIDWAN	qa 		  (file, stack, flow/test master)
 VINCENT	qa      (handler imple, flow/test)
 
 
---------DIRECTORY /blm benerin/--------
+--------DIRECTORY--------
 <lib>
 > <ref>
 	>> datatype.h
 > <adt>
 	>> boolean.h
+  >> graph.h
+  >> matrix.h
 	>> point.h
 	>> queue.h
 	>> stack.h
-	>> TI.h
-	>> matrix.h
-	>> graph.h
+	>> table.h
+  >> tree.h
 > <gdt>
-	>> player.h
 	>> customer.h
-	>> static_obj.h
-	>> item.h
+  >> item.h
+  >> player.h
+  >> static_obj.h
 
-<engine>
+<handler>
 > <game>
 	>> <session>
 	>> <ui>
@@ -51,4 +52,5 @@ VINCENT	qa      (handler imple, flow/test)
 <db>
 > <template>
 	>> ui.txt
->
+> <save files>
+  >>
