@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 #include "boolean.h"
+#include "math.h"
 
 typedef struct {
 	float X; /* absis   */
