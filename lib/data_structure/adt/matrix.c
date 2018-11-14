@@ -46,16 +46,16 @@ void Print_Map (Matrix M)
   int i,j;
   for (i = MIN_ROW_MAP ; i <= NRowEff(M) ; ++i ) {
     for (j = MIN_COL_MAP ; j <= NColEff(M) ; ++j) {
-      if (ElmtMx(M,i,j).tag== TABLE)
+      if (ElmtMx(M,(i-1),j).tag== TABLE)
         printf("X");
-      else if (ElmtMx(M,i,j).tag == TABLE)
+      else if (ElmtMx(M,(i+1),j).tag == TABLE)
         printf("X");
-      else if (ElmtMx(M,i,j).tag == TABLE) {
+      else if (ElmtMx(M,i,(j+1)).tag == TABLE) {
         if (ElmtMx(M,i,j).data.table.size != 2 )
           printf("X");
         else
           printf("-");
-      } else if (ElmtMx(M,i,j).tag == TABLE) {
+      } else if (ElmtMx(M,i,(j-1)).tag == TABLE) {
         if (ElmtMx(M,i,j).data.table.size != 2 )
           printf("X");
         else

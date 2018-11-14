@@ -18,8 +18,10 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
       MakeEmpty_Map(8,8,M4);
 
     	STARTKATA();
+      
     	if (strcmp(CKata.TabKata, "Map") == 0) {
     		ADVKATA();
+
         if (strcmp(CKata.TabKata, "1") == 0) {
           int i = MIN_ROW_MAP;
       		int j;

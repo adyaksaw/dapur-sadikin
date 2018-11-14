@@ -58,8 +58,11 @@ void SalinKata()
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 {
+
+
     int i = 1;
     while (i <= NMax){
+      printf("%c",CC); 
       CKata.TabKata[i] = CC;
       ADV();
       if ((CC == BLANK) || (CC == MARK) || (CC == BREAKLINE) ||(CC == BARRIER)){
