@@ -3,6 +3,7 @@
 
 #include "mesinkar.h"
 #include <stdio.h>
+#include <errno.h>
 
 char CC;
 boolean EOP;
@@ -18,8 +19,12 @@ void START() {
           Jika CC = MARK maka EOP akan menyala (true) */
 
 	/* Algoritma */
-	pita = fopen("file1.txt","r");
-	ADV();
+	pita = fopen("B.txt","r");
+	if (pita == NULL) {
+		printf("Error %d \n",errno);
+	} else {
+		ADV();
+	}
 }
 
 void ADV() {
@@ -33,10 +38,12 @@ void ADV() {
 	/* Algoritma */
 
 	retval = fscanf(pita,"%c",&CC);
-	printf("testing\n");
 
+	//printf("CC isinya ini lho : %c\n",CC);
 	EOP = (CC == MARK);
 	if (EOP) {
+			printf("FILE AKAN DITUTUP\n");
        fclose(pita);
  	}
+
 }

@@ -16,7 +16,7 @@ void IgnoreBlank()
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 {
-  while ((CC == BLANK) && (CC != MARK)){
+  while (((CC == BLANK) || (CC == BARRIER) || (CC == BREAKLINE)) && (CC != MARK)){
     ADV();
   }
 }
@@ -49,7 +49,7 @@ void ADVKATA()
 
   if (CC == MARK)
     EndKata = true;
-  else
+  else if ((CC != BREAKLINE) && (CC != BARRIER))
     SalinKata();
 }
 
@@ -64,6 +64,7 @@ void SalinKata()
     int i = 1;
     while (i <= NMax){
       CKata.TabKata[i] = CC;
+      //printf("Isi dari CKata.TabKata[%d] %c\n",i, CKata.TabKata[i]);
       ADV();
       if ((CC == BLANK) || (CC == MARK) || (CC == BREAKLINE) ||(CC == BARRIER)){
         break;
@@ -71,6 +72,8 @@ void SalinKata()
         ++i;
       }
     }
+
+    //printf("%s",CKata.TabKata);
 
     if (i == NMax+1){
       CKata.Length = NMax;
@@ -80,5 +83,50 @@ void SalinKata()
       CKata.Length = i;
     }
 
-    IgnoreBlank();
+}
+
+boolean IsKataSama(Kata Kata1 , Kata Kata2) {
+  int i;
+  boolean sama = true;
+  if (Kata1.Length != Kata2.Length) {
+    sama = false;
+  } else {
+    for (i = 1 ; i <= Kata1.Length ; ++i) {
+      if (Kata1.TabKata[i] != Kata2.TabKata[i]) {
+        sama = false;
+        break;
+      }
+    }
+  }
+  return sama;
+}
+
+int KataToInt (Kata Kata1) {
+  int hsl = 0;
+  int i;
+  if (Kata1.Length == 1)
+    hsl = Kata1.TabKata[1] - '0';
+  else {
+    for (i = 1 ; i <= Kata1.Length ; ++i)
+      hsl = hsl * 10 + (Kata1.TabKata[i] - '0');
+  }
+}
+
+void IntToKata(int n , Kata *Kata1 ) {
+  int hsl =n;
+  int mod = 0;
+  int i = 0;
+  while (n > 0) {
+    n = n / 10;
+    ++i; //Cari panjang integer
+  }
+  (Kata1)->Length = i;
+  while (hsl > 0) {
+    mod = hsl % 10;
+    (Kata1)->TabKata[i] = '0' + mod;
+    hsl = hsl/10;
+    --i;
+  }
+
+
 }

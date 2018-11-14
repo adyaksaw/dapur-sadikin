@@ -10,7 +10,7 @@
 #define NMax 50
 #define BLANK ' '
 #define BARRIER '/'
-#define BREAKLINE '_'
+#define BREAKLINE '\n'
 
 typedef struct {
 	char TabKata[NMax+1]; /* container penyimpan kata, indeks yang dipakai [1..NMax] */
@@ -46,5 +46,11 @@ void SalinKata();
           CC = BLANK atau CC = MARK;
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+
+boolean IsKataSama(Kata Kata1 , Kata Kata2);
+
+int KataToInt (Kata Kata1);
+void IntToKata(int n , Kata* Kata1 );
+
 
 #endif

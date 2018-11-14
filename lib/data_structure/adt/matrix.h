@@ -46,8 +46,10 @@ boolean IsEmptyPoint_Map (Matrix M, Point p);
 
 ElType_Matrix CloseToWhat_Map (Matrix M, Point p);
 
-void Print_Map (Matrix M);
+void Print_Room (Matrix M);
 /* Print Map ke layar. */
+
+void Print_Kitchen(Matrix M);
 
 
 #endif

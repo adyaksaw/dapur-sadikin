@@ -24,12 +24,14 @@ void MakeEmpty_Map (int NB, int NK, Matrix * M){
 void MakeEmpty_Table (Matrix *M, int i, int j) {
       ElmtMx(*M,i,j).data.table.isOccupied = false;
       CustomerAt(ElmtMx(*M,i,j)).amount = 0;
+      //printf("Customer At Amount %d\n",CustomerAt(ElmtMx(*M,i,j)).amount);
       CustomerAt(ElmtMx(*M,i,j)).orderID = 0;
       CustomerAt(ElmtMx(*M,i,j)).tableNum.X = 0;
       CustomerAt(ElmtMx(*M,i,j)).tableNum.Y = 0;
       CustomerAt(ElmtMx(*M,i,j)).patience = 0;
       CustomerAt(ElmtMx(*M,i,j)).star = 0;
       CustomerAt(ElmtMx(*M,i,j)).stat = UNDEF;
+
 }
 /* *** Selektor *** */
 boolean IsEmptyPoint_Map (Matrix M, Point p)
@@ -40,13 +42,13 @@ boolean IsEmptyPoint_Map (Matrix M, Point p)
 
 ElType_Matrix CloseToWhat_Map (Matrix M, Point p)
 {
-  
+
 }
 
 
 /* ********** KELOMPOK BACA/TULIS ********** */
 
-void Print_Map (Matrix M)
+void Print_Room (Matrix M)
 /* Print Map ke layar. */
 {
   int i,j;
@@ -57,12 +59,12 @@ void Print_Map (Matrix M)
       else if (ElmtMx(M,(i+1),j).tag == TABLE)
         printf("X");
       else if (ElmtMx(M,i,(j+1)).tag == TABLE) {
-        if (ElmtMx(M,i,j).data.table.size != 2 )
+        if (ElmtMx(M,i,(j+1)).data.table.size != 2 )
           printf("X");
         else
           printf("-");
       } else if (ElmtMx(M,i,(j-1)).tag == TABLE) {
-        if (ElmtMx(M,i,j).data.table.size != 2 )
+        if (ElmtMx(M,i,(j-1)).data.table.size != 2 )
           printf("X");
         else
           printf("-");
@@ -75,6 +77,24 @@ void Print_Map (Matrix M)
       if (j != NColEff(M))
         printf(" ");
     }
-    printf("_\n");
+    printf("\n");
+  }
+}
+
+void Print_Kitchen(Matrix M) {
+  int i,j;
+  for (i = MIN_ROW_MAP ; i <= NRowEff(M) ; ++i ) {
+    for (j = MIN_COL_MAP ; j <= NColEff(M) ; ++j) {
+      if (ElmtMx(M,i,j).tag == STOVE)
+        printf("M");
+      else if (ElmtMx(M,i,j).tag == TRAY)
+        printf("T");
+      else
+        printf("-");
+
+      if (j != NColEff(M))
+        printf(" ");
+    }
+    printf("\n");
   }
 }
