@@ -11,9 +11,11 @@
 #define MAP_REF_DIR "~dir/map.txt"
 #define SAVE_MAP_DIR "~savedir/map.txt"
 
+#include "../data_structure/adt/matrix.c"
+
 /* Semuanya masih bisa diubah sesuai kebutuhan */
 
-void LoadMap();
+void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4);
 /*
     Prosedur ini akan melakukan load dari file eksternal yang berisi objek-objek dan koordinatnya.
     Parameter masih belum jelas.
@@ -22,5 +24,9 @@ void LoadMap();
 void LoadGameStatus();
 
 void LoadMapStatus();
+
+void LoadMapSave();
+
+void Save();
 
 #endif

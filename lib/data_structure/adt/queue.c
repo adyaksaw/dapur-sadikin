@@ -8,6 +8,7 @@
 
 #include "boolean.h"
 #include "../gdt/customer.h"
+#include "queue.h"
 
 /* Definisi Queue kosong: HEAD=Nil; TAIL=Nil. */
 /* Catatan implementasi: T[0] tidak pernah dipakai */
@@ -17,7 +18,7 @@ boolean IsEmpty (Queue Q)
 /* Mengirim true jika Q kosong: lihat definisi di atas */
 {
     /*Kamus Lokal*/
-    // - 
+    // -
 
     /*Algoritma*/
     return ((Head(Q) == Nil_Queue) && (Tail(Q) == Nil_Queue));
@@ -28,16 +29,16 @@ boolean IsFull (Queue Q)
 /* yaitu mengandung elemen sebanyak MaxEl */
 {
     /*Kamus Lokal*/
-    // - 
+    // -
 
     /*Algoritma*/
-    return (NBElmt(Q) == MaxEL(Q));
+    return (NBElmt(Q) == MaxEl(Q));
 }
 int NBElmt (Queue Q)
 /* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika Q kosong. */
 {
     /*Kamus Lokal*/
-    // - 
+    // -
 
     /*Algoritma*/
     if (IsEmpty(Q)){
@@ -55,10 +56,10 @@ void CreateEmpty (Queue * Q, int Max)
 /* Jika alokasi berhasil, Tabel memori dialokasi berukuran Max+1 */
 /* atau : jika alokasi gagal, Q kosong dg MaxEl=0 */
 /* Proses : Melakukan alokasi, membuat sebuah Q kosong */
-{ 
+{
     /* Kamus Lokal */
     /* Algoritma */
-    (*Q).T = (infotype *) malloc ((Max+1) * sizeof(infotype));
+    (*Q).T = (int *) malloc ((Max+1) * sizeof(int));
     if ((*Q).T != NULL) {
         MaxEl(*Q) = Max;
         Head(*Q) = Nil_Queue;
@@ -74,7 +75,7 @@ void DeAlokasi(Queue * Q)
 /* F.S. Q menjadi tidak terdefinisi lagi, MaxEl(Q) diset 0 */
 {
     /*Kamus Lokal*/
-    // - 
+    // -
 
     /*Algoritma*/
     free((*Q).T);

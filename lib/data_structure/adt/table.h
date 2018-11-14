@@ -66,12 +66,12 @@ boolean IsFull_Table (Table T);
 
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-void Input_Table (Table * T, file * fptr);
+void Input_Table (Table * T, FILE * fptr);
 /* Membaca Table dari file teks eksternal. */
 /* I.S. T sembarang */
 /* F.S. Save file fptr masuk ke Table T */
 
-void Save_Table (Table T, file * fptr);
+void Save_Table (Table T, FILE * fptr);
 /* Menyimpan Table ke file teks eksternal. */
 /* I.S. T terdefinisi */
 /* F.S. Table T tersimpan ke file fptr */
@@ -90,7 +90,7 @@ void PrintData_Table (Table T);
 */
 
 /* ********** SORTNG ********** */
-void Sort_Table (Table * T, sortType x);
+void Sort_Table (Table * T, SortType x);
 /* I.S. T boleh kosong */
 /* F.S. T elemennya terurut berdasarkan sortType */
 /* Proses : mengurutkan T sehingga elemennya menurun/mengecil */

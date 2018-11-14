@@ -12,7 +12,7 @@ void CreateEmpty_Stack (Stack *S){
 	/* F.S. Membuat sebuah stack S yang kosong berkapasitas MAX_ELMT_STACK_STR */
 	/* jadi indeksnya antara 1.. MAX_ELMT_STACK_STR+1 karena 0 tidak dipakai */
 	/* Ciri stack kosong : TOP bernilai NULL_STACK_STR */
-	Top(*S) = NULL_STACK_STR;	
+	Top(*S) = NULL_STACK_STR;
 }
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
@@ -27,13 +27,13 @@ boolean IsFull_Stack (Stack S){
 }
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push_Stack (Stack * S, string str){
+void Push_Stack (Stack * S, char str[100]){
 	/* Menambahkan str sebagai infotype_food baru pada Stack S. */
 	/* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 	/* F.S. str menjadi name TOP yang baru, ready bernilai false, TOP bertambah 1 */
-	if(IsEmpty(*S))Top(*S) = 1;
+	if(IsEmpty_Stack(*S))Top(*S) = 1;
 	else Top(*S)++;
-	InfoTop(*S) = X;	
+	InfoTop(*S) = X;
 }
 
 /* ************ Menghapus sebuah elemen Stack ************ */
@@ -46,21 +46,21 @@ void Pop_Stack (Stack * S, infotype_food * X){
 }
 
 /* ********** KELOMPOK BACA/TULIS ********** */
-void Input_Stack (Stack * S, file * fptr){
-	/* Membaca Stack S dari file teks eksternal. */
+void Input_Stack (Stack * S, FILE * fptr){
+	/* Membaca Stack S dari FILE teks eksternal. */
 	/* I.S. S sembarang */
-	/* F.S. Save file fptr masuk ke Stack S */	
+	/* F.S. Save FILE fptr masuk ke Stack S */
 }
 
-void Save_Stack (Stack * S, file * fptr){
-	/* Menyimpan Stack S ke file teks eksternal. */
+void Save_Stack (Stack * S, FILE * fptr){
+	/* Menyimpan Stack S ke FILE teks eksternal. */
 	/* I.S. S terdefinisi */
-	/* F.S. Stack S terdefinisi ke file fptr */	
+	/* F.S. Stack S terdefinisi ke FILE fptr */
 
 }
 
 void PrintData_Stack (Stack S){
-	/* Proses : Menuliskan data dari file eksternal yang terkait dengan isi stack */
+	/* Proses : Menuliskan data dari FILE eksternal yang terkait dengan isi stack */
 	/* I.S. S boleh kosong */
 	/* F.S. Jika S tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
 	/*      Jika S kosong : Hanya menulis "/Array name/ is empty." */
@@ -70,9 +70,9 @@ void PrintData_Stack (Stack S){
 	   [2}Sosis
 	   [3]Piring
 	   [4]Garpu
-	*/	
+	*/
 	int i;
-	if(IsEmpty(S)){
+	if(IsEmpty_Stack(S)){
 		printf("Stack is empty");
 	} else {
 		for(i = 1; i <= Top(S); i++){

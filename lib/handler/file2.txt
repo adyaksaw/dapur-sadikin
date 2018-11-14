@@ -1,17 +1,17 @@
-Player:
-.name Edward_
-.room 1_
-.pos (5,4)_
-.money 500_
-.life 2_
-.time 5_
-.hand Garpu,1|Piring,2_
-.food Burger,1/
-Customer:
-.tablenumber 1|2|5|7|9|11_
-.order Burger,1,1|Sundae,2,2|Banana Split,5,3|Spaghetti Bolognese,7,4|Hot Dog,9,5|Banana Split,11,3_
-.patience 10,1|20,2|30,5|40,7|50,9|60,11_
-.amount 4,1|2,2|4,5|2,7|4,9|2,11/
-Queue:
-.elmt 1,4,10|1,2,25|2,2,45|2,4,60|3,4,90|3,2,100/
-*
+Player
+name Edward
+room 1
+pos 5,4
+money 500
+life 2
+time 5
+hand Garpu,1|Piring,2
+food Burger,1/
+Customer
+tablenumber 1|2|5|7|9|11
+order Burger,1,1|Sundae,2,2|Banana Split,5,3|Spaghetti Bolognese,7,4|Hot Dog,9,5|Banana Split,11,3
+patience 10,1|20,2|30,5|40,7|50,9|60,11
+amount 4,1|2,2|4,5|2,7|4,9|2,11/
+Queue
+elmt 1,4,10|1,2,25|2,2,45|2,4,60|3,4,90|3,2,100/
+.

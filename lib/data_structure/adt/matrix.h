@@ -8,10 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "point.h"
+#include "point.c"
 #include "boolean.h"
+#include "mesinbaca.c"
+#include "../gdt/static-obj.h"
 
-#include "../gdt/object.h"
 
 #define MIN_ROW_MAP 1
 #define MAX_ROW_MAP 100
@@ -31,33 +32,22 @@ typedef struct {
 
 #define NRowEff(M)      (M).NRowEff
 #define NColEff(M)      (M).NColEff
-#define ElmtMx(M,i,j)  (M).Mem[(i)][(j)]
+#define ElmtMx(M,i,j)   (M).Mem[(i)][(j)]
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */
 /* *** Konstruktor membentuk Matrix *** */
 void MakeEmpty_Map (int NB, int NK, Matrix * M);
 /* Membuat Map kosong */
 
+void MakeEmpty_Table ( Matrix *M, int i, int j);
 /* *** Selektor *** */
-boolean IsEmptyPoint_Map (Matriks M, Point p);
+boolean IsEmptyPoint_Map (Matrix M, Point p);
 /* Mengirimkan true jika i, j tidak diisi objek */
 
-ElType_Matrix CloseToWhat_Map (Matriks M, Point p);
-
-
-/* ********** KELOMPOK BACA/TULIS ********** */
-void Read_Map (Matrix * M, file fptr);
-/* I.S. Sembarang */
-/* F.S. M terdefinisi nilai berdasar file */
-/* Proses: Membaca dari file fptr dan mengisi ke matrix M */
-/* Membaca nilai elemen per baris dan kolom */
-
-void Save_Map (Matriks M, file * fptr);
-/* I.S. M terdefinisi */
-/* F.S. Matriks tersimpan ke dalam file fptr */
-/* Proses: Menyimpan Matriks M ke file fptr */
+ElType_Matrix CloseToWhat_Map (Matrix M, Point p);
 
 void Print_Map (Matrix M);
 /* Print Map ke layar. */
+
 
 #endif

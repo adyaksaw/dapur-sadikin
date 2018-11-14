@@ -54,7 +54,7 @@ boolean IsFull_Stack (Stack S);
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push_Stack (Stack * S, string str);
+void Push_Stack (Stack * S, char str[100]);
 /* Menambahkan str sebagai infotype_food baru pada Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. str menjadi name TOP yang baru, ready bernilai false, TOP bertambah 1 */
@@ -66,18 +66,18 @@ void Pop_Stack (Stack * S, infotype_food * X);
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
 
 /* ********** KELOMPOK BACA/TULIS ********** */
-void Input_Stack (Stack * S, file * fptr);
-/* Membaca Stack S dari file teks eksternal. */
+void Input_Stack (Stack * S, FILE * fptr);
+/* Membaca Stack S dari FILE teks eksternal. */
 /* I.S. S sembarang */
-/* F.S. Save file fptr masuk ke Stack S */
+/* F.S. Save FILE fptr masuk ke Stack S */
 
-void Save_Stack (Stack * S, file * fptr);
-/* Menyimpan Stack S ke file teks eksternal. */
+void Save_Stack (Stack * S, FILE * fptr);
+/* Menyimpan Stack S ke FILE teks eksternal. */
 /* I.S. S terdefinisi */
-/* F.S. Stack S terdefinisi ke file fptr */
+/* F.S. Stack S terdefinisi ke FILE fptr */
 
 void PrintData_Stack (Stack S);
-/* Proses : Menuliskan data dari file eksternal yang terkait dengan isi stack */
+/* Proses : Menuliskan data dari FILE eksternal yang terkait dengan isi stack */
 /* I.S. S boleh kosong */
 /* F.S. Jika S tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
 /*      Jika S kosong : Hanya menulis "/Array name/ is empty." */

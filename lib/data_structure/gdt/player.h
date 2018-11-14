@@ -33,7 +33,7 @@ typedef struct {
 #define Hand(P)   (P).hand
 #define Food(P)   (P).food
 
-void Load_Player (Player * player, file * player_save_file);
+void Load_Player (Player * player, File * player_save_file);
 
 void Move_Player_Direction (Matrix * M, Player * player, Direction dir);
 

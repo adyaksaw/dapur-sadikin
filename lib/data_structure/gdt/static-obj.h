@@ -10,6 +10,7 @@
 
 #include "customer.h"
 
+
 typedef enum {
   EMPTY,
   TABLE,
@@ -27,7 +28,7 @@ typedef struct {
       SmallNum num;
       SmallNum size;
       boolean isOccupied;
-      *Customer customer_here;
+      Customer* customer_here;
     } table;
 
     /* *** Stove *** */

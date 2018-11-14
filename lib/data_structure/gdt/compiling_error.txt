@@ -1,0 +1,10 @@
+In file included from D:\INFORMATIKA ITB\SEM 3\Semester 3\IF2110 - Algoritma dan Struktur Data\TUGAS BESAR\dapur-sadikin\lib\data_structure\gdt\player.h:11:0:
+d:\informatika itb\sem 3\semester 3\if2110 - algoritma dan struktur data\tugas besar\dapur-sadikin\lib\data_structure\adt\stack.h:63:28: error: unknown type name 'infotype_food'
+ void Pop_Stack (Stack * S, infotype_food * X);
+                            ^~~~~~~~~~~~~
+D:\INFORMATIKA ITB\SEM 3\Semester 3\IF2110 - Algoritma dan Struktur Data\TUGAS BESAR\dapur-sadikin\lib\data_structure\gdt\player.h:21:3: error: unknown type name 'string'
+   string name;            // refer to 'data_structure/string.h'
+   ^~~~~~
+D:\INFORMATIKA ITB\SEM 3\Semester 3\IF2110 - Algoritma dan Struktur Data\TUGAS BESAR\dapur-sadikin\lib\data_structure\gdt\player.h:36:36: error: unknown type name 'File'
+ void Load_Player (Player * player, File * player_save_file);
+                                    ^~~~

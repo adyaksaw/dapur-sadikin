@@ -3,7 +3,7 @@
 /* *** DEFINISI PROTOTIPE PRIMITIF *** */
 /* *** Konstruktor membentuk Point *** */
 Point MakePoint (float X, float Y){
-	/* Membentuk sebuah Point dari komponen-komponennya */	
+	/* Membentuk sebuah Point dari komponen-komponennya */
 	Point P;
 
 	Absis(P) = X;
@@ -19,7 +19,7 @@ boolean EQ (Point P1, Point P2){
 }
 
 boolean NEQ (Point P1, Point P2){
-	/* Mengirimkan true jika P1 tidak sama dengan P2 */	
+	/* Mengirimkan true jika P1 tidak sama dengan P2 */
 	return !EQ(P1, P2);
 }
 

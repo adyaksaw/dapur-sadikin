@@ -16,14 +16,15 @@ typedef struct {
   SmallNum star;
   enum {
     QUEUE = 1,
-    SEATED = 2
+    SEATED = 2,
+    UNDEF = 0
   } stat;
 } Customer;
 
 /* *** Customer *** */
 #define Amount(C)       (C).amount
 #define FoodOrderID(C)  (C).orderID
-#define TableNumber(C)  (C).tableNum
+#define TableNum(C)     (C).tableNum
 #define Patience(C)     (C).patience
 #define Priority(C)     (C).star
 #define Status(C)       (C).stat

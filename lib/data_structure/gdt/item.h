@@ -12,7 +12,7 @@
 
 typedef struct{
   SmallNum id;
-  string name;
+  char name[100];
 } Item;
 
 #define ItemID(I)   (I).id
