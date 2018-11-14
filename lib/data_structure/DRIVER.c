@@ -2,7 +2,7 @@
 
 int main () {
   Matrix M1,M2,M3,M4; // deklarasi matrix
-
+  //printf("Testing\n");
   LoadMap(&M1,&M2,&M3,&M4); // load MAP
   Print_Map(M1);
   return 0;

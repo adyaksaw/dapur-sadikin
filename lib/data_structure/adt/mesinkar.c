@@ -31,7 +31,9 @@ void ADV() {
 		  Jika  CC = MARK maka EOP akan menyala (true) */
 
 	/* Algoritma */
+
 	retval = fscanf(pita,"%c",&CC);
+	printf("testing\n");
 
 	EOP = (CC == MARK);
 	if (EOP) {

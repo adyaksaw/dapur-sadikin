@@ -31,8 +31,10 @@ void STARTKATA()
   IgnoreBlank();
   if (CC == MARK)
     EndKata = true;
-  else
+  else {
     SalinKata();
+  }
+
 
 }
 
@@ -44,6 +46,7 @@ void ADVKATA()
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 {
   IgnoreBlank();
+
   if (CC == MARK)
     EndKata = true;
   else
@@ -58,11 +61,8 @@ void SalinKata()
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 {
-
-
     int i = 1;
     while (i <= NMax){
-      printf("%c",CC); 
       CKata.TabKata[i] = CC;
       ADV();
       if ((CC == BLANK) || (CC == MARK) || (CC == BREAKLINE) ||(CC == BARRIER)){

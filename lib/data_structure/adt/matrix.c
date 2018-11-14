@@ -32,10 +32,16 @@ void MakeEmpty_Table (Matrix *M, int i, int j) {
       CustomerAt(ElmtMx(*M,i,j)).stat = UNDEF;
 }
 /* *** Selektor *** */
-boolean IsEmptyPoint_Map (Matrix M, Point p){}
+boolean IsEmptyPoint_Map (Matrix M, Point p)
 /* Mengirimkan true jika i, j tidak diisi objek */
+{
+  return true;
+}
 
-ElType_Matrix CloseToWhat_Map (Matrix M, Point p){}
+ElType_Matrix CloseToWhat_Map (Matrix M, Point p)
+{
+  
+}
 
 
 /* ********** KELOMPOK BACA/TULIS ********** */

@@ -17,8 +17,10 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
       MakeEmpty_Map(8,8,M3);
       MakeEmpty_Map(8,8,M4);
 
+
+
     	STARTKATA();
-      
+    
     	if (strcmp(CKata.TabKata, "Map") == 0) {
     		ADVKATA();
 
