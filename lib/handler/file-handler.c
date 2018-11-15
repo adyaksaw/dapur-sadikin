@@ -160,6 +160,7 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
   }
 
 
+
 void LoadGameStatus() {}
 
 void LoadMapStatus() {}
