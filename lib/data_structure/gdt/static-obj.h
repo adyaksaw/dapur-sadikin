@@ -8,8 +8,7 @@
 
 #include "../data_type.h"
 
-#include "customer.h"
-
+#include "customer.c"
 
 typedef enum {
   EMPTY,

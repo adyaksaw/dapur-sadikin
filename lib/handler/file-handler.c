@@ -15,18 +15,21 @@ void LoadRoom (Matrix *M, int TableNum1 , int TableNum2 , int TableNum3, int Tab
   IntToKata(TableNum3,&Kata3);
   IntToKata(TableNum4,&Kata4);
 
+
     while (CC != BARRIER) {
       ADV();
       ADVKATA();
 
       j = MIN_COL_MAP;
       while ((CC != BREAKLINE) && (CC != BARRIER)) {
+          MakeEmptyCustomer(((ElmtMx(*M,i,j)).data.table.customer_here));
+          //printf("Isi dari customer: %d\n",((ElmtMx(*M,i,j)).data.table.customer_here));
           //printf("Kata pada elemen ke %d,%d adalah %c\n", i,j,CKata.TabKata[1] );
           if (IsKataSama(CKata,Kata1)) {
             ElmtMx(*M,i,j).tag = TABLE;
             TableNumber(ElmtMx(*M,i,j)) = TableNum1;
             CapacityOf(ElmtMx(*M,i,j)) = 4;
-            //MakeEmpty_Table (M1,i,j);
+            //MakeEmpty_Table (M,i,j);
           } else if (IsKataSama(CKata,Kata2)) {
             ElmtMx(*M,i,j).tag = TABLE;
             ElmtMx(*M,i,j).data.table.num = TableNum2;

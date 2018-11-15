@@ -29,4 +29,6 @@ typedef struct {
 #define Priority(C)     (C).star
 #define Status(C)       (C).stat
 
+void MakeEmptyCustomer (Customer *Cust);
+
 #endif
