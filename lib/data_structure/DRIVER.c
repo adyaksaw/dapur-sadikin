@@ -21,7 +21,7 @@ int main () {
 
   for (i = MIN_ROW_MAP ; i <= NRowEff(M2) ; ++i) {
     for (j= MIN_COL_MAP ; j <= NColEff(M2) ; ++j ) {
-      printf("%d",(ElmtMx(M4,i,j).tag) );
+      printf("%d",ElmtMx(M2,i,j).data.table.size );
       if (j != NColEff(M2))
         printf(" ");
     }

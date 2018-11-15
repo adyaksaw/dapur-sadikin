@@ -10,6 +10,7 @@
 #define NMax 50
 #define BLANK ' '
 #define BARRIER '/'
+#define SECTION '|'
 #define BREAKLINE '\n'
 
 typedef struct {

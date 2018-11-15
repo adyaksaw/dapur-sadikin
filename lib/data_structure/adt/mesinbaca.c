@@ -16,7 +16,7 @@ void IgnoreBlank()
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 {
-  while (((CC == BLANK) || (CC == BARRIER) || (CC == BREAKLINE)) && (CC != MARK)){
+  while (((CC == BLANK) || (CC == BARRIER) || (CC == BREAKLINE) || (CC == SECTION)) && (CC != MARK)){
     ADV();
   }
 }
@@ -49,7 +49,7 @@ void ADVKATA()
 
   if (CC == MARK)
     EndKata = true;
-  else if ((CC != BREAKLINE) && (CC != BARRIER))
+  else if (CC != BREAKLINE)
     SalinKata();
 }
 
@@ -66,7 +66,7 @@ void SalinKata()
       CKata.TabKata[i] = CC;
       //printf("Isi dari CKata.TabKata[%d] %c\n",i, CKata.TabKata[i]);
       ADV();
-      if ((CC == BLANK) || (CC == MARK) || (CC == BREAKLINE) ||(CC == BARRIER)){
+      if ((CC == BLANK) || (CC == MARK) || (CC == BREAKLINE) ||(CC == BARRIER) || (CC == SECTION)){
         break;
       } else {
         ++i;
@@ -77,7 +77,7 @@ void SalinKata()
 
     if (i == NMax+1){
       CKata.Length = NMax;
-      while ((CC != BLANK) && (CC != MARK) && (CC != BREAKLINE) && (CC != BARRIER))
+      while ((CC != BLANK) && (CC != MARK) && (CC != BREAKLINE) && (CC != BARRIER) && (CC != SECTION))
         ADV();
     } else {
       CKata.Length = i;

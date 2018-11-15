@@ -18,8 +18,10 @@ void LoadRoom (Matrix *M, int TableNum1 , int TableNum2 , int TableNum3, int Tab
     while (CC != BARRIER) {
       ADV();
       ADVKATA();
+
       j = MIN_COL_MAP;
       while ((CC != BREAKLINE) && (CC != BARRIER)) {
+          //printf("Kata pada elemen ke %d,%d adalah %c\n", i,j,CKata.TabKata[1] );
           if (IsKataSama(CKata,Kata1)) {
             ElmtMx(*M,i,j).tag = TABLE;
             TableNumber(ElmtMx(*M,i,j)) = TableNum1;
@@ -44,9 +46,15 @@ void LoadRoom (Matrix *M, int TableNum1 , int TableNum2 , int TableNum3, int Tab
             /* Tidak melakukan apa apa di M1 */
           }
         //printf("Elemen ke %d, %d\n",i,j);
-      ADVKATA();
+        if (CC == SECTION)
+          ADV();
+        else
+          ADVKATA();
+        //ADV();
       ++j;
+      //printf("Kata pada elemen ke %d,%d adalah %c\n", i,j,CKata.TabKata[1] );
     }
+
     ++i;
    }
 
@@ -63,6 +71,7 @@ void LoadKitchen (Matrix *M) {
   Kata2.Length = 1;
 
   while (CC != BARRIER) {
+
     ADV();
     ADVKATA();
     j = MIN_COL_MAP;
@@ -80,9 +89,13 @@ void LoadKitchen (Matrix *M) {
           /* Tidak melakukan apa apa di M1 */
         }
         //printf("Elemen ke %d, %d\n",i,j);
-    ADVKATA();
+        if (CC == SECTION)
+          ADV();
+        else
+          ADVKATA();
     ++j;
   }
+
   ++i;
  }
 }
@@ -109,6 +122,7 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
     	  ADV();
         ADVKATA();
 
+
         Kata1.TabKata[1] = '1';
         Kata1.Length = 1;
         if (IsKataSama(CKata,Kata1)) {
@@ -120,7 +134,7 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
         Kata1.TabKata[1] = '2';
         Kata1.Length = 1;
         if (IsKataSama(CKata,Kata1)) {
-          LoadRoom(M2,5,6,7,8);
+          LoadRoom(M2,5,7,6,8);
         }
         ADV();
         ADVKATA();
@@ -128,7 +142,7 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
         Kata1.TabKata[1] = '3';
         Kata1.Length = 1;
         if (IsKataSama(CKata,Kata1)) {
-          LoadRoom(M3,9,10,11,12);
+          LoadRoom(M3,9,11,10,12);
         }
         ADV();
         ADVKATA();
