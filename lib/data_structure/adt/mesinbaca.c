@@ -101,6 +101,19 @@ boolean IsKataSama(Kata Kata1 , Kata Kata2) {
   return sama;
 }
 
+void isiKata(Kata * k, char isi[], int isi_length){
+  for (int i = 1; i <= isi_length; i++){
+    (*k).TabKata[i] = isi[i-1];
+  }
+  (*k).Length = isi_length;
+}
+
+void printKata(Kata k){
+  for (int i = 1; i <= k.Length; i++){
+    printf("%c", k.TabKata[i]);
+  }
+}
+
 int KataToInt (Kata Kata1) {
   int hsl = 0;
   int i;

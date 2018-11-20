@@ -19,7 +19,7 @@ void START() {
           Jika CC = MARK maka EOP akan menyala (true) */
 
 	/* Algoritma */
-	pita = fopen("B.txt","r");
+	pita = fopen(NamaFile,"r");
 	if (pita == NULL) {
 		printf("Error %d \n",errno);
 	} else {

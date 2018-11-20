@@ -21,23 +21,15 @@ void MakeEmpty_Map (int NB, int NK, Matrix * M){
 }
 /* Membuat Map kosong */
 
-void MakeEmpty_Table (Matrix *M, int i, int j) {
-      ElmtMx(*M,i,j).data.table.isOccupied = false;
-      CustomerAt(ElmtMx(*M,i,j)).amount = 0;
-      //printf("Customer At Amount %d\n",CustomerAt(ElmtMx(*M,i,j)).amount);
-      CustomerAt(ElmtMx(*M,i,j)).orderID = 0;
-      CustomerAt(ElmtMx(*M,i,j)).tableNum.X = 0;
-      CustomerAt(ElmtMx(*M,i,j)).tableNum.Y = 0;
-      CustomerAt(ElmtMx(*M,i,j)).patience = 0;
-      CustomerAt(ElmtMx(*M,i,j)).star = 0;
-      CustomerAt(ElmtMx(*M,i,j)).stat = UNDEF;
+void MakeEmpty_Meja (Matrix *M, int i, int j) {
+      ElmtMx(*M,i,j).data.table.customer_here = NULL;
 
 }
 /* *** Selektor *** */
 boolean IsEmptyPoint_Map (Matrix M, Point p)
 /* Mengirimkan true jika i, j tidak diisi objek */
 {
-  return true;
+  return ElmtMx(M, (int) Absis(p), (int) Ordinat(p)).tag == EMPTY;
 }
 
 ElType_Matrix CloseToWhat_Map (Matrix M, Point p)

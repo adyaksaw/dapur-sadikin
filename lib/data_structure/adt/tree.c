@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 /* *** Konstruktor *** */
-void BuildTree(Bintree P)
+void BuildTree(BinTree P)
 /* Membentuk sebuah pohon biner P dari pita karakter yang dibaca */
 /* I.S. Pita berisi "konstanta" pohon dalam bentuk prefix. Memori pasti cukup, alokasi pasti  berhasil. */
 /* F.S. P dibentuk dari ekspresi dalam  pita */

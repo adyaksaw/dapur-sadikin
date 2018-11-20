@@ -14,7 +14,7 @@
 /* Catatan implementasi: T[0] tidak pernah dipakai */
 
 /* ********* Prototype ********* */
-boolean IsEmpty (Queue Q)
+boolean IsEmpty_Queue (Queue Q)
 /* Mengirim true jika Q kosong: lihat definisi di atas */
 {
     /*Kamus Lokal*/
@@ -24,7 +24,7 @@ boolean IsEmpty (Queue Q)
     return ((Head(Q) == Nil_Queue) && (Tail(Q) == Nil_Queue));
 }
 
-boolean IsFull (Queue Q)
+boolean IsFull_Queue (Queue Q)
 /* Mengirim true jika tabel penampung elemen Q sudah penuh */
 /* yaitu mengandung elemen sebanyak MaxEl */
 {
@@ -41,7 +41,7 @@ int NBElmt (Queue Q)
     // -
 
     /*Algoritma*/
-    if (IsEmpty(Q)){
+    if (IsEmpty_Queue(Q)){
         return 0;
     } else if (Head(Q) <= Tail(Q)){
         return(Tail(Q) - Head(Q) + 1);
@@ -59,7 +59,7 @@ void CreateEmpty (Queue * Q, int Max)
 {
     /* Kamus Lokal */
     /* Algoritma */
-    (*Q).T = (int *) malloc ((Max+1) * sizeof(int));
+    (*Q).T = malloc ((Max+1) * sizeof(ElType_Queue));
     if ((*Q).T != NULL) {
         MaxEl(*Q) = Max;
         Head(*Q) = Nil_Queue;
@@ -91,7 +91,7 @@ void Add (Queue * Q, ElType_Queue X)
     Address_Queue i, j;
 
     /* Algoritma */
-    if (IsEmpty(*Q)) {
+    if (IsEmpty_Queue(*Q)) {
         Head(*Q)=1;
         Tail(*Q)=1;
     } else /* Q tidak kosong */ {

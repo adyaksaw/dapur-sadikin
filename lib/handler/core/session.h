@@ -12,9 +12,4 @@ typedef enum {
 
 /* Semuanya masih bisa diubah sesuai kebutuhan */
 
-void ChangeGameState(GameState *gameState);
-/*
-    Mengubah status game di gameState.
-*/
-
 #endif

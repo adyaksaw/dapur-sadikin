@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "point.c"
+#include "point.h"
 #include "boolean.h"
-#include "mesinbaca.c"
+#include "mesinbaca.h"
 #include "../gdt/static-obj.h"
 
 
@@ -39,7 +39,7 @@ typedef struct {
 void MakeEmpty_Map (int NB, int NK, Matrix * M);
 /* Membuat Map kosong */
 
-void MakeEmpty_Table ( Matrix *M, int i, int j);
+void MakeEmpty_Meja ( Matrix *M, int i, int j);
 /* *** Selektor *** */
 boolean IsEmptyPoint_Map (Matrix M, Point p);
 /* Mengirimkan true jika i, j tidak diisi objek */

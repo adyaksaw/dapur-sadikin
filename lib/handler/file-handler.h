@@ -11,7 +11,7 @@
 #define MAP_REF_DIR "~dir/map.txt"
 #define SAVE_MAP_DIR "~savedir/map.txt"
 
-#include "../data_structure/adt/matrix.c"
+#include "../data_structure/adt/matrix.h"
 
 /* Semuanya masih bisa diubah sesuai kebutuhan */
 

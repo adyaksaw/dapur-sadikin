@@ -6,6 +6,8 @@
 
 #include "boolean.h"
 
+#define NamaFile "../B.txt"
+
 #define MARK '.'
 
 /* State Mesin */

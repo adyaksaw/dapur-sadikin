@@ -11,7 +11,6 @@
 #include <stdlib.h>
 
 #include "../data_type.h"
-
 #include "../gdt/item.h"
 
 #include "boolean.h"
@@ -19,6 +18,7 @@
 #define NULL_STACK_STR 0
 #define MAX_ELMT_STACK_STR 10
 
+typedef Item infotype_food;
 typedef Item ElType_Stack;
 typedef SmallNum Address_Stack;
 
@@ -54,7 +54,7 @@ boolean IsFull_Stack (Stack S);
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push_Stack (Stack * S, char str[100]);
+void Push_Stack (Stack * S, infotype_food newEl);
 /* Menambahkan str sebagai infotype_food baru pada Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. str menjadi name TOP yang baru, ready bernilai false, TOP bertambah 1 */

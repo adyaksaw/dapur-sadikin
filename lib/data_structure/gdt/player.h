@@ -6,6 +6,8 @@
 
 #include "../data_type.h"
 
+#include "../adt/abstract_data_type.h"
+
 #include "../adt/matrix.h"
 #include "../adt/table.h"
 #include "../adt/stack.h"
@@ -18,7 +20,7 @@ typedef enum {
 } Direction;
 
 typedef struct {
-  string name;            // refer to 'data_structure/string.h'
+  Kata name;
   Point pos;
   long money;
   SmallNum life;
@@ -33,7 +35,7 @@ typedef struct {
 #define Hand(P)   (P).hand
 #define Food(P)   (P).food
 
-void Load_Player (Player * player, File * player_save_file);
+void Load_Player (Player * player, FILE * player_save_file);
 
 void Move_Player_Direction (Matrix * M, Player * player, Direction dir);
 

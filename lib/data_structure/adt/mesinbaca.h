@@ -5,7 +5,7 @@
 #define __MESINKATA_H__
 
 #include "boolean.h"
-#include "mesinkar.c"
+#include "mesinkar.h"
 
 #define NMax 50
 #define BLANK ' '
@@ -48,10 +48,15 @@ void SalinKata();
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
+void isiKata(Kata * k, char isi[], int isi_length);
+/* Mengisi k dengan isi. */
+
+void printKata(Kata k);
+/* Menge-print isi dari k tanpa ada karakter tambahan di akhir.*/
+
 boolean IsKataSama(Kata Kata1 , Kata Kata2);
 
 int KataToInt (Kata Kata1);
 void IntToKata(int n , Kata* Kata1 );
-
 
 #endif

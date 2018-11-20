@@ -27,13 +27,13 @@ boolean IsFull_Stack (Stack S){
 }
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push_Stack (Stack * S, char str[100]){
+void Push_Stack (Stack * S, infotype_food newEl){
 	/* Menambahkan str sebagai infotype_food baru pada Stack S. */
 	/* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 	/* F.S. str menjadi name TOP yang baru, ready bernilai false, TOP bertambah 1 */
 	if(IsEmpty_Stack(*S))Top(*S) = 1;
 	else Top(*S)++;
-	InfoTop(*S) = X;
+	InfoTop(*S) = newEl;
 }
 
 /* ************ Menghapus sebuah elemen Stack ************ */

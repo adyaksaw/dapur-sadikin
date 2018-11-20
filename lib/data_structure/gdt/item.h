@@ -8,14 +8,16 @@
 
 #include <string.h>
 
+#include "../adt/mesinbaca.h"
+
 #include "../data_type.h"
 
-typedef struct{
+typedef struct{ 
   SmallNum id;
-  char name[100];
+  Kata name[100];
 } Item;
 
 #define ItemID(I)   (I).id
-#define ItemName(I) (I).name
+#define ItemName(I) (I).name.TabKata
 
 #endif
