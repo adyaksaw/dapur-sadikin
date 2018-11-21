@@ -14,7 +14,8 @@ typedef enum {
   EMPTY,
   TABLE,
   STOVE,
-  TRAY
+  TRAY,
+  PLAYER_POS
 } GameObj;
 
 typedef struct {

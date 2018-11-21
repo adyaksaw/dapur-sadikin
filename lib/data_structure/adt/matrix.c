@@ -62,6 +62,8 @@ void Print_Room (Matrix M)
           printf("-");
       } else if (ElmtMx(M,i,j).tag == TABLE) {
         printf("%d",ElmtMx(M,i,j).data.table.num);
+      } else if (ElmtMx(M,i,j).tag == PLAYER_POS) {
+        printf("P");
       } else {
         printf("-");
       }
@@ -81,6 +83,8 @@ void Print_Kitchen(Matrix M) {
         printf("M");
       else if (ElmtMx(M,i,j).tag == TRAY)
         printf("T");
+      else if (ElmtMx(M,i,j).tag == PLAYER_POS)
+        printf("P");
       else
         printf("-");
 
@@ -89,4 +93,14 @@ void Print_Kitchen(Matrix M) {
     }
     printf("\n");
   }
+}
+
+void SetElement_Matrix(Matrix * M, int i, int j, Object elemenBaru){
+  ElmtMx(*M, i, j) = elemenBaru;
+}
+
+Object PlayerObject(){
+  Object retVal;
+  retVal.tag = PLAYER_POS;
+  return retVal;
 }

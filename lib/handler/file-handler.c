@@ -122,15 +122,21 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
     Kata1.Length = 3;
 
       if (IsKataSama(CKata,Kata1)) {
+        //printf("Tes\n");
     	  ADV();
         ADVKATA();
 
-
-        Kata1.TabKata[1] = '1';
-        Kata1.Length = 1;
+        isiKata(&Kata1, "1", 1);
+        //Kata1.TabKata[1] = '1';
+        //Kata1.Length = 1;
+        //printf("%c\n",CKata.TabKata[1]);
+        //printf("Panjang : %d\n",CKata.Length);
         if (IsKataSama(CKata,Kata1)) {
+            //printf("Tes\n");
             LoadRoom(M1,1,2,3,4);
         }
+
+      
         ADV();
         ADVKATA();
 

@@ -11,7 +11,7 @@
 typedef struct {
   SmallNum amount;
   SmallNum orderID;
-  Point tableNum;
+  SmallNum tableNum;
   SmallNum patience;
   SmallNum star;
   enum {
@@ -30,5 +30,11 @@ typedef struct {
 #define Status(C)       (C).stat
 
 void MakeEmptyCustomer (Customer *Cust);
+
+Customer * GenerateCustomer();
+
+void printCustomer(Customer customer);
+
+void Dealokasi_Customer(Customer *Cust);
 
 #endif

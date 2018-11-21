@@ -81,22 +81,28 @@ void SalinKata()
         ADV();
     } else {
       CKata.Length = i;
+      
     }
 
 }
 
 boolean IsKataSama(Kata Kata1 , Kata Kata2) {
-  int i;
+  int i = 1;
   boolean sama = true;
-  if (Kata1.Length != Kata2.Length) {
-    sama = false;
-  } else {
-    for (i = 1 ; i <= Kata1.Length ; ++i) {
-      if (Kata1.TabKata[i] != Kata2.TabKata[i]) {
-        sama = false;
-        break;
-      }
+  int looper = Kata1.Length < Kata2.Length ? Kata1.Length : Kata2.Length;
+  while (i <= looper && sama){
+    //printf("%c = %c\n", Kata1.TabKata[i], Kata2.TabKata[i]);
+    sama = Kata1.TabKata[i] == Kata2.TabKata[i];
+    //printf("SAMA %d\n", sama);
+    i++;
+  }
+  if (sama){
+    if (Kata1.Length < Kata2.Length){
+      sama = Kata2.TabKata[i] == '\0'; 
+    }else if (Kata1.Length > Kata2.Length){
+      sama = Kata1.TabKata[i] == '\0';
     }
+    //printf("SAMA %d\n", sama);
   }
   return sama;
 }
@@ -109,8 +115,10 @@ void isiKata(Kata * k, char isi[], int isi_length){
 }
 
 void printKata(Kata k){
-  for (int i = 1; i <= k.Length; i++){
+  int i = 1;
+  while (i <= k.Length && k.TabKata[i] != '\0'){
     printf("%c", k.TabKata[i]);
+    i++;
   }
 }
 

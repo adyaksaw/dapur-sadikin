@@ -51,5 +51,8 @@ void Print_Room (Matrix M);
 
 void Print_Kitchen(Matrix M);
 
+void SetElement_Matrix(Matrix * M, int i, int j, Object elemenBaru);
+
+Object PlayerObject();
 
 #endif

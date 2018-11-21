@@ -35,6 +35,12 @@ typedef struct {
 #define Hand(P)   (P).hand
 #define Food(P)   (P).food
 
+void Print_Player(Player player);
+
+void Create_New_Player(Player * player);
+
+void Set_Player_Name(Player * player, char nama[], int length);
+
 void Load_Player (Player * player, FILE * player_save_file);
 
 void Move_Player_Direction (Matrix * M, Player * player, Direction dir);

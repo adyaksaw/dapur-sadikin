@@ -32,9 +32,9 @@ boolean IsFull_Queue (Queue Q)
     // -
 
     /*Algoritma*/
-    return (NBElmt(Q) == MaxEl(Q));
+    return (NBElmt_Queue(Q) == MaxEl(Q));
 }
-int NBElmt (Queue Q)
+int NBElmt_Queue (Queue Q)
 /* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika Q kosong. */
 {
     /*Kamus Lokal*/
@@ -50,7 +50,7 @@ int NBElmt (Queue Q)
     }
 }
 /* *** Kreator *** */
-void CreateEmpty (Queue * Q, int Max)
+void CreateEmpty_Queue (Queue * Q, int Max)
 /* I.S. sembarang */
 /* F.S. Sebuah Q kosong terbentuk dan salah satu kondisi sbb: */
 /* Jika alokasi berhasil, Tabel memori dialokasi berukuran Max+1 */
@@ -69,7 +69,7 @@ void CreateEmpty (Queue * Q, int Max)
     }
 }
 /* *** Destruktor *** */
-void DeAlokasi(Queue * Q)
+void DeAlokasi_Queue(Queue * Q)
 /* Proses: Mengembalikan memori Q */
 /* I.S. Q pernah dialokasi */
 /* F.S. Q menjadi tidak terdefinisi lagi, MaxEl(Q) diset 0 */
@@ -78,11 +78,23 @@ void DeAlokasi(Queue * Q)
     // -
 
     /*Algoritma*/
-    free((*Q).T);
+    ElType_Queue current_elmt;
+    while (!IsEmpty_Queue(*Q)){
+        printf("NOTEMPTY\n");
+        Del_Queue(Q, &current_elmt);
+        Dealokasi_Customer(current_elmt);
+    }
+
+    if (IsEmpty_Queue(*Q)){
+        printf("QUEUE sudah empty.\n");
+    }else {
+        printf("BEWARE MEMORY LEAK!\n");
+    }
     MaxEl(*Q) = 0;
+    free((*Q).T);
 }
 /* *** Primitif Add/Delete *** */
-void Add (Queue * Q, ElType_Queue X)
+void Add_Queue (Queue * Q, ElType_Queue X)
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
@@ -103,7 +115,7 @@ void Add (Queue * Q, ElType_Queue X)
     }
     InfoTail(*Q)=X;
 }
-void Del (Queue * Q, ElType_Queue * X)
+void Del_Queue (Queue * Q, ElType_Queue * X)
 /* Proses: Menghapus X pada Q dengan aturan FIFO */
 /* I.S. Q tidak mungkin kosong */
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "maju" dengan mekanisme circular buffer;
@@ -112,12 +124,12 @@ void Del (Queue * Q, ElType_Queue * X)
     /* Kamus Lokal */
     /* Algoritma */
     *X = InfoHead(*Q);
-    if(Head(*Q) == MaxEl(*Q)){
-        Head(*Q) = 1;
-    } else if ((Head(*Q) == 1) && (Tail(*Q) == 1)){
+    if ((Head(*Q) != Nil_Queue) && (Tail(*Q) != Nil_Queue) && (Head(*Q) == Tail(*Q))){
         Head(*Q) = Nil_Queue;
         Tail(*Q) = Nil_Queue;
-    } else {
+    }else if(Head(*Q) == MaxEl(*Q)){
+        Head(*Q) = 1;
+    }else {
         Head(*Q)++;
     }
 }
