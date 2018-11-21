@@ -95,6 +95,12 @@ void Print_Kitchen(Matrix M) {
   }
 }
 
+/*Lebih baik pakai ini!*/
+void SetTag_Matrix(Matrix * M, int i, int j, GameObj Tag){
+  ElmtMx(*M, i, j).tag = Tag;
+}
+
+/*Kalau bisa jangan pakai ini, berbahaya!*/
 void SetElement_Matrix(Matrix * M, int i, int j, Object elemenBaru){
   ElmtMx(*M, i, j) = elemenBaru;
 }

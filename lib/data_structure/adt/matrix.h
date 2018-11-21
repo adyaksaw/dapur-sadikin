@@ -51,7 +51,11 @@ void Print_Room (Matrix M);
 
 void Print_Kitchen(Matrix M);
 
+void SetTag_Matrix(Matrix * M, int i, int j, GameObj Tag);
+/*Lebih baik pakai ini!*/
+
 void SetElement_Matrix(Matrix * M, int i, int j, Object elemenBaru);
+/*Kalau bisa jangan pakai ini, berbahaya!*/
 
 Object PlayerObject();
 

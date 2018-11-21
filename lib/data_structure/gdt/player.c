@@ -8,22 +8,44 @@ void Load_Player (Player * player, FILE * player_save_file){
 }
 
 void Move_Player_Direction (Matrix * M, Player * player, Direction dir){
-    Point newPoint;
-    if (dir == UP){
-        Ordinat(newPoint) = Ordinat((*player).pos) + 1;
-        Move_Player(M, player, (*player).pos, newPoint);
-    }
-}
+    printf("TRYING TO MOVE\n");
 
-void Move_Player (Matrix * M, Player * player, Point P0, Point P1){
-    if (isPointValid(P1) && ElmtMx(*M, (int) Absis(P1), (int) Ordinat(P1)).tag == EMPTY){
-        SetElement_Matrix(M, (int) Absis(P1), (int) Ordinat(P1), PlayerObject());
-        (*player).pos = P1;
+    Point newPoint;
+    newPoint = (*player).pos;
+    if (dir == UP){
+        printf("TRYING TO MOVE2\n");
+        Absis(newPoint) += -1;
+        Move_Player(M, player, newPoint);
+    }else if (dir == DOWN){
+        printf("TRYING TO MOVE2\n");
+        Absis(newPoint) += 1;
+        Move_Player(M, player, newPoint);
+    }else if (dir == RIGHT){
+        printf("TRYING TO MOVE2\n");
+        Ordinat(newPoint) += 1;
+        Move_Player(M, player, newPoint);
+    }else {
+        printf("TRYING TO MOVE2\n");
+        Ordinat(newPoint) += -1;
+        Move_Player(M, player, newPoint);
     }
 }
 
 boolean isPointValid(Point P){
+    printf("CHECKING (%.0f, %f.0f).\n", Absis(P), Ordinat(P));
     return Absis(P) >= 1 && Absis(P) <= 8 && Ordinat(P) >= 1 && Ordinat(P) <= 8;
+}
+
+void Move_Player (Matrix * M, Player * player, Point P){
+    printf("IsPointValid: %d\n", isPointValid(P));
+    if (isPointValid(P) && ElmtMx(*M, (int) Absis(P), (int) Ordinat(P)).tag == EMPTY){
+        Object EmptyObject;
+        EmptyObject.tag = EMPTY;
+        SetTag_Matrix(M, (int) Absis((*player).pos), (int) Ordinat((*player).pos), EMPTY);
+        printf("MOVING\n");
+        SetTag_Matrix(M, (int) Absis(P), (int) Ordinat(P), PLAYER_POS);
+        (*player).pos = P;
+    }
 }
 
 void Print_Player(Player player){
@@ -32,6 +54,7 @@ void Print_Player(Player player){
     printf("\n");
     printf("Uang : %f\n", player.money);
     printf("Nyawa : %d\n", player.life);
+    printf("Posisi Baris %.1f Kolom %.1f.\n", Ordinat(player.pos), Ordinat(player.pos));
 }
 
 void Set_Player_Name(Player * player, char nama[], int length){
