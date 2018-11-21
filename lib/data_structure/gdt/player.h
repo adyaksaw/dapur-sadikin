@@ -26,6 +26,7 @@ typedef struct {
   SmallNum life;
   Table hand;          // refer to 'data_structure/arraystr.h'
   Stack food;           // refer to 'data_structure/stackt.h'
+  Matrix * currentMap;
 } Player;
 
 /* *** Player *** */
@@ -46,5 +47,7 @@ void Load_Player (Player * player, FILE * player_save_file);
 void Move_Player_Direction (Matrix * M, Player * player, Direction dir);
 
 void Move_Player (Matrix * M, Player * player, Point P);
+
+Object * Closest_Empty_Table(Player player, Matrix M);
 
 #endif

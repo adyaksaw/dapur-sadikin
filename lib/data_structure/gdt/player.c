@@ -68,3 +68,36 @@ void Create_New_Player(Player * player){
     MakeEmpty_Table(&(Hand(*player)));
     CreateEmpty_Stack(&(Food(*player)));
 }
+
+Object * Closest_Empty_Table(Player player, Matrix M){
+  int player_i = (int) Absis(player.pos);
+  int player_j = (int) Ordinat(player.pos);
+
+  int counter = 0;
+
+  int i = -1;
+  int j = -1;
+
+  Object * retVal = NULL;
+
+  while (retVal == NULL && counter < 9){
+    Point nP;
+    Absis(nP) = player_i + i;
+    Ordinat(nP) = player_j + j;
+    if (isPointValid(nP)){
+      if (ElmtMx(M, (int) Absis(nP), (int) Ordinat(nP)).tag == TABLE){
+        if (!ElmtMx(M, (int) Absis(nP), (int) Ordinat(nP)).data.table.isOccupied){
+          retVal = &(ElmtMx(M, (int) Absis(nP), (int) Ordinat(nP)));
+        }
+      }
+    }
+    if (j < 1){
+      j++;
+    }else {
+      j = -1;
+      i++;
+    }
+    counter++;
+  }
+  return retVal;
+}

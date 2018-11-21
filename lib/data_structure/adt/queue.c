@@ -133,3 +133,31 @@ void Del_Queue (Queue * Q, ElType_Queue * X)
         Head(*Q)++;
     }
 }
+
+void Print_Queue(Queue Q){
+    printf("Customer di Queue:\n");
+    int HeadID = Head(Q);
+    if (HeadID < Tail(Q)){
+        while (HeadID <= Tail(Q)){
+            printCustomer(*(Q.T[HeadID]));
+            HeadID++;
+        }
+    }else if (HeadID > Tail(Q)){
+        while (HeadID != Tail(Q)){
+            printCustomer(*(Q.T[HeadID]));
+            HeadID++;
+            if (HeadID == MaxEl(Q)){
+                HeadID = 1;
+            }
+        }
+        if (HeadID == Tail(Q)){
+            printCustomer(*(Q.T[HeadID]));
+        }
+    }else {
+        if (HeadID != Nil_Queue && HeadID == Tail(Q)){
+            printCustomer(*(Q.T[HeadID]));
+        }else {
+            printf("Queue kosong.\n");
+        }
+    }
+}

@@ -11,30 +11,76 @@
 
 GameState gameState;
 Player player;
+Queue CustomerQueue;
+
+Object *ArrayOfMeja[13];
 
 Matrix Map1, Map2, Map3, Kitchen;
+
+void PrintAllOrder(){
+    for (int i = 1; i <= 12; i++){
+        if (IsOccupied(*(ArrayOfMeja[i]))){
+            printf("Meja No.%d memesan OrderID %d.\n", i, OrdersAt(*(ArrayOfMeja[i])));
+        }else {
+            printf("Meja No.%d kosong.\n", i);
+        }
+    }
+}
 
 void Init(){
     Create_New_Player(&player);
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
 
+    /*
+        Melakukan inisialisasi dari array of pointer ArrayOfMeja.
+        ArrayOfMeja akan berisi pointer menuju semua objek meja sesuai nomornya.
+        Sebagai contoh, ketika diakses *(ArrayOfMeja[3]) maka akan diakses
+        memori yang menyimpan objek yang merupakan meja dengan nomor meja 3.
+    */
+    for (int i = 1; i <= 8; i++){
+        for (int j = 1; j <= 8; j++){
+            if (ElmtMx(Map1, i, j).tag == TABLE){
+                printf("Init Meja Nomor %d.\n", ElmtMx(Map1, i, j).data.table.num);
+                ArrayOfMeja[ElmtMx(Map1, i, j).data.table.num] = &(ElmtMx(Map1, i, j));
+            }
+        }
+    }
+
+    for (int i = 1; i <= 8; i++){
+        for (int j = 1; j <= 8; j++){
+            if (ElmtMx(Map1, i, j).tag == TABLE){
+                printf("Init Meja Nomor %d.\n", ElmtMx(Map2, i, j).data.table.num);
+                ArrayOfMeja[ElmtMx(Map2, i, j).data.table.num] = &(ElmtMx(Map2, i, j));
+            }
+        }
+    }
+
+    for (int i = 1; i <= 8; i++){
+        for (int j = 1; j <= 8; j++){
+            if (ElmtMx(Map1, i, j).tag == TABLE){
+                printf("Init Meja Nomor %d.\n", ElmtMx(Map3, i, j).data.table.num);
+                ArrayOfMeja[ElmtMx(Map3, i, j).data.table.num] = &(ElmtMx(Map3, i, j));
+            }
+        }
+    }
+
+    player.currentMap = &Map1;
+
     Absis(player.pos) = initialX;
     Ordinat(player.pos) = initialY;
 
-    SetElement_Matrix(&Map1, initialX, initialY, PlayerObject());
+    SetElement_Matrix(player.currentMap, initialX, initialY, PlayerObject());
 }
 
-void CustomerGenerator(Queue * CustomerQueue){
-    if (!IsFull_Queue(*CustomerQueue)){
+void CustomerGenerator(){
+    if (!IsFull_Queue(CustomerQueue)){
         Customer *newCustomer;
         newCustomer = GenerateCustomer();
 
+        printf("New Customer\n");
         printCustomer(*newCustomer);
 
-        Add_Queue(CustomerQueue, newCustomer);
-
-        printf("In Top Queue: ");
-        printCustomer(*(InfoHead(*CustomerQueue)));
+        Add_Queue(&CustomerQueue, newCustomer);
     }
 }
 
@@ -60,18 +106,38 @@ void InputProcessor(char input[], int input_length){
     Kata moveInputRight;
     isiKata(&moveInputRight, "GR", 2);
 
+    Kata queueInput;
+    isiKata(&queueInput, "queue", 5);
+
+    Kata allOrderInput;
+    isiKata(&allOrderInput, "allOrder", 8);
+
+    Kata placeInput;
+    isiKata(&placeInput, "place", 5);
+
     if (IsKataSama(processedInput, quitInput)){
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){
         Print_Player(player);
     }else if (IsKataSama(processedInput, moveInputUp)){
-        Move_Player_Direction(&Map1, &player, UP);
+        Move_Player_Direction(player.currentMap, &player, UP);
     }else if (IsKataSama(processedInput, moveInputDown)){
-        Move_Player_Direction(&Map1, &player, DOWN);
+        Move_Player_Direction(player.currentMap, &player, DOWN);
     }else if (IsKataSama(processedInput, moveInputLeft)){
-        Move_Player_Direction(&Map1, &player, LEFT);
+        Move_Player_Direction(player.currentMap, &player, LEFT);
     }else if (IsKataSama(processedInput, moveInputRight)){
-        Move_Player_Direction(&Map1, &player, RIGHT);
+        Move_Player_Direction(player.currentMap, &player, RIGHT);
+    }else if (IsKataSama(processedInput, queueInput)){
+        Print_Queue(CustomerQueue);
+    }else if (IsKataSama(processedInput, allOrderInput)){
+        PrintAllOrder();
+    }else if (IsKataSama(processedInput, placeInput)){
+        Object * ClosestTable = Closest_Empty_Table(player, *(player.currentMap));
+        if (ClosestTable != NULL){
+            printf("Meja dengan nomor %d kosong.\n", (*ClosestTable).data.table.num);
+        }else {
+            printf("Tidak ada meja kosong disekitarmu!\n");
+        }
     }
 }
 
@@ -97,11 +163,17 @@ void MainGame(){
 
     char rawInput[10] = "";
 
-    Queue CustomerQueue;
     CreateEmpty_Queue(&CustomerQueue, 5);
 
     while (gameState == IN_GAME){
+        printf("Map 1\n");
         Print_Room(Map1);
+        printf("Map 2\n");
+        Print_Room(Map2);
+        printf("Map 3\n");
+        Print_Room(Map3);
+        printf("Dapur\n");
+        Print_Kitchen(Kitchen);
         printf("Input : ");
         scanf("%s", &rawInput);
         InputProcessor(rawInput, 10);
