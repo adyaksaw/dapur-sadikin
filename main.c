@@ -13,6 +13,8 @@ GameState gameState;
 Player player;
 Queue CustomerQueue;
 
+Second GameTime;
+
 Object *ArrayOfMeja[13];
 
 Matrix Map1, Map2, Map3, Kitchen;
@@ -61,6 +63,8 @@ void Dealokasi_All_Meja(){
 void Init(){
     Create_New_Player(&player);
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
+
+    GameTime = 0;
 
     printf("Init\n");
     PrintAllMemory(&Map1);
@@ -155,8 +159,23 @@ void InputProcessor(char input[], int input_length){
     Kata helpInput;
     isiKata(&helpInput, "help", 4);
 
+    Kata orderInput;
+    isiKata(&orderInput, "order", 5);
+
     Kata tableInput;
     isiKata(&tableInput, "printMeja", 10);
+
+    Kata tanganInput;
+    isiKata(&tanganInput, "hand", 4);
+
+    Kata buangTanganInput;
+    isiKata(&buangTanganInput, "CH", 2);
+
+    Kata nampanInput;
+    isiKata(&nampanInput, "tray", 4);
+
+    Kata buangNampanInput;
+    isiKata(&buangNampanInput, "CT", 2);
 
     if (IsKataSama(processedInput, quitInput)){
         gameState = CREDITS;
@@ -165,15 +184,19 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, moveInputUp)){
         Move_Player_Direction(player.currentMap, &player, UP);
         CustomerGenerator(&CustomerQueue);
+        UpdateTime(&GameTime);
     }else if (IsKataSama(processedInput, moveInputDown)){
         Move_Player_Direction(player.currentMap, &player, DOWN);
         CustomerGenerator(&CustomerQueue);
+        UpdateTime(&GameTime);
     }else if (IsKataSama(processedInput, moveInputLeft)){
         Move_Player_Direction(player.currentMap, &player, LEFT);
         CustomerGenerator(&CustomerQueue);
+        UpdateTime(&GameTime);
     }else if (IsKataSama(processedInput, moveInputRight)){
         Move_Player_Direction(player.currentMap, &player, RIGHT);
         CustomerGenerator(&CustomerQueue);
+        UpdateTime(&GameTime);
     }else if (IsKataSama(processedInput, queueInput)){
         Print_Queue(CustomerQueue);
     }else if (IsKataSama(processedInput, allOrderInput)){
@@ -184,6 +207,26 @@ void InputProcessor(char input[], int input_length){
         PrintAllMemory(player.currentMap);
     }else if (IsKataSama(processedInput, tableInput)){
         PrintAllTable();
+    }else if (IsKataSama(processedInput, tanganInput)){
+        PrintData_Table(player.hand);
+    }else if (IsKataSama(processedInput, buangTanganInput)){
+        MakeEmpty_Table(&(player.hand));
+    }else if (IsKataSama(processedInput, nampanInput)){
+        PrintData_Stack(player.food);
+    }else if (IsKataSama(processedInput, buangNampanInput)){
+        CreateEmpty_Stack(&(player.food));
+    }else if (IsKataSama(processedInput, orderInput)){
+        Object * ClosestTable = Closest_Table(player, (player.currentMap));
+        if (ClosestTable != NULL){
+            if (IsOccupied(*ClosestTable)){
+                GenerateOrder((*ClosestTable).data.table.customer_here);
+                printf("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+            }else {
+                printf("Meja nomor %d kosong.\n", TableNumber(*ClosestTable));
+            }
+        }else {
+            printf("Tidak ada meja kosong disekitarmu!\n");
+        }
     }else if (IsKataSama(processedInput, placeInput)){
         Object * ClosestTable = Closest_Empty_Table(player, (player.currentMap));
         if (ClosestTable != NULL){

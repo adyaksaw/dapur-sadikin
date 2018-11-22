@@ -48,6 +48,8 @@ void Move_Player_Direction (Matrix * M, Player * player, Direction dir);
 
 void Move_Player (Matrix * M, Player * player, Point P);
 
+Object * Closest_Table(Player player, Matrix *M);
+
 Object * Closest_Empty_Table(Player player, Matrix *M);
 
 #endif

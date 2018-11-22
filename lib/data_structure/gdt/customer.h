@@ -29,9 +29,13 @@ typedef struct {
 #define Priority(C)     (C).star
 #define Status(C)       (C).stat
 
+#define FoodNumber 8
+
 void MakeEmptyCustomer (Customer *Cust);
 
 Customer * GenerateCustomer();
+
+void GenerateOrder(Customer * Cust);
 
 void printCustomer(Customer customer);
 

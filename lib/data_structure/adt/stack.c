@@ -73,7 +73,7 @@ void PrintData_Stack (Stack S){
 	*/
 	int i;
 	if(IsEmpty_Stack(S)){
-		printf("Stack is empty");
+		printf("Nampan anda kosong.\n");
 	} else {
 		for(i = 1; i <= Top(S); i++){
 			printf("[%d]%s\n", i, S.T[i].name);

@@ -35,18 +35,16 @@ void Save_Table (Table T, FILE * fptr){
     /* F.S. Table T tersimpan ke file fptr */
 }
 
-void PrintData_Table (Table T);
-/* Proses : Menuliskan data dari file eksternal yang terkait dengan isi tabel */
-/* I.S. T boleh kosong */
-/* F.S. Jika T tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
-/*      Jika T kosong : Hanya menulis "/Array name/ is empty." */
-/* Contoh: Jika isi Tabel: [1, 20, 30, 50]
-   Maka tercetak di layar:
-   [1]Spaghetti
-   [2}Sosis
-   [3]Piring
-   [4]Garpu
-*/
+void PrintData_Table (Table T){
+    if (IsEmpty_Table(T)){
+        printf("Tangan anda kosong.\n");
+    }else {
+        for (int i = IDX_MIN_TI; i < NEff(T); i++){
+            PrintItem(Elmt(T, i));
+            printf("\n");
+        }
+    }
+}
 
 /* ********** SORTNG ********** */
 void Sort_Table (Table * T, SortType x);

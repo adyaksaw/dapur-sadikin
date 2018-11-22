@@ -23,6 +23,10 @@ Customer * GenerateCustomer(){
   return newCustomer;
 }
 
+void GenerateOrder(Customer * Cust){
+  (*Cust).orderID = rand() % FoodNumber;
+}
+
 void printCustomer(Customer customer){
   printf("Customer\n");
   printf("%d orang. Meja nomor %d. Kesabaran %d. Prioritas %d. Status %d.\n", Amount(customer), TableNum(customer), Patience(customer), Priority(customer), Status(customer));
