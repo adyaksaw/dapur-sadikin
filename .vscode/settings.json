@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "customer.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "listrek.h": "c"
     }
 }
