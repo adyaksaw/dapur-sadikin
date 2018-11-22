@@ -14,10 +14,12 @@
 
 typedef struct{ 
   SmallNum id;
-  Kata name[100];
+  Kata name;
 } Item;
 
 #define ItemID(I)   (I).id
 #define ItemName(I) (I).name.TabKata
+
+void PrintItem(Item item);
 
 #endif

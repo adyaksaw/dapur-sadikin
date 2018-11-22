@@ -46,18 +46,46 @@ void Print_Room (Matrix M)
   int i,j;
   for (i = MIN_ROW_MAP ; i <= NRowEff(M) ; ++i ) {
     for (j = MIN_COL_MAP ; j <= NColEff(M) ; ++j) {
-      if (ElmtMx(M,(i-1),j).tag== TABLE)
-        printf("X");
+      if (ElmtMx(M,(i-1),j).tag == TABLE)
+        if (IsOccupied(ElmtMx(M,(i-1),j))){
+          printf("C");
+        }else {
+          printf("X");
+        }
       else if (ElmtMx(M,(i+1),j).tag == TABLE)
-        printf("X");
+        if (IsOccupied(ElmtMx(M,(i+1),j))){
+          if (Amount(CustomerAt(ElmtMx(M,(i+1),j))) >= 2){
+            printf("C");
+          }else {
+            printf("X");
+          }
+        }else {
+          printf("X");
+        }
       else if (ElmtMx(M,i,(j+1)).tag == TABLE) {
         if (ElmtMx(M,i,(j+1)).data.table.size != 2 )
-          printf("X");
+          if (IsOccupied(ElmtMx(M,(i),j+1))){
+            if (Amount(CustomerAt(ElmtMx(M,(i),j+1))) >= 3){
+              printf("C");
+            }else {
+              printf("X");
+            }
+          }else {
+            printf("X");
+          }
         else
           printf("-");
       } else if (ElmtMx(M,i,(j-1)).tag == TABLE) {
         if (ElmtMx(M,i,(j-1)).data.table.size != 2 )
-          printf("X");
+          if (IsOccupied(ElmtMx(M,(i),j-1))){
+            if (Amount(CustomerAt(ElmtMx(M,(i),j-1))) == 4){
+              printf("C");
+            }else {
+              printf("X");
+            }
+          }else {
+            printf("X");
+          }
         else
           printf("-");
       } else if (ElmtMx(M,i,j).tag == TABLE) {

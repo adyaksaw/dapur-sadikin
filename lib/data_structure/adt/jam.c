@@ -1,9 +1,10 @@
 /* File: jam.c */
 /* Implementasi ADT JAM */
 
+#include <stdio.h>
+
 #include "boolean.h"
 #include "jam.h"
-#include <stdio.h>
 
 
 /* ***************************************************************** */
