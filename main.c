@@ -138,6 +138,9 @@ void InputProcessor(char input[], int input_length){
     Kata memoryInput;
     isiKata(&memoryInput, "memcheck", 8);
 
+    Kata helpInput;
+    isiKata(&helpInput, "help", 4);
+
     if (IsKataSama(processedInput, quitInput)){
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){
@@ -182,6 +185,17 @@ void InputProcessor(char input[], int input_length){
         }else {
             printf("Tidak ada meja kosong disekitarmu!\n");
         }
+    } else if(IsKataSama(processedInput, helpInput)){
+        printf("Ketik help untuk melihat daftar command.\n");
+        printf("Ketik GU untuk memindahkan player ke atas.\n");
+        printf("Ketik GD untuk memindahkan player ke bawah.\n");
+        printf("Ketik GL untuk memindahkan player ke kiri.\n");
+        printf("Ketik GR untuk memindahkan player ke kanan.\n");
+        printf("Ketik allOrder untuk melihat order untuk setiap meja.\n");
+        printf("Ketik queue untuk melihat antrian saat ini\n");
+        printf("Ketik status untuk melihat status pemain\n");
+        printf("Ketik place untuk mengecek petak sekitar");
+        printf("Ketik quit untuk keluar dari permainan.\n");
     }
 }
 
