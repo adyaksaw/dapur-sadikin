@@ -1,0 +1,35 @@
+Resep
+Piring|
+  Sendok|
+    Es Krim|
+      Pisang|
+        Banana Split|
+        |
+      Stroberi|
+        Sundae|
+        |
+    Nasi|
+      Telur|
+        Nasi Telur Dadar|
+        |
+      Ayam Goreng|
+        Nasi Ayam Goreng|
+        |
+  Garpu|
+    Roti|
+      Patty|
+        Burger|
+        |
+      Sosis|
+        Hot Dog|
+        |
+    Spaghetti|
+      Bolognese|
+        Keju|
+          Spaghetti Bolognese|
+          |
+        |
+      Carbonara|
+        Spaghetti Carbonara|
+        |
+/.
