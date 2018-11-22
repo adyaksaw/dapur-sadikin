@@ -102,3 +102,7 @@ Object * Closest_Empty_Table(Player player, Matrix *M){
   printf("Memaddress: %p\n", retVal);
   return retVal;
 }
+
+void Reduce_Life(Player *player){
+  Life(*player)--;
+}

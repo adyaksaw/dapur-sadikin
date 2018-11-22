@@ -32,3 +32,7 @@ void Dealokasi_Customer(Customer *Cust){
   free(Cust);
   printf("FREED\n");
 }
+
+void Reduce_Patience(Customer *Cust){
+  Patience(*Cust) -= 1;
+}

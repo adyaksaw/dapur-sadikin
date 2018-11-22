@@ -37,4 +37,6 @@ void printCustomer(Customer customer);
 
 void Dealokasi_Customer(Customer *Cust);
 
+void Reduce_Patience(Customer *Cust);
+
 #endif

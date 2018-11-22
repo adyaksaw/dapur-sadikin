@@ -101,6 +101,32 @@ void CustomerGenerator(){
     }
 }
 
+void reduceAllCustPatience(){
+    int i;
+    ElType_Queue temp;
+    Customer * X;
+
+    if(!IsEmpty_Queue(CustomerQueue)){
+        if(!IsFull_Queue(CustomerQueue)){
+            for(i = Head(CustomerQueue); i != 1+(Tail(CustomerQueue)%MaxEl(CustomerQueue)); i = 1+(i%MaxEl(CustomerQueue))){
+                Reduce_Patience(CustomerQueue.T[i]);
+            }        
+        } else {
+            for(i = 1; i <= MaxEl(CustomerQueue); i++){
+                Reduce_Patience(CustomerQueue.T[i]);
+            }
+        }
+
+        X =  InfoHead(CustomerQueue);
+        while(Patience(*X) <= 0 &&!IsEmpty_Queue(CustomerQueue)){
+            printf("Terlalu lama menunggu, ada pelanggan yang bosan dan memilih makan di geprek.\n");
+            Del_Queue(&CustomerQueue, &temp);
+            Reduce_Life(&player);
+            X = InfoHead(CustomerQueue);
+        }
+    }
+}
+
 void InputProcessor(char input[], int input_length){
     Kata processedInput;
     isiKata(&processedInput, input, input_length);
@@ -147,15 +173,19 @@ void InputProcessor(char input[], int input_length){
         Print_Player(player);
     }else if (IsKataSama(processedInput, moveInputUp)){
         Move_Player_Direction(player.currentMap, &player, UP);
+        reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
     }else if (IsKataSama(processedInput, moveInputDown)){
         Move_Player_Direction(player.currentMap, &player, DOWN);
+        reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
     }else if (IsKataSama(processedInput, moveInputLeft)){
         Move_Player_Direction(player.currentMap, &player, LEFT);
+        reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
     }else if (IsKataSama(processedInput, moveInputRight)){
         Move_Player_Direction(player.currentMap, &player, RIGHT);
+        reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
     }else if (IsKataSama(processedInput, queueInput)){
         Print_Queue(CustomerQueue);
@@ -178,9 +208,8 @@ void InputProcessor(char input[], int input_length){
                 if (IsOccupied(*ClosestTable)){
                     printf("Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
                 }
-                if (IsOccupied(*(ArrayOfMeja[(*ClosestTable).data.table.num]))){
-                    printf("VERSI2 Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
-                }
+            } else {
+                printf("Antrian kosong.\n");
             }
         }else {
             printf("Tidak ada meja kosong disekitarmu!\n");
@@ -239,6 +268,11 @@ void MainGame(){
         scanf("%s", &rawInput);
         InputProcessor(rawInput, 10);
         Print_Room(*(player.currentMap));
+        if(Life(player) <= 0){
+            printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
+            printf("GAME OVER!\n");
+            gameState = CREDITS;
+        }
     }
     DeAlokasi_Queue(&CustomerQueue);
     Dealokasi_All_Meja();

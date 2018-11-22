@@ -50,4 +50,6 @@ void Move_Player (Matrix * M, Player * player, Point P);
 
 Object * Closest_Empty_Table(Player player, Matrix *M);
 
+void Reduce_Life(Player *player);
+
 #endif
