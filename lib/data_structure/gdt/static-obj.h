@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #include "../adt/boolean.h"
 
 #include "../data_type.h"
@@ -52,5 +53,7 @@ typedef struct {
 
 /* *** Stove *** */
 #define ItemsIn(O) (O).data.stove.item
+
+boolean PlaceCustomerToTable(Object * Table, Customer Cust);
 
 #endif

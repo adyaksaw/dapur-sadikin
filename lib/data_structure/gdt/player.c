@@ -99,5 +99,6 @@ Object * Closest_Empty_Table(Player player, Matrix M){
     }
     counter++;
   }
+  printf("Memaddress: %p\n", retVal);
   return retVal;
 }
