@@ -69,7 +69,7 @@ void Create_New_Player(Player * player){
     CreateEmpty_Stack(&(Food(*player)));
 }
 
-Object * Closest_Empty_Table(Player player, Matrix M){
+Object * Closest_Empty_Table(Player player, Matrix *M){
   int player_i = (int) Absis(player.pos);
   int player_j = (int) Ordinat(player.pos);
 
@@ -85,9 +85,9 @@ Object * Closest_Empty_Table(Player player, Matrix M){
     Absis(nP) = player_i + i;
     Ordinat(nP) = player_j + j;
     if (isPointValid(nP)){
-      if (ElmtMx(M, (int) Absis(nP), (int) Ordinat(nP)).tag == TABLE){
-        if (!ElmtMx(M, (int) Absis(nP), (int) Ordinat(nP)).data.table.isOccupied){
-          retVal = &(ElmtMx(M, (int) Absis(nP), (int) Ordinat(nP)));
+      if (ElmtMx(*M, (int) Absis(nP), (int) Ordinat(nP)).tag == TABLE){
+        if (!ElmtMx(*M, (int) Absis(nP), (int) Ordinat(nP)).data.table.isOccupied){
+          retVal = &(ElmtMx(*M, (int) Absis(nP), (int) Ordinat(nP)));
         }
       }
     }

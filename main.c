@@ -162,11 +162,11 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, allOrderInput)){
         PrintAllOrder();
     }else if (IsKataSama(processedInput, checkInput)){
-        Object * ClosestTable = Closest_Empty_Table(player, *(player.currentMap));
+        Object * ClosestTable = Closest_Empty_Table(player, (player.currentMap));
     }else if (IsKataSama(processedInput, memoryInput)){
         PrintAllMemory(Map1);
     }else if (IsKataSama(processedInput, placeInput)){
-        Object * ClosestTable = Closest_Empty_Table(player, *(player.currentMap));
+        Object * ClosestTable = Closest_Empty_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
             printf("Meja dengan nomor %d kosong.\n", (*ClosestTable).data.table.num);
             if (!IsEmpty_Queue(CustomerQueue)){
@@ -238,6 +238,7 @@ void MainGame(){
         printf("Input : ");
         scanf("%s", &rawInput);
         InputProcessor(rawInput, 10);
+        Print_Room(*(player.currentMap));
     }
     DeAlokasi_Queue(&CustomerQueue);
     Dealokasi_All_Meja();
