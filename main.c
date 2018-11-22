@@ -27,11 +27,26 @@ void PrintAllOrder(){
     }
 }
 
-void PrintAllMemory(Matrix M){
+void PrintTableStatus(Object Meja){
+    printf("Nomor Meja: %d\n", TableNumber(Meja));
+    printf("IsOccupied: %d\n", IsOccupied(Meja));
+    if (IsOccupied(Meja)){
+        printf("Jumlah orang: %d\n", Amount(CustomerAt(Meja)));
+        printCustomer(CustomerAt(Meja));
+    }
+}
+
+void PrintAllMemory(Matrix * M){
     for (int i = 1; i <= 8; i++){
         for (int j = 1; j <= 8; j++){
-            printf("ALAMAT MEMORY M KE %d-%d adalah %p.\n", i, j, &(M.Mem[i][j]));
+            printf("ALAMAT MEMORY M KE %d-%d adalah %p.\n", i, j, &((*M).Mem[i][j]));
         }
+    }
+}
+
+void PrintAllTable(){
+    for (int i = 1; i <= 12; i++){
+        PrintTableStatus(*(ArrayOfMeja[i]));
     }
 }
 
@@ -39,7 +54,6 @@ void Dealokasi_All_Meja(){
     for (int i = 1; i <= 12; i++){
         if (IsOccupied(*(ArrayOfMeja[i]))){
             Dealokasi_Customer((*(ArrayOfMeja[i])).data.table.customer_here);
-            printf("Meja nomor %d terisi dan sudah di dealokasi.\n", TableNumber(*(ArrayOfMeja[i])));
         }
     }
 }
@@ -49,7 +63,7 @@ void Init(){
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
 
     printf("Init\n");
-    PrintAllMemory(Map1);
+    PrintAllMemory(&Map1);
 
     /*
         Melakukan inisialisasi dari array of pointer ArrayOfMeja.
@@ -141,6 +155,9 @@ void InputProcessor(char input[], int input_length){
     Kata helpInput;
     isiKata(&helpInput, "help", 4);
 
+    Kata tableInput;
+    isiKata(&tableInput, "printMeja", 10);
+
     if (IsKataSama(processedInput, quitInput)){
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){
@@ -164,22 +181,21 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, checkInput)){
         Object * ClosestTable = Closest_Empty_Table(player, (player.currentMap));
     }else if (IsKataSama(processedInput, memoryInput)){
-        PrintAllMemory(Map1);
+        PrintAllMemory(player.currentMap);
+    }else if (IsKataSama(processedInput, tableInput)){
+        PrintAllTable();
     }else if (IsKataSama(processedInput, placeInput)){
         Object * ClosestTable = Closest_Empty_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
             printf("Meja dengan nomor %d kosong.\n", (*ClosestTable).data.table.num);
             if (!IsEmpty_Queue(CustomerQueue)){
                 Customer * CustomerToPlace = InfoHead(CustomerQueue);
-                boolean successfulPlace = PlaceCustomerToTable(ClosestTable, (*CustomerToPlace));
+                boolean successfulPlace = PlaceCustomerToTable(ClosestTable, CustomerToPlace);
                 if (successfulPlace){
                     Del_Queue(&CustomerQueue, &CustomerToPlace);
                 }
                 if (IsOccupied(*ClosestTable)){
                     printf("Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
-                }
-                if (IsOccupied(*(ArrayOfMeja[(*ClosestTable).data.table.num]))){
-                    printf("VERSI2 Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
                 }
             }
         }else {
@@ -218,7 +234,7 @@ void MainScreen(){
 
 void MainGame(){
     printf("Main Game\n");
-    PrintAllMemory(Map1);
+    //PrintAllMemory(Map1);
 
     char rawInput[10] = "";
 
@@ -247,18 +263,18 @@ void MainGame(){
 int main(){
     Init();
     printf("After init\n");
-    PrintAllMemory(Map1);
+    //PrintAllMemory(Map1);
     printf("After init2\n");
-    PrintAllMemory(Map1);
+    //PrintAllMemory(Map1);
 
     gameState = MAIN_MENU;
     printf("%d\n", gameState);
 
     MainScreen();
     printf("After mainscreen\n");
-    PrintAllMemory(Map1);
+    //PrintAllMemory(Map1);
     printf("After mainscreen2\n");
-    PrintAllMemory(Map1);
+    //PrintAllMemory(Map1);
 
     MainGame();
 
@@ -266,7 +282,7 @@ int main(){
     printf("%d\n", gameState);
 
     printf("Before quit\n");
-    PrintAllMemory(Map1);
+    //PrintAllMemory(Map1);
     printf("Before quit2\n");
-    PrintAllMemory(Map1);
+    //PrintAllMemory(Map1);
 }

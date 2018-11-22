@@ -30,5 +30,8 @@ void printCustomer(Customer customer){
 
 void Dealokasi_Customer(Customer *Cust){
   free(Cust);
-  printf("FREED\n");
+  Cust = NULL;
+  if (Cust == NULL){
+    printf("FREED\n");
+  }
 }

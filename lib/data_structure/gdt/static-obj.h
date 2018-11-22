@@ -54,6 +54,6 @@ typedef struct {
 /* *** Stove *** */
 #define ItemsIn(O) (O).data.stove.item
 
-boolean PlaceCustomerToTable(Object * Table, Customer Cust);
+boolean PlaceCustomerToTable(Object * Table, Customer * Cust);
 
 #endif
