@@ -73,7 +73,9 @@ void Print_Room (Matrix M)
           }else {
             printf("X");
           }
-        else
+        else if (ElmtMx(M,i,j).tag == PLAYER_POS) {
+          printf("P");
+        } else
           printf("-");
       } else if (ElmtMx(M,i,(j-1)).tag == TABLE) {
         if (ElmtMx(M,i,(j-1)).data.table.size != 2 )
@@ -86,7 +88,9 @@ void Print_Room (Matrix M)
           }else {
             printf("X");
           }
-        else
+        else if (ElmtMx(M,i,j).tag == PLAYER_POS) {
+          printf("P");
+        } else
           printf("-");
       } else if (ElmtMx(M,i,j).tag == TABLE) {
         printf("%d",ElmtMx(M,i,j).data.table.num);
