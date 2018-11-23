@@ -37,6 +37,7 @@ typedef struct {
 #define InfoHead(Q) (Q).T[(Q).HEAD]
 #define InfoTail(Q) (Q).T[(Q).TAIL]
 #define MaxEl(Q) (Q).MaxEl
+#define ElmtQ(Q,i) (Q).T[(i)]
 
 /* ********* Prototype ********* */
 boolean IsEmpty_Queue (Queue Q);

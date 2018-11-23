@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "boolean.h"
 #include "../gdt/customer.h"
 #include "queue.h"
@@ -100,20 +99,37 @@ void Add_Queue (Queue * Q, ElType_Queue X)
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
 {
     /* Kamus Lokal */
-    Address_Queue i, j;
+    Address_Queue i;
 
     /* Algoritma */
     if (IsEmpty_Queue(*Q)) {
         Head(*Q)=1;
         Tail(*Q)=1;
+        InfoTail(*Q)=X;
     } else /* Q tidak kosong */ {
-        if (Tail(*Q) == MaxEl(*Q)) { /* Geser elemen smp Head(Q)=1 */
-            Tail(*Q) = 1;
+        if (Tail(*Q) == MaxEl(*Q)) {
+        Tail(*Q) = 1;
         } else {
-            Tail(*Q)++;
+        Tail(*Q)++;
+        }
+        InfoTail(*Q) = X;
+        i = Tail(*Q);
+        boolean foundsama = false;
+        while ((!foundsama) && (i != Head(*Q))){
+        if (Priority(*ElmtQ(*Q,i)) > Priority(*ElmtQ(*Q,i-1))) {
+            ElType_Queue temp = ElmtQ(*Q,i);
+            ElmtQ(*Q,i) = ElmtQ(*Q,i-1);
+            ElmtQ(*Q,i-1) = temp;
+        } else {
+            foundsama = true;
+        }
+        if (i == 1){
+            i = MaxEl(*Q);
+        } else{
+            i--;
+        }
         }
     }
-    InfoTail(*Q)=X;
 }
 void Del_Queue (Queue * Q, ElType_Queue * X)
 /* Proses: Menghapus X pada Q dengan aturan FIFO */
