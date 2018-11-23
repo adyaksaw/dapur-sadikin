@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "boolean.h"
 #include "../gdt/customer.h"
 #include "queue.h"
@@ -94,26 +93,47 @@ void DeAlokasi_Queue(Queue * Q)
     free((*Q).T);
 }
 /* *** Primitif Add/Delete *** */
-void Add_Queue (Queue * Q, ElType_Queue X)
+void Add_Queue (Queue * Q, ElType_Queue * X)
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
 {
     /* Kamus Lokal */
-    Address_Queue i, j;
+    Address_Queue i;
 
     /* Algoritma */
     if (IsEmpty_Queue(*Q)) {
         Head(*Q)=1;
         Tail(*Q)=1;
+        InfoTail(*Q)=*X;
     } else /* Q tidak kosong */ {
-        if (Tail(*Q) == MaxEl(*Q)) { /* Geser elemen smp Head(Q)=1 */
-            Tail(*Q) = 1;
+        if (Priority(*(*X)) == 0){
+            if (Tail(*Q) == MaxEl(*Q)) {
+                Tail(*Q) = 1;
+            } else {
+                Tail(*Q)++;
+            }
+            InfoTail(*Q) = *X;
         } else {
-            Tail(*Q)++;
+            if (Head(*Q) == 1){
+                Head(*Q) = MaxEl(*Q);
+            } else {
+                Head(*Q)--;
+            }
+            InfoHead(*Q) = *X;
+            i = Head(*Q);
+            while (Priority(*Elmt(*Q,i)) <= Priority(*Elmt(*Q,i+1))){
+                ElType_Queue temp = Elmt(*Q,i+1);
+                Elmt(*Q,i+1) = Elmt(*Q,i);
+                Elmt(*Q,i) = temp;
+                if (i == MaxEl(*Q)){
+                    i = 1;
+                } else { 
+                    i++;
+                }
+            }
         }
     }
-    InfoTail(*Q)=X;
 }
 void Del_Queue (Queue * Q, ElType_Queue * X)
 /* Proses: Menghapus X pada Q dengan aturan FIFO */

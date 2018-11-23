@@ -37,6 +37,7 @@ typedef struct {
 #define InfoHead(Q) (Q).T[(Q).HEAD]
 #define InfoTail(Q) (Q).T[(Q).TAIL]
 #define MaxEl(Q) (Q).MaxEl
+#define Elmt(Q,i) (Q).T[i]
 
 /* ********* Prototype ********* */
 boolean IsEmpty_Queue (Queue Q);
@@ -62,7 +63,7 @@ void DeAlokasi_Queue(Queue * Q);
 /* F.S. Q menjadi tidak terdefinisi lagi, MaxEl(Q) diset 0 */
 
 /* *** Primitif Add/Delete *** */
-void Add_Queue (Queue * Q, ElType_Queue X);
+void Add_Queue (Queue * Q, ElType_Queue * X);
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
