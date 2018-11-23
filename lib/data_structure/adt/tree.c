@@ -375,13 +375,13 @@ void DelBtree(BinTree *P, TypeTree X)
       *P = Left(*P);
     }
   }
-  /*Kamus Lokal*/
-  BinTree q;
   if (X.id < Akar(*P).id){
     DelBtree(&Left(*P),X);
   } else if(X.id > Akar(*P).id){
     DelBtree(&Right(*P),X);
   } else {
+    /*Kamus Lokal*/
+    BinTree q;
     q = *P;
     if (IsTreeOneElmt(q)){
       *P = Nil;

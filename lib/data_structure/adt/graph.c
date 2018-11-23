@@ -2,12 +2,12 @@
 
 void CreateGraph(int X, Graph *L)
 {
-    First(*L) = AlokNodeG(X);
+    First(*L) = AlokNode_Graph(X);
 }
 
 adrNode AlokNode_Graph(int X)
 {
-    adrNode G = (adrNode)malloc(sizeof(NodeG));
+    adrNode G = (adrNode)malloc(sizeof(Node_Graph));
 
     if (G != Nil)
     {

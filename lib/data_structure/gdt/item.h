@@ -8,6 +8,7 @@
 
 #include <string.h>
 
+//#include "../adt/abstract_data_type.h"
 #include "../adt/mesinbaca.h"
 
 #include "../data_type.h"

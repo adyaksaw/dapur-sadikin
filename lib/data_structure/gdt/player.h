@@ -11,6 +11,7 @@
 #include "../adt/matrix.h"
 #include "../adt/table.h"
 #include "../adt/stack.h"
+#include "../adt/tree.h"
 
 typedef enum {
   UP,
@@ -55,5 +56,7 @@ Object * Closest_Empty_Table(Player player, Matrix *M);
 void Reduce_Life(Player *player);
 
 Object * Closest_Object(Player player, Matrix *M, GameObj Obj);
+
+void Masak(Player * player, BinTree resep);
 
 #endif

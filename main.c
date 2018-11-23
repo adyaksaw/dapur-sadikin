@@ -12,6 +12,7 @@
 GameState gameState;
 Player player;
 Queue CustomerQueue;
+BinTree resep;
 
 Second GameTime;
 
@@ -74,7 +75,9 @@ void Init(){
 
     GameTime = 0;
     printf("Init\n");
-    PrintAllMemory(&Map1);
+    //PrintAllMemory(&Map1);
+
+    resep = NULL;
 
     /*
         Melakukan inisialisasi dari array of pointer ArrayOfMeja.
@@ -225,6 +228,9 @@ void InputProcessor(char input[], int input_length){
     Kata takeInput;
     isiKata(&takeInput, "take", 4);
 
+    Kata putInput;
+    isiKata(&putInput, "put", 3);
+
     if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
@@ -267,6 +273,8 @@ void InputProcessor(char input[], int input_length){
         PrintData_Stack(player.food);
     }else if (IsKataSama(processedInput, buangNampanInput)){ //COMMAND CH
         CreateEmpty_Stack(&(player.food));
+    }else if (IsKataSama(processedInput, putInput)){ //COMMAND CH
+        Masak(&player, resep);
     }else if (IsKataSama(processedInput, orderInput)){ //COMMAND order
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if (ClosestTable != NULL){

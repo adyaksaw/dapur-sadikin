@@ -164,3 +164,45 @@ Object * Closest_Object(Player player, Matrix *M, GameObj Obj){
 void Reduce_Life(Player *player){
   Life(*player)--;
 }
+
+void Masak(Player * player, BinTree resep){
+  if (!IsEmpty_Stack((*player).hand)){
+    Node *currentNode = NULL;
+    currentNode = resep;
+    if (currentNode != NULL){
+      boolean inventoriValid = true;
+      SmallNum currentStackElmt = Top((*player).hand);
+      while (inventoriValid && currentStackElmt > 0){
+        if ((*player).hand.T[currentStackElmt].id != Akar(currentNode).id){
+            inventoriValid = false;
+        }else {
+          currentStackElmt -= 1;
+          if (currentStackElmt > 0){
+              if (SearchTree(Left(resep), (*player).hand.T[currentStackElmt])){
+                currentNode = Left(currentNode);
+              }else if (SearchTree(Left(resep), (*player).hand.T[currentStackElmt])){
+                currentNode = Right(currentNode);
+              }else {
+                inventoriValid = false;
+              }
+          }
+        }
+      }
+
+      currentNode = Left(currentNode);
+      if (inventoriValid){
+        inventoriValid = IsTreeOneElmt(currentNode);
+      }
+
+      if (inventoriValid){
+        printf("Akan dimasak ");
+        printKata(Info(currentNode).name);
+        printf("\n");
+      }else {
+        printf("Tidak ada resep yang sesuain!\n");
+      }
+    }
+  }else{
+   printf("Tangan anda kosong!\n");
+  }
+}

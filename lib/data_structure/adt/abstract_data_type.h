@@ -11,7 +11,7 @@
 #include "stack.h"
 #include "table.h"
 #include "jam.h"
-//#include "tree.h"
+#include "tree.h"
 #include "listrek.h"
 
 #endif

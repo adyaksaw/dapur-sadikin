@@ -9,7 +9,7 @@
 /* Modul lain yang digunakan : */
 #include "listrek.h"
 #include "boolean.h"
-#include "../gdt/game_data_type.h"
+#include "../gdt/item.h"
 #include <stdio.h>
 #include "mesinbaca.h"
 
