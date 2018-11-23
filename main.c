@@ -145,9 +145,21 @@ void reduceAllCustPatience(){
             }
         }
 
+        for(i = 1; i <= 12; i++){
+            if((*ArrayOfMeja[i]).data.table.isOccupied){
+                Customer * Cust = (*ArrayOfMeja[i]).data.table.customer_here;
+                Reduce_Patience(Cust);
+                if(Patience(*Cust) == 0){
+                    printf("Terlalu lama menunggu, pelanggan di meja %d bosan dan memilih makan di geprek.\n", i);
+                    RemoveCustomerFromTable(ArrayOfMeja[i]);
+                    Reduce_Life(&player);
+                }
+            }
+        }
+
         X =  InfoHead(CustomerQueue);
         while(Patience(*X) <= 0 &&!IsEmpty_Queue(CustomerQueue)){
-            printf("Terlalu lama menunggu, ada pelanggan yang bosan dan memilih makan di geprek.\n");
+            printf("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
             Del_Queue(&CustomerQueue, &temp);
             Reduce_Life(&player);
             X = InfoHead(CustomerQueue);
