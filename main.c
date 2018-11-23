@@ -139,31 +139,34 @@ void reduceAllCustPatience(){
         if(!IsFull_Queue(CustomerQueue)){
             for(i = Head(CustomerQueue); i != 1+(Tail(CustomerQueue)%MaxEl(CustomerQueue)); i = 1+(i%MaxEl(CustomerQueue))){
                 Reduce_Patience(CustomerQueue.T[i]);
-            }
+                if(Patience(*(CustomerQueue.T[i])) == 0){
+                    printf("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
+                    normalizedQueue(&CustomerQueue, i);
+                    RemoveCustomerFromTable(ArrayOfMeja[i]);
+                    Reduce_Life(&player);
+                }
+            }        
         } else {
             for(i = 1; i <= MaxEl(CustomerQueue); i++){
                 Reduce_Patience(CustomerQueue.T[i]);
-            }
-        }
-
-        for(i = 1; i <= 12; i++){
-            if((*ArrayOfMeja[i]).data.table.isOccupied){
-                Customer * Cust = (*ArrayOfMeja[i]).data.table.customer_here;
-                Reduce_Patience(Cust);
-                if(Patience(*Cust) == 0){
-                    printf("Terlalu lama menunggu, pelanggan di meja %d bosan dan memilih makan di geprek.\n", i);
+                if(Patience(*(CustomerQueue.T[i])) == 0){
+                    printf("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
+                    normalizedQueue(&CustomerQueue, i);
                     RemoveCustomerFromTable(ArrayOfMeja[i]);
                     Reduce_Life(&player);
                 }
             }
         }
-
-        X =  InfoHead(CustomerQueue);
-        while(Patience(*X) <= 0 &&!IsEmpty_Queue(CustomerQueue)){
-            printf("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
-            Del_Queue(&CustomerQueue, &temp);
-            Reduce_Life(&player);
-            X = InfoHead(CustomerQueue);
+    }
+    for(i = 1; i <= 12; i++){
+        if((*ArrayOfMeja[i]).data.table.isOccupied){
+            Customer * Cust = (*ArrayOfMeja[i]).data.table.customer_here;
+            Reduce_Patience(Cust);
+            if(Patience(*Cust) == 0){
+                printf("Terlalu lama menunggu, pelanggan di meja %d bosan dan memilih makan di geprek.\n", i);
+                RemoveCustomerFromTable(ArrayOfMeja[i]);
+                Reduce_Life(&player);
+            }
         }
     }
 }
