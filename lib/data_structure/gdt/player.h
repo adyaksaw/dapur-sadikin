@@ -24,7 +24,7 @@ typedef struct {
   Point pos;
   long money;
   SmallNum life;
-  Table hand;          // refer to 'data_structure/arraystr.h'
+  Stack hand;          // refer to 'data_structure/arraystr.h'
   Stack food;           // refer to 'data_structure/stackt.h'
   Matrix * currentMap;
 } Player;

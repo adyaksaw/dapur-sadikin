@@ -251,9 +251,9 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, tableInput)){ //COMMAND printMeja
         PrintAllTable();
     }else if (IsKataSama(processedInput, tanganInput)){ //COMMAND hand
-        PrintData_Table(player.hand);
+        PrintData_Stack(player.hand);
     }else if (IsKataSama(processedInput, buangTanganInput)){ //COMMAND CH
-        MakeEmpty_Table(&(player.hand));
+        CreateEmpty_Stack(&(player.hand));
     }else if (IsKataSama(processedInput, nampanInput)){ //COMMAND tray
         PrintData_Stack(player.food);
     }else if (IsKataSama(processedInput, buangNampanInput)){ //COMMAND CH

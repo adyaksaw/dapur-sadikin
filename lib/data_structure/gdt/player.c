@@ -65,7 +65,7 @@ void Create_New_Player(Player * player){
     isiKata(&((*player).name), "", 0);
     Money(*player) = 0;
     Life(*player) = 3;
-    MakeEmpty_Table(&(Hand(*player)));
+    CreateEmpty_Stack(&(Hand(*player)));
     CreateEmpty_Stack(&(Food(*player)));
 }
 
