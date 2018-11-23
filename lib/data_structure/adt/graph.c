@@ -1,18 +1,17 @@
 #include "graph.h"
 
-void CreateGraph(int X, Graph *L)
+void CreateGraph(TypeGraph X, Graph *L)
 {
     First(*L) = AlokNode_Graph(X);
 }
 
-adrNode AlokNode_Graph(int X)
+adrNode AlokNode_Graph(TypeGraph X)
 {
     adrNode G = (adrNode)malloc(sizeof(Node_Graph));
 
     if (G != Nil)
     {
         Id(G) = X;
-        NPred(G) = 0;
         Trail(G) = Nil;
         Next_Node(G) = Nil;
     }
@@ -30,6 +29,8 @@ adrSuccNode AlokSuccNode(adrNode Pn)
     if (Pt != Nil)
     {
         Succ(Pt) = Pn;
+        Transition(Pt) = MakePoint(-1, -1); //hardcode when use
+        Spawn(Pt) = MakePoint(-1, -1);
         Next_Trail(Pt) = Nil;
     }
     return Pt;
@@ -40,7 +41,7 @@ void DealokSuccNode(adrSuccNode P)
     free(P);
 }
 
-adrNode SearchNodeG(Graph G, int X)
+adrNode SearchNode_Graph(Graph G, TypeGraph X)
 {
     if (First(G) == Nil)
         return Nil;
@@ -53,7 +54,7 @@ adrNode SearchNodeG(Graph G, int X)
     return P;
 }
 
-adrSuccNode SearchEdge(Graph G, int prec, int succ)
+adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ)
 {
     if (First(G) == Nil)
         return Nil;
@@ -69,10 +70,53 @@ adrSuccNode SearchEdge(Graph G, int prec, int succ)
     return Pt;
 }
 
-void InsertNodeG(Graph *G, int X, adrNode *Pn)
+void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn)
 {
+    if (SearchNode_Graph(*G, X) != Nil)
+        return;
+
+    *Pn = AlokNode_Graph(X);
+
+    if (*Pn != Nil)
+    {
+        if (First(*G) == Nil)
+            First(*G) = *Pn;
+        else
+        {
+            adrNode P = First(*G);
+
+            while (Next_Node(P) != Nil)
+                P = Next_Node(P);
+
+            Next_Node(P) = *Pn;
+        }
+    }
 }
 
-void InsertEdge(Graph *G, int prec, int succ)
+void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ)
 {
+    if (First(*G) == Nil || SearchEdge(*G, prec, succ) != Nil)
+        return;
+
+    adrNode Pn = SearchNode_Graph(*G, prec);
+
+    if (Pn != Nil)
+    {
+        adrSuccNode Pt = AlokSuccNode(Pn);
+
+        if (Pt != Nil)
+        {
+            if (Trail(Pn) == Nil)
+                Trail(Pn) = Pt;
+            else
+            {
+                adrSuccNode P = Trail(Pn);
+
+                while (Next_Trail(P) != Nil)
+                    P = Next_Trail(P);
+
+                Next_Trail(P) = Pt;
+            }
+        }
+    }
 }

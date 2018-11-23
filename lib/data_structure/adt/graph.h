@@ -3,19 +3,19 @@
 
 #include "boolean.h"
 #include "matrix.h"
+#include "point.h"
 #include "listrek.h"
 #include <stdio.h>
 
 #define Nil NULL
 
 /* Definisi Type */
+typedef Matrix* TypeGraph;
 typedef struct gNode *adrNode;
 typedef struct SuccNode *adrSuccNode;
 typedef struct gNode
 {
-  int Id;
-  Matrix *Room;
-  int NPred;
+  TypeGraph Id;
   adrSuccNode Trail;
   adrNode Next;
 } Node_Graph;
@@ -23,6 +23,8 @@ typedef struct gNode
 typedef struct SuccNode
 {
   adrNode Succ;
+  Point Pos;
+  Point Spawn;
   adrSuccNode Next;
 } SuccNode;
 
@@ -33,16 +35,16 @@ typedef struct
 
 #define First(G) (G).First
 #define Id(Pn) (Pn)->Id
-#define Room(Pn) (Pn)->Room
-#define NPred(Pn) (Pn)->Next
 #define Trail(Pn) (Pn)->Trail
 #define Next_Node(Pn) (Pn)->Next
 #define Succ(Pt) (Pt)->Succ
+#define Transition(Pt) (Pt)->Pos
+#define Spawn(Pt) (Pt)->Spawn 
 #define Next_Trail(Pt) (Pt)->Next
 
-void CreateGraph(int X, Graph *L);
+void CreateGraph(TypeGraph X, Graph *L);
 
-adrNode AlokNode_Graph(int X);
+adrNode AlokNode_Graph(TypeGraph X);
 
 void DealokNode_Graph(adrNode P);
 
@@ -50,12 +52,12 @@ adrSuccNode AlokSuccNode(adrNode Pn);
 
 void DealokSuccNode(adrSuccNode P);
 
-adrNode SearchNode(Graph G, int X);
+adrNode SearchNode_Graph(Graph G, TypeGraph X);
 
-adrSuccNode SearchEdge(Graph G, int prec, int succ);
+adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ);
 
-void InsertNode(Graph *G, int X, adrNode *Pn);
+void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn);
 
-void InsertEdge(Graph *G, int prec, int succ);
+void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ);
 
 #endif
