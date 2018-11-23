@@ -2,20 +2,24 @@
 #define _GRAPH_H_
 
 #include "boolean.h"
+#include "matrix.h"
+#include "listrek.h"
+#include <stdio.h>
 
 #define Nil NULL
 
 /* Definisi Type */
-typedef struct Node *adrNode;
+typedef struct NodeG *adrNode;
 typedef struct SuccNode *adrSuccNode;
-typedef struct {
+typedef struct NodeG {
   int Id;
+  Matrix *Room;
   int NPred;
   adrSuccNode Trail;
   adrNode Next;
-} Node;
+} NodeG;
 
-typedef struct {
+typedef struct SuccNode {
   adrNode Succ;
   adrSuccNode Next;
 } SuccNode;
@@ -24,8 +28,9 @@ typedef struct {
   adrNode First;
 }Graph;
 
-
+#define First(G) (G).First
 #define Id(Pn) (Pn)->Id
+#define Room(Pn) (Pn)->Room
 #define NPred(Pn) (Pn)->Next
 #define Trail(Pn) (Pn)->Trail
 #define Next_Node(Pn) (Pn)->Next
