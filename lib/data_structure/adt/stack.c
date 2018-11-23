@@ -76,7 +76,9 @@ void PrintData_Stack (Stack S){
 		printf("Nampan anda kosong.\n");
 	} else {
 		for(i = 1; i <= Top(S); i++){
-			printf("[%d]%s\n", i, S.T[i].name);
+			printf("[%d]", i);
+			printKata(S.T[i].name);
+			printf("\n");
 		}
 	}
 }

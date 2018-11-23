@@ -54,4 +54,6 @@ Object * Closest_Empty_Table(Player player, Matrix *M);
 
 void Reduce_Life(Player *player);
 
+Object * Closest_Object(Player player, Matrix *M, GameObj Obj);
+
 #endif

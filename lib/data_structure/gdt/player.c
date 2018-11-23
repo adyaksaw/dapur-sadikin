@@ -135,6 +135,32 @@ Object * Closest_Table(Player player, Matrix *M){
   return retVal;
 }
 
+Object * Closest_Object(Player player, Matrix *M, GameObj Obj){
+  int player_i = (int) Absis(player.pos);
+  int player_j = (int) Ordinat(player.pos);
+
+  int counter = 0;
+
+  int nextI[4] = {0,1,0,-1};
+  int nextJ[4] = {1,0,-1,0};
+
+  Object * retVal = NULL;
+
+  while (retVal == NULL && counter < 9){
+    Point nP;
+    Absis(nP) = player_i + nextI[counter];
+    Ordinat(nP) = player_j + nextJ[counter];
+    if (isPointValid(nP)){
+      if (ElmtMx(*M, (int) Absis(nP), (int) Ordinat(nP)).tag == Obj){
+        retVal = &(ElmtMx(*M, (int) Absis(nP), (int) Ordinat(nP)));
+      }
+    }
+    counter++;
+  }
+  //printf("Memaddress: %p\n", retVal);
+  return retVal;  
+}
+
 void Reduce_Life(Player *player){
   Life(*player)--;
 }
