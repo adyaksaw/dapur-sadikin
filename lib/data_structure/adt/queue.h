@@ -72,6 +72,8 @@ void Del_Queue (Queue * Q, ElType_Queue * X);
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "maju" dengan mekanisme circular buffer;
         Q mungkin kosong */
 
+void normalizedQueue(Queue * Q, Address_Queue emptyEl);
+
 void Print_Queue(Queue Q);
 
 #endif

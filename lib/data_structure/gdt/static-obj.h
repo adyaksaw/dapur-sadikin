@@ -10,6 +10,7 @@
 #include "../data_type.h"
 
 #include "customer.h"
+#include "../adt/queue.h"
 
 typedef enum {
   EMPTY,
@@ -55,6 +56,8 @@ typedef struct {
 #define ItemsIn(O) (O).data.stove.item
 
 boolean PlaceCustomerToTable(Object * Table, Customer * Cust);
+
+boolean findValidCust(Object * Table, Queue * Q);
 
 void RemoveCustomerFromTable(Object * Table);
 

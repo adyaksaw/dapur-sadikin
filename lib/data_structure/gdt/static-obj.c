@@ -10,9 +10,25 @@ boolean PlaceCustomerToTable(Object * Table, Customer * Cust){
     printf("Pelanggan telah ditaruh di meja nomor %d.\n", TableNumber(*Table));
     return true;
   }else {
-    printf("Meja nomor %d tidak muat untuk %d orang!\n", TableNumber(*Table), Amount(*Cust));
     return false;
   }
+}
+
+boolean findValidCust(Object * Table, Queue * Q){
+  int i;
+  boolean isFound;
+  isFound = false;
+  for(i = Head(*Q); i <= Tail(*Q) && !isFound; i = 1+(i%MaxEl(*Q))){
+    Customer * Cust = (*Q).T[i];
+    if(CapacityOf(*Table) >= Amount(*Cust)){
+      (*Table).data.table.customer_here = Cust;
+      (*Table).data.table.isOccupied = true;
+      printf("Pelanggan telah ditaruh di meja nomor %d.\n", TableNumber(*Table));
+      normalizedQueue(Q, i);
+      isFound = true;
+    }
+  }
+  return isFound;
 }
 
 void RemoveCustomerFromTable(Object * Table){

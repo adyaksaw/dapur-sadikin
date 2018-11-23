@@ -292,10 +292,15 @@ void InputProcessor(char input[], int input_length){
                 boolean successfulPlace = PlaceCustomerToTable(ClosestTable, CustomerToPlace);
                 if (successfulPlace){
                     Del_Queue(&CustomerQueue, &CustomerToPlace);
+                } else {
+                    successfulPlace = findValidCust(ClosestTable, &CustomerQueue);
+                    if(!successfulPlace){
+                        printf("Tidak ada customer yang valid untuk meja ini\n");
+                    }
                 }
                 if (IsOccupied(*ClosestTable)){
                     printf("Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
-                }
+                } 
             } else {
                 printf("Antrian kosong.\n");
             }

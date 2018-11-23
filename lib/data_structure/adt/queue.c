@@ -134,6 +134,21 @@ void Del_Queue (Queue * Q, ElType_Queue * X)
     }
 }
 
+void normalizedQueue(Queue * Q, Address_Queue emptyEl){
+    if(NBElmt_Queue(*Q) == 1){
+        CreateEmpty_Queue(Q, MaxEl(*Q));
+    } else {
+        while(emptyEl != Tail(*Q)){
+            (*Q).T[emptyEl] = (*Q).T[1+(emptyEl%MaxEl(*Q))];
+            emptyEl = 1+(emptyEl%MaxEl(*Q));
+        }
+        Tail(*Q)--;
+        if(Tail(*Q) == 0){
+            Tail(*Q) = MaxEl(*Q);
+        }
+    }
+}
+
 void Print_Queue(Queue Q){
     printf("Customer di Queue:\n");
     int HeadID = Head(Q);
