@@ -11,6 +11,7 @@
 #include "boolean.h"
 #include "../gdt/game_data_type.h"
 #include <stdio.h>
+#include "mesinbaca.h"
 
 /* #define Nil NULL */ /* konstanta Nil sesuai pada modul listrek */
 
