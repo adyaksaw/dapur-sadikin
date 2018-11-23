@@ -6,8 +6,8 @@
 #define Nil NULL
 
 /* Definisi Type */
-typedef struct adrNode *Node;
-typedef struct adrSuccNode *SuccNode;
+typedef struct Node *adrNode;
+typedef struct SuccNode *adrSuccNode;
 typedef struct {
   int Id;
   int NPred;
@@ -28,9 +28,9 @@ typedef struct {
 #define Id(Pn) (Pn)->Id
 #define NPred(Pn) (Pn)->Next
 #define Trail(Pn) (Pn)->Trail
-#define Next(Pn) (Pn)->Next
+#define Next_Node(Pn) (Pn)->Next
 #define Succ(Pt) (Pt)->Succ
-#define Next(Pt) (Pt)->Next
+#define Next_Trail(Pt) (Pt)->Next
 
 void CreateGraph (int X , Graph *L);
 
