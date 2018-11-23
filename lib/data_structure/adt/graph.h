@@ -6,14 +6,14 @@
 #define Nil NULL
 
 /* Definisi Type */
-typedef struct Node *adrNode;
+typedef struct Node_Graph *adrNode;
 typedef struct SuccNode *adrSuccNode;
 typedef struct {
   int Id;
   int NPred;
   adrSuccNode Trail;
   adrNode Next;
-} Node;
+} Node_Graph;
 
 typedef struct {
   adrNode Succ;
@@ -34,9 +34,9 @@ typedef struct {
 
 void CreateGraph (int X , Graph *L);
 
-adrNode AlokNode (int X);
+adrNode AlokNode_Graph (int X);
 
-void DealokNode (adrNode P);
+void DealokNode_Graph (adrNode P);
 
 adrSuccNode AlokSuccNode(adrNode Pn);
 
