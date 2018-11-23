@@ -50,7 +50,7 @@ BinTree BuildBalanceTree(int n, FILE *fp)
   if (n==0){
     return Nil;
   } else {
-    fscanf(fp, "%s", &(X.name));
+    fscanf(fp, "%d %s", &ItemID(X), ItemName(X));
     P = AlokNode(X);
     if (P != Nil){
       Left(P) = BuildBalanceTree(n/2, fp);
@@ -151,7 +151,7 @@ A
   {
     int i;
     if (!IsTreeEmpty(P)){
-      printf("%s\n", Akar(P).name);
+      printf("%s\n", ItemName(Akar(P)));
       if (!IsTreeEmpty(Left(P))){
         for (i=1; i<=h+idt;i++){
           printf(" ");
