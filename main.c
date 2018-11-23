@@ -210,6 +210,12 @@ void InputProcessor(char input[], int input_length){
     Kata removeCustInput;
     isiKata(&removeCustInput, "remove", 6);
 
+    Kata teleportDapurInput;
+    isiKata(&teleportDapurInput, "kitchen", 7);
+
+    Kata teleportMap1Input;
+    isiKata(&teleportMap1Input, "Map1", 4);
+
     if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
@@ -319,9 +325,13 @@ void InputProcessor(char input[], int input_length){
         } else {
             printf("Tidak ada meja disekitarmu\n");
         }
-    } else if(IsKataSama(processedInput, removeCustInput)){
+    } else if(IsKataSama(processedInput, removeCustInput)){ //COMMAND debug: remove
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         RemoveCustomerFromTable(ClosestTable);
+    } else if(IsKataSama(processedInput, teleportDapurInput)){
+        player.currentMap = &Kitchen;
+    } else if(IsKataSama(processedInput, teleportMap1Input)){
+        player.currentMap = &Map1;
     }
 }
 

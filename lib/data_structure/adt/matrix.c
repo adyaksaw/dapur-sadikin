@@ -92,6 +92,10 @@ void Print_Room (Matrix M)
         printf("%d",ElmtMx(M,i,j).data.table.num);
       } else if (ElmtMx(M,i,j).tag == PLAYER_POS) {
         printf("P");
+      } else if(ElmtMx(M,i,j).tag == STOVE){
+        printf("M");
+      } else if(ElmtMx(M,i,j).tag == TRAY){
+        printf("T");
       } else {
         printf("-");
       }
