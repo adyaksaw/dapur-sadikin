@@ -122,10 +122,10 @@ void Add_Queue (Queue * Q, ElType_Queue * X)
             }
             InfoHead(*Q) = *X;
             i = Head(*Q);
-            while (Priority(*Elmt(*Q,i)) <= Priority(*Elmt(*Q,i+1))){
-                ElType_Queue temp = Elmt(*Q,i+1);
-                Elmt(*Q,i+1) = Elmt(*Q,i);
-                Elmt(*Q,i) = temp;
+            while (Priority(*ElmtQ(*Q,i)) <= Priority(*ElmtQ(*Q,i+1))){
+                ElType_Queue temp = ElmtQ(*Q,i+1);
+                ElmtQ(*Q,i+1) = ElmtQ(*Q,i);
+                ElmtQ(*Q,i) = temp;
                 if (i == MaxEl(*Q)){
                     i = 1;
                 } else { 
