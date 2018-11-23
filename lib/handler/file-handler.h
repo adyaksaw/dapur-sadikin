@@ -12,6 +12,7 @@
 #define SAVE_MAP_DIR "~savedir/map.txt"
 
 #include "../data_structure/adt/matrix.h"
+#include "../data_structure/adt/tree.h"
 
 /* Semuanya masih bisa diubah sesuai kebutuhan */
 

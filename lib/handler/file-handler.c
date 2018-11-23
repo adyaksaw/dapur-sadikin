@@ -166,9 +166,30 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
   }
 
 
-void LoadResep() {
-
+void BuildTree(BinTree *Resep_Tree) {
+  // Inisial State : CC = '('
+  /*
+  Kata Kata1;
+  TypeTree Kata_Dibaca;
+  ADVKATA();
+  if (CKata.TabKata = ')')
+    (*Resep_Tree) = Nil;
+  else {
+    ItemID(Kata_Dibaca) = 1;
+    isiKata(&ItemName(Kata_Dibaca),CKata.TabKata,CKata.Length);
+    (*Resep_Tree) = AlokNode(Kata_Dibaca);
+    ADV();
+    BuildTree(&Left(*Resep_Tree));
+    BuildTree(&Right(*Resep_Tree));
+  }
+  ADV();
+  */
 }
+/*
+void LoadResep (BinTree *Resep_Tree) {
+  START();
+  BuildTree(Resep_Tree);
+} */
 
 void LoadGameStatus() {}
 
