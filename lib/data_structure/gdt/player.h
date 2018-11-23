@@ -24,7 +24,7 @@ typedef struct {
   Point pos;
   long money;
   SmallNum life;
-  Table hand;          // refer to 'data_structure/arraystr.h'
+  Stack hand;          // refer to 'data_structure/arraystr.h'
   Stack food;           // refer to 'data_structure/stackt.h'
   Matrix * currentMap;
 } Player;
@@ -53,5 +53,7 @@ Object * Closest_Table(Player player, Matrix *M);
 Object * Closest_Empty_Table(Player player, Matrix *M);
 
 void Reduce_Life(Player *player);
+
+Object * Closest_Object(Player player, Matrix *M, GameObj Obj);
 
 #endif

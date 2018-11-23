@@ -17,6 +17,8 @@ Second GameTime;
 
 Object *ArrayOfMeja[13];
 
+Item ArrayOfItem[30];
+
 Matrix Map1, Map2, Map3, Kitchen;
 
 void PrintAllOrder(){
@@ -61,12 +63,16 @@ void Dealokasi_All_Meja(){
 }
 
 void Init(){
+    int i;
     srand(time(NULL));
+    for(i = 0; i <= 29; i++){
+        ItemID(ArrayOfItem[i]) = 0;
+        isiKata(&(ArrayOfItem[i].name),"Test_food", 9);
+    }
     Create_New_Player(&player);
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
 
     GameTime = 0;
-
     printf("Init\n");
     PrintAllMemory(&Map1);
 
@@ -216,6 +222,9 @@ void InputProcessor(char input[], int input_length){
     Kata teleportMap1Input;
     isiKata(&teleportMap1Input, "Map1", 4);
 
+    Kata takeInput;
+    isiKata(&takeInput, "take", 4);
+
     if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
@@ -251,9 +260,9 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, tableInput)){ //COMMAND printMeja
         PrintAllTable();
     }else if (IsKataSama(processedInput, tanganInput)){ //COMMAND hand
-        PrintData_Table(player.hand);
+        PrintData_Stack(player.hand);
     }else if (IsKataSama(processedInput, buangTanganInput)){ //COMMAND CH
-        MakeEmpty_Table(&(player.hand));
+        CreateEmpty_Stack(&(player.hand));
     }else if (IsKataSama(processedInput, nampanInput)){ //COMMAND tray
         PrintData_Stack(player.food);
     }else if (IsKataSama(processedInput, buangNampanInput)){ //COMMAND CH
@@ -330,8 +339,18 @@ void InputProcessor(char input[], int input_length){
         RemoveCustomerFromTable(ClosestTable);
     } else if(IsKataSama(processedInput, teleportDapurInput)){
         player.currentMap = &Kitchen;
+        Move_Player(player.currentMap,&player,player.pos);
     } else if(IsKataSama(processedInput, teleportMap1Input)){
         player.currentMap = &Map1;
+        Move_Player(player.currentMap,&player,player.pos);
+    } else if(IsKataSama(processedInput, takeInput)){
+        Object * Closest_Stove = Closest_Object(player, player.currentMap, STOVE);
+        if(Closest_Stove != NULL){
+            Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
+            printf("Kamu mengambil ItemID %d dari kompor!\n", ItemID(ArrayOfItem[(*Closest_Stove).data.stove.itemID]));
+        } else {
+            printf("Tidak ada kompor di sekitar player\n");
+        }
     }
 }
 
