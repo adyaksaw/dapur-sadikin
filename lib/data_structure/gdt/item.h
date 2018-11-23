@@ -12,6 +12,8 @@
 
 #include "../data_type.h"
 
+#include "customer.h"
+
 typedef struct{ 
   SmallNum id;
   Kata name;
@@ -21,5 +23,7 @@ typedef struct{
 #define ItemName(I) (I).name.TabKata
 
 void PrintItem(Item item);
+
+boolean IsOrdered(Customer C, Item I);
 
 #endif

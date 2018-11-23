@@ -204,6 +204,9 @@ void InputProcessor(char input[], int input_length){
     Kata buangNampanInput;
     isiKata(&buangNampanInput, "CT", 2);
 
+    Kata giveInput;
+    isiKata(&giveInput, "give", 4);
+
     if (IsKataSama(processedInput, quitInput)){
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){
@@ -250,9 +253,13 @@ void InputProcessor(char input[], int input_length){
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
             if (IsOccupied(*ClosestTable)){
-                GenerateOrder((*ClosestTable).data.table.customer_here);
-                printf("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
-            }else {
+                if(!hasOrdered((*ClosestTable).data.table.customer_here)){
+                    GenerateOrder((*ClosestTable).data.table.customer_here);
+                    printf("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                } else {
+                    printf("Customer pada meja %d telah memesan FoodID %d sebelumnya\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                }  
+            } else {
                 printf("Meja nomor %d kosong.\n", TableNumber(*ClosestTable));
             }
         }else {
@@ -288,6 +295,17 @@ void InputProcessor(char input[], int input_length){
         printf("Ketik status untuk melihat status pemain\n");
         printf("Ketik place untuk mengecek petak sekitar");
         printf("Ketik quit untuk keluar dari permainan.\n");
+    } else if(IsKataSama(processedInput, giveInput)){
+        Object * ClosestTable = Closest_Table(player, (player.currentMap));
+        if(ClosestTable != NULL){
+            if((*ClosestTable).data.table.isOccupied){
+                printf("Ada orang\n");
+            } else {
+                printf("Tidak ada customer di meja tersebut\n");
+            }
+        } else {
+            printf("Tidak ada meja disekitarmu\n");
+        }
     }
 }
 

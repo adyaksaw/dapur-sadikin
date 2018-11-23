@@ -37,6 +37,8 @@ Customer * GenerateCustomer();
 
 void GenerateOrder(Customer * Cust);
 
+boolean hasOrdered(Customer * Cust);
+
 void printCustomer(Customer customer);
 
 void Dealokasi_Customer(Customer *Cust);

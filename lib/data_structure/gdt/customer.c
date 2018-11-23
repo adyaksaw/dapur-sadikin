@@ -24,7 +24,11 @@ Customer * GenerateCustomer(){
 }
 
 void GenerateOrder(Customer * Cust){
-  (*Cust).orderID = rand() % FoodNumber;
+  FoodOrderID(*Cust) = 1+(rand() % FoodNumber);
+}
+
+boolean hasOrdered(Customer *Cust){
+  return (FoodOrderID(*Cust) != 0);
 }
 
 void printCustomer(Customer customer){
