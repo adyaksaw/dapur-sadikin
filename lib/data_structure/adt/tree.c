@@ -12,6 +12,7 @@
 #include "tree.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../gdt/game_data_type.h"
 
 /* #define Nil NULL */ /* konstanta Nil sesuai pada modul listrek */
 
@@ -44,13 +45,26 @@ BinTree BuildBalanceTree(int n)
 {
   /*Kamus Lokal*/
   TypeTree X;
+  char Temp[25];
   BinTree P;
-
+  FILE *fp,*fp2;
+  fp = fopen("Tree.txt" , "r");
+  fp2 = fopen("ReadTemp.txt", "w");
   /*Algoritma*/
   if (n==0){
+    fclose(fp);
+    fclose(fp2);
     return Nil;
   } else {
-    scanf("%d", &X);
+    fscanf(fp, "%s", &(X.name));
+    //ItemID(X) = 1;
+    while (fscanf(fp,"%s", &Temp) != EOF){
+      fprintf(fp2,"%s\n",Temp);
+    }
+    fclose(fp);
+    fclose(fp2);
+    remove("Tree.txt");
+    rename("ReadTemp.txt","Tree.txt");
     P = AlokNode(X);
     if (P != Nil){
       Left(P) = BuildBalanceTree(n/2);
@@ -58,7 +72,6 @@ BinTree BuildBalanceTree(int n)
     }
     return P;
   }
-
 }
 /* Manajemen Memory */
 addrNode AlokNode(TypeTree X)

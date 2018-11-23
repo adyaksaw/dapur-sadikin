@@ -149,7 +149,7 @@ void reduceAllCustPatience(){
 void InputProcessor(char input[], int input_length){
     Kata processedInput;
     isiKata(&processedInput, input, input_length);
-    
+
     Kata quitInput;
     isiKata(&quitInput, "quit", 4);
 
