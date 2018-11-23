@@ -1,0 +1,23 @@
+1 Piring
+	2 Sendok 
+		4 Nasi 
+			8 Ikan
+				16 Sushi
+			9 Kecap
+				17 NasiGoreng
+		5 Roti 
+			10 Daging	
+				18 Burger
+			11 Sosis 
+				19 Hotdog
+	3 Garpu 
+		6 Mie
+			12 Goreng
+				20 IndoMieGoreng
+			13 Kuah
+				21 IndoMieKuah
+		7 Jagung
+			14 Minyak
+				22 PopCorn
+			15 Mentega
+				23 JagungBakar

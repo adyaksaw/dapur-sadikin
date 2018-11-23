@@ -138,7 +138,7 @@ void reduceAllCustPatience(){
         if(!IsFull_Queue(CustomerQueue)){
             for(i = Head(CustomerQueue); i != 1+(Tail(CustomerQueue)%MaxEl(CustomerQueue)); i = 1+(i%MaxEl(CustomerQueue))){
                 Reduce_Patience(CustomerQueue.T[i]);
-            }        
+            }
         } else {
             for(i = 1; i <= MaxEl(CustomerQueue); i++){
                 Reduce_Patience(CustomerQueue.T[i]);
@@ -243,6 +243,9 @@ void InputProcessor(char input[], int input_length){
     Kata putInput;
     isiKata(&putInput, "put", 3);
 
+    Kata recipeInput;
+    isiKata(&recipeInput, "recipe",6);
+
     if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
@@ -296,7 +299,7 @@ void InputProcessor(char input[], int input_length){
                     printf("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
                 } else {
                     printf("Customer pada meja %d telah memesan FoodID %d sebelumnya\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
-                }  
+                }
             } else {
                 printf("Meja nomor %d kosong.\n", TableNumber(*ClosestTable));
             }
@@ -320,7 +323,7 @@ void InputProcessor(char input[], int input_length){
                 }
                 if (IsOccupied(*ClosestTable)){
                     printf("Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
-                } 
+                }
             } else {
                 printf("Antrian kosong.\n");
             }
@@ -376,6 +379,16 @@ void InputProcessor(char input[], int input_length){
         } else {
             printf("Tidak ada kompor di sekitar player\n");
         }
+    } else if (IsKataSama(processedInput,recipeInput)) {
+      BinTree P;
+      FILE *fp;
+      fp = fopen(NamaFile3, "r");
+      if (fp == NULL)
+        printf("File tidak terdeteksi\n");
+      P = BuildBalanceTree(23,fp);
+      printf("Berikut adalah resep makanan di game ini!\n\n");
+      PrintTree(P,3);
+      printf("\n");
     }
 }
 
