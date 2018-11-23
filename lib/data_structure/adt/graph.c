@@ -4,11 +4,11 @@ void CreateGraph (int X , Graph *L){
 
 }
 
-adrNode AlokNode (int X){
+adrNode AlokNode_Graph (int X){
 
 }
 
-void DealokNode (adrNode P){
+void DealokNode_Graph (adrNode P){
 
 }
 
@@ -33,5 +33,5 @@ void InsertNode (Graph *G, int X , adrNode *Pn){
 }
 
 void InsertEdge (Graph *G, int prec, int succ){
-	
+
 }
