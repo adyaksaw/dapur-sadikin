@@ -162,7 +162,7 @@ Object * Closest_Object(Player player, Matrix *M, GameObj Obj){
 }
 
 void Reduce_Life(Player *player){
-  Life(*player)--;
+  if(Life(*player) > 0)Life(*player)--;
 }
 
 void Masak(Player * player, BinTree resep){
