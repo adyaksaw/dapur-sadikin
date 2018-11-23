@@ -36,6 +36,7 @@ void PrintTableStatus(Object Meja){
     printf("Nomor Meja: %d\n", TableNumber(Meja));
     printf("IsOccupied: %d\n", IsOccupied(Meja));
     if (IsOccupied(Meja)){
+        printf("Patience: %d\n", Patience(CustomerAt(Meja)));
         printf("Jumlah orang: %d\n", Amount(CustomerAt(Meja)));
         printCustomer(CustomerAt(Meja));
     }
