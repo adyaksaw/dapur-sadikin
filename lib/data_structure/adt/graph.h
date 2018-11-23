@@ -46,6 +46,8 @@ adrNode SearchNode (Graph G , int X);
 
 adrSuccNode SearchEdge(Graph G, int prec, int succ);
 
-void InsertNode (Graph *G, int X , addrNode *Pn);
+void InsertNode (Graph *G, int X , adrNode *Pn);
 
 void InsertEdge (Graph *G, int prec, int succ);
+
+#endif	
