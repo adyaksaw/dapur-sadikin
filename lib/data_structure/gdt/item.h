@@ -21,6 +21,8 @@ typedef struct{
 
 #define ItemID(I)   (I).id
 #define ItemName(I) (I).name.TabKata
+#define FoodPrice 15000
+#define FoodPriceModifier 3
 
 void PrintItem(Item item);
 

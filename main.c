@@ -207,49 +207,52 @@ void InputProcessor(char input[], int input_length){
     Kata giveInput;
     isiKata(&giveInput, "give", 4);
 
-    if (IsKataSama(processedInput, quitInput)){
+    Kata removeCustInput;
+    isiKata(&removeCustInput, "remove", 6);
+
+    if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
-    }else if (IsKataSama(processedInput, statusInput)){
+    }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
         Print_Player(player);
-    }else if (IsKataSama(processedInput, moveInputUp)){
+    }else if (IsKataSama(processedInput, moveInputUp)){ //COMMAND GU
         Move_Player_Direction(player.currentMap, &player, UP);
         reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
         UpdateTime(&GameTime);
-    }else if (IsKataSama(processedInput, moveInputDown)){
+    }else if (IsKataSama(processedInput, moveInputDown)){ //COMMAND GD
         Move_Player_Direction(player.currentMap, &player, DOWN);
         reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
         UpdateTime(&GameTime);
-    }else if (IsKataSama(processedInput, moveInputLeft)){
+    }else if (IsKataSama(processedInput, moveInputLeft)){ //COMMAND GL
         Move_Player_Direction(player.currentMap, &player, LEFT);
         reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
         UpdateTime(&GameTime);
-    }else if (IsKataSama(processedInput, moveInputRight)){
+    }else if (IsKataSama(processedInput, moveInputRight)){ //COMMAND GR
         Move_Player_Direction(player.currentMap, &player, RIGHT);
         reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
         UpdateTime(&GameTime);
-    }else if (IsKataSama(processedInput, queueInput)){
+    }else if (IsKataSama(processedInput, queueInput)){ //COMMAND queue
         Print_Queue(CustomerQueue);
-    }else if (IsKataSama(processedInput, allOrderInput)){
+    }else if (IsKataSama(processedInput, allOrderInput)){ //COMMAND allOrder
         PrintAllOrder();
-    }else if (IsKataSama(processedInput, checkInput)){
+    }else if (IsKataSama(processedInput, checkInput)){ //COMMAND check
         Object * ClosestTable = Closest_Empty_Table(player, (player.currentMap));
-    }else if (IsKataSama(processedInput, memoryInput)){
+    }else if (IsKataSama(processedInput, memoryInput)){ //COMMAND memcheck
         PrintAllMemory(player.currentMap);
-    }else if (IsKataSama(processedInput, tableInput)){
+    }else if (IsKataSama(processedInput, tableInput)){ //COMMAND printMeja
         PrintAllTable();
-    }else if (IsKataSama(processedInput, tanganInput)){
+    }else if (IsKataSama(processedInput, tanganInput)){ //COMMAND hand
         PrintData_Table(player.hand);
-    }else if (IsKataSama(processedInput, buangTanganInput)){
+    }else if (IsKataSama(processedInput, buangTanganInput)){ //COMMAND CH
         MakeEmpty_Table(&(player.hand));
-    }else if (IsKataSama(processedInput, nampanInput)){
+    }else if (IsKataSama(processedInput, nampanInput)){ //COMMAND tray
         PrintData_Stack(player.food);
-    }else if (IsKataSama(processedInput, buangNampanInput)){
+    }else if (IsKataSama(processedInput, buangNampanInput)){ //COMMAND CH
         CreateEmpty_Stack(&(player.food));
-    }else if (IsKataSama(processedInput, orderInput)){
+    }else if (IsKataSama(processedInput, orderInput)){ //COMMAND order
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
             if (IsOccupied(*ClosestTable)){
@@ -265,7 +268,7 @@ void InputProcessor(char input[], int input_length){
         }else {
             printf("Tidak ada meja kosong disekitarmu!\n");
         }
-    }else if (IsKataSama(processedInput, placeInput)){
+    }else if (IsKataSama(processedInput, placeInput)){ //COMMAND place
         Object * ClosestTable = Closest_Empty_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
             printf("Meja dengan nomor %d kosong.\n", (*ClosestTable).data.table.num);
@@ -284,7 +287,7 @@ void InputProcessor(char input[], int input_length){
         }else {
             printf("Tidak ada meja kosong disekitarmu!\n");
         }
-    } else if(IsKataSama(processedInput, helpInput)){
+    } else if(IsKataSama(processedInput, helpInput)){ //COMMAND help
         printf("Ketik help untuk melihat daftar command.\n");
         printf("Ketik GU untuk memindahkan player ke atas.\n");
         printf("Ketik GD untuk memindahkan player ke bawah.\n");
@@ -295,17 +298,30 @@ void InputProcessor(char input[], int input_length){
         printf("Ketik status untuk melihat status pemain\n");
         printf("Ketik place untuk mengecek petak sekitar");
         printf("Ketik quit untuk keluar dari permainan.\n");
-    } else if(IsKataSama(processedInput, giveInput)){
+    } else if(IsKataSama(processedInput, giveInput)){ //COMMAND give
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if(ClosestTable != NULL){
             if((*ClosestTable).data.table.isOccupied){
-                printf("Ada orang\n");
+                Customer * Cust = (*ClosestTable).data.table.customer_here;
+                if(FoodOrderID(*Cust) == ItemID(InfoTop(player.food))){
+                    Money(player) += FoodPrice*(Patience(*Cust)/FoodPriceModifier);
+                    printf("Pelanggan tersebut puas dengan makanannya!\n");
+                    printf("Kamu mendapatkan %d\n", printf("Pelanggan tersebut puas dengan makanan", FoodPrice*(Patience(*Cust)/FoodPriceModifier)));
+                    RemoveCustomerFromTable(ClosestTable);
+                } else if(IsEmpty_Stack(player.food)){
+                    printf("Nampan kosong\n");
+                } else {
+                    printf("Makanan di nampan paling atas tidak sesuai dengan keinginan customer ini\n");
+                }
             } else {
                 printf("Tidak ada customer di meja tersebut\n");
             }
         } else {
             printf("Tidak ada meja disekitarmu\n");
         }
+    } else if(IsKataSama(processedInput, removeCustInput)){
+        Object * ClosestTable = Closest_Table(player, (player.currentMap));
+        RemoveCustomerFromTable(ClosestTable);
     }
 }
 

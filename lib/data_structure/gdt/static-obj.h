@@ -56,4 +56,6 @@ typedef struct {
 
 boolean PlaceCustomerToTable(Object * Table, Customer * Cust);
 
+void RemoveCustomerFromTable(Object * Table);
+
 #endif

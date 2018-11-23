@@ -14,3 +14,12 @@ boolean PlaceCustomerToTable(Object * Table, Customer * Cust){
     return false;
   }
 }
+
+void RemoveCustomerFromTable(Object * Table){
+	if(!(*Table).data.table.isOccupied){
+		printf("Tidak ada customer pada table nomor %d!\n", TableNumber(*Table));
+	} else {
+		Dealokasi_Customer((*Table).data.table.customer_here);
+		(*Table).data.table.isOccupied = false;
+	}
+}
