@@ -10,6 +10,7 @@
 #include "listrek.h"
 #include "boolean.h"
 #include "../gdt/game_data_type.h"
+#include <stdio.h>
 
 /* #define Nil NULL */ /* konstanta Nil sesuai pada modul listrek */
 
@@ -42,7 +43,7 @@ void MakeTree(TypeTree Akar, BinTree L, BinTree R, BinTree *P);
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R 
 		jika alokasi berhasil. P = Nil jika alokasi gagal. */
-BinTree BuildBalanceTree(int n);
+BinTree BuildBalanceTree(int n, FILE *fp);
 /* Menghasilkan sebuah balanced tree dengan n node, nilai setiap node dibaca */
 
 /* Manajemen Memory */
@@ -52,7 +53,7 @@ addrNode AlokNode(TypeTree X);
   maka Akar(P) = X, Left(P) = Nil, Right(P)=Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
 void DealokNode(addrNode P);
-/* I.S. P terdefinisi */
+/* I.S. P terdef-inisi */
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian addrNode P */
 

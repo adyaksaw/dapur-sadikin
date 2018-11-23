@@ -40,35 +40,21 @@ void MakeTree(TypeTree Akar, BinTree L, BinTree R, BinTree *P)
   *P = Tree(Akar,L,R);
 }
 
-BinTree BuildBalanceTree(int n)
+BinTree BuildBalanceTree(int n, FILE *fp)
 /* Menghasilkan sebuah balanced tree dengan n node, nilai setiap node dibaca */
 {
   /*Kamus Lokal*/
   TypeTree X;
-  char Temp[25];
   BinTree P;
-  FILE *fp,*fp2;
-  fp = fopen("Tree.txt" , "r");
-  fp2 = fopen("ReadTemp.txt", "w");
   /*Algoritma*/
   if (n==0){
-    fclose(fp);
-    fclose(fp2);
     return Nil;
   } else {
     fscanf(fp, "%s", &(X.name));
-    //ItemID(X) = 1;
-    while (fscanf(fp,"%s", &Temp) != EOF){
-      fprintf(fp2,"%s\n",Temp);
-    }
-    fclose(fp);
-    fclose(fp2);
-    remove("Tree.txt");
-    rename("ReadTemp.txt","Tree.txt");
     P = AlokNode(X);
     if (P != Nil){
-      Left(P) = BuildBalanceTree(n/2);
-      Right(P) = BuildBalanceTree(n-(n/2)-1);
+      Left(P) = BuildBalanceTree(n/2, fp);
+      Right(P) = BuildBalanceTree(n-(n/2)-1, fp);
     }
     return P;
   }
@@ -192,7 +178,7 @@ boolean SearchTree(BinTree P, TypeTree X)
   if (IsTreeEmpty(P)){
     return false;
   } else {
-    if ((X.name == Akar(P).name) && (X.id == Akar(P).id)){
+    if ((ItemName(X) == ItemName(Akar(P))) && (ItemID(X) == ItemID(Akar(P)))){
       return true;
     } else {
       return (SearchTree(Left(P),X) || SearchTree(Right(P),X));
@@ -267,7 +253,7 @@ int Level(BinTree P, TypeTree X)
   /*Kamus Lokal*/
 	
 	/*Algortima*/
-	if ((X.name ==Akar(P).name) && (X.id == Akar(P).id)){
+	if ((ItemName(X) == ItemName(Akar(P)) && (X.id == Akar(P).id))){
 		return 1;
 	}
 	else 
