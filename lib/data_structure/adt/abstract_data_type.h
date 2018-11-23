@@ -2,7 +2,7 @@
 #define ABSTRACT_DATA_TYPE
 
 #include "boolean.h"
-#include "graph.h"
+//#include "graph.h"
 #include "matrix.h"
 #include "mesinbaca.h"
 #include "mesinkar.h"

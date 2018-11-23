@@ -7,6 +7,7 @@
 #include "boolean.h"
 
 #define NamaFile "file_external/Map.txt"
+#define NamaFile2 "file_external/Resep.txt"
 
 #define MARK '.'
 

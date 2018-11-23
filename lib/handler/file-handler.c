@@ -136,7 +136,7 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
             LoadRoom(M1,1,2,3,4);
         }
 
-      
+
         ADV();
         ADVKATA();
 
@@ -166,6 +166,9 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
   }
 
 
+void LoadResep() {
+
+}
 
 void LoadGameStatus() {}
 

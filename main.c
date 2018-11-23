@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 #include "lib/data_structure/data_type.h"
 #include "lib/data_structure/gdt/game_data_type.h"
 #include "lib/handler/handler_include.h"
@@ -61,6 +61,7 @@ void Dealokasi_All_Meja(){
 }
 
 void Init(){
+    srand(time(NULL));
     Create_New_Player(&player);
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
 
@@ -148,7 +149,7 @@ void reduceAllCustPatience(){
 void InputProcessor(char input[], int input_length){
     Kata processedInput;
     isiKata(&processedInput, input, input_length);
-    
+
     Kata quitInput;
     isiKata(&quitInput, "quit", 4);
 
