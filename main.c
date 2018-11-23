@@ -126,7 +126,7 @@ void CustomerGenerator(){
         printf("New Customer\n");
         printCustomer(*newCustomer);
 
-        Add_Queue(&CustomerQueue, &newCustomer);
+        Add_Queue(&CustomerQueue, newCustomer);
     }
 }
 

@@ -93,7 +93,7 @@ void DeAlokasi_Queue(Queue * Q)
     free((*Q).T);
 }
 /* *** Primitif Add/Delete *** */
-void Add_Queue (Queue * Q, ElType_Queue * X)
+void Add_Queue (Queue * Q, ElType_Queue X)
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
@@ -105,33 +105,29 @@ void Add_Queue (Queue * Q, ElType_Queue * X)
     if (IsEmpty_Queue(*Q)) {
         Head(*Q)=1;
         Tail(*Q)=1;
-        InfoTail(*Q)=*X;
+        InfoTail(*Q)=X;
     } else /* Q tidak kosong */ {
-        if (Priority(*(*X)) == 0){
-            if (Tail(*Q) == MaxEl(*Q)) {
-                Tail(*Q) = 1;
-            } else {
-                Tail(*Q)++;
-            }
-            InfoTail(*Q) = *X;
+        if (Tail(*Q) == MaxEl(*Q)) {
+        Tail(*Q) = 1;
         } else {
-            if (Head(*Q) == 1){
-                Head(*Q) = MaxEl(*Q);
-            } else {
-                Head(*Q)--;
-            }
-            InfoHead(*Q) = *X;
-            i = Head(*Q);
-            while (Priority(*ElmtQ(*Q,i)) <= Priority(*ElmtQ(*Q,i+1))){
-                ElType_Queue temp = ElmtQ(*Q,i+1);
-                ElmtQ(*Q,i+1) = ElmtQ(*Q,i);
-                ElmtQ(*Q,i) = temp;
-                if (i == MaxEl(*Q)){
-                    i = 1;
-                } else { 
-                    i++;
-                }
-            }
+        Tail(*Q)++;
+        }
+        InfoTail(*Q) = X;
+        i = Tail(*Q);
+        boolean foundsama = false;
+        while ((!foundsama) && (i != Head(*Q))){
+        if (Priority(*ElmtQ(*Q,i)) > Priority(*ElmtQ(*Q,i-1))) {
+            ElType_Queue temp = ElmtQ(*Q,i);
+            ElmtQ(*Q,i) = ElmtQ(*Q,i-1);
+            ElmtQ(*Q,i-1) = temp;
+        } else {
+            foundsama = true;
+        }
+        if (i == 1){
+            i = MaxEl(*Q);
+        } else{
+            i--;
+        }
         }
     }
 }
