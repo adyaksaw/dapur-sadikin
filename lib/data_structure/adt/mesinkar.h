@@ -8,6 +8,7 @@
 
 #define NamaFile "file_external/Map.txt"
 #define NamaFile2 "file_external/Resep.txt"
+#define NamaFile3 "file_external/Temp.txt"
 
 #define MARK '.'
 
