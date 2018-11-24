@@ -23,6 +23,8 @@ Item ArrayOfItem[30];
 Matrix Map1, Map2, Map3, Kitchen;
 
 void SaveToFile(char *FileName){
+    int i;
+
     FILE *save;
     Stack handtemp;
     save = fopen(FileName,"w");
@@ -42,7 +44,14 @@ void SaveToFile(char *FileName){
     fprintf(save,"EQCust");
 
     //Table
-
+    for (i = 1; i<=12; i++){
+        Object M = *ArrayOfMeja[i];
+        if (!IsOccupied(M)){
+            fprintf(save,"%d %d",TableNumber(M), IsOccupied(M));
+        } else {
+            fprintf(save,"%d %d %d %d %d %d",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)));
+        }
+    }
     //
     fclose(save);
 }
