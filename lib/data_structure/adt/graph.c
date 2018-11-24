@@ -15,6 +15,8 @@ adrNode AlokNode_Graph(TypeGraph X)
         Trail(G) = Nil;
         Next_Node(G) = Nil;
     }
+
+    return G;
 }
 
 void DealokNode_Graph(adrNode P)
@@ -22,15 +24,16 @@ void DealokNode_Graph(adrNode P)
     free(P);
 }
 
-adrSuccNode AlokSuccNode(adrNode Pn)
+adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn)
 {
-    adrSuccNode Pt = malloc(sizeof(SuccNode));
+    adrSuccNode Pt = (adrSuccNode) malloc(sizeof(SuccNode));
 
     if (Pt != Nil)
     {
         Succ(Pt) = Pn;
-        Transition(Pt) = MakePoint(-1, -1); //hardcode when use
-        Spawn(Pt) = MakePoint(-1, -1);
+        Transition(Pt) = Trans; //hardcode when use
+
+        Spawn(Pt) = Spawn;
         Next_Trail(Pt) = Nil;
     }
     return Pt;
@@ -43,35 +46,87 @@ void DealokSuccNode(adrSuccNode P)
 
 adrNode SearchNode_Graph(Graph G, TypeGraph X)
 {
+  boolean found = false;
+  adrNode P;
+  P = First(G);
+  if (P == Nil)
+    return Nil;
+  else {
+    while ((P != Nil) && (!found)) {
+      if (Id(P) == X)
+        found = true;
+      else
+        P = Next_Node(P);
+    }
+  }
+  /*
     if (First(G) == Nil)
         return Nil;
-
-    adrNode P = First(G);
-
-    while (P != Nil && Id(P) != X)
-        P = Next_Node(P);
-
-    return P;
+    else {
+      adrNode P = First(G);
+      while (P != Nil && Id(P) != X)
+          P = Next_Node(P);
+      return P;
+    } */
+    if (found)
+      return P;
+    else
+      return Nil;
 }
 
 adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ)
 {
+<<<<<<< Updated upstream
     if (First(G) == Nil)
         return Nil;
     adrNode Pn = SearchNode_Graph(G, prec);
 
+=======
+    boolean found = false;
+    adrSuccNode Pt ;
+    adrNode Pn = SearchNode_Graph(G, prec);
+>>>>>>> Stashed changes
     if (Pn == Nil)
-        return Nil;
-    adrSuccNode Pt = Trail(Pn);
+      return Nil;
+    else {
+      Pt = Trail(Pn);
+      while ((Pt != Nil) && (!found)){
+        if (Id(Succ(Pt)) == succ)
+          found = true;
+        else
+          Pt = Next_Trail(Pt);
+      }
+    }
 
-    while (Pt != Nil && Id(Succ(Pt)) != succ)
-        Pt = Next_Trail(Pt);
-
-    return Pt;
+    if (found)
+      return Pt;
+    else
+      return Nil;
 }
 
 void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn)
 {
+
+    adrNode P;
+    if (First(*G) == Nil) {
+      P = AlokNode_Graph(X);
+      if (P != Nil){
+        First(*G) = P;
+        *Pn = First(*G);
+      }
+      else {
+        *Pn = Nil;
+      }
+    } else {
+      P = First(*G);
+      while (Next_Node(P) != Nil) {
+        P = Next_Node(P);
+      }
+      Next_Node(P) = AlokNode_Graph(X);
+      *Pn = P;
+    }
+
+    /*
     if (SearchNode_Graph(*G, X) != Nil)
         return;
 
@@ -91,18 +146,21 @@ void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn)
             Next_Node(P) = *Pn;
         }
     }
+    */
 }
 
-void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ)
+void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spawn)
 {
-    if (First(*G) == Nil || SearchEdge(*G, prec, succ) != Nil)
+  adrNode P,Q;
+  adrSuccNode Pn;
+    /*if (First(*G) == Nil || SearchEdge(*G, prec, succ) != Nil)
         return;
 
     adrNode Pn = SearchNode_Graph(*G, prec);
 
     if (Pn != Nil)
     {
-        adrSuccNode Pt = AlokSuccNode(Pn);
+        adrSuccNode Pt = AlokSuccNode(Pn,Trans,Spawn);
 
         if (Pt != Nil)
         {
@@ -118,5 +176,33 @@ void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ)
                 Next_Trail(P) = Pt;
             }
         }
+    }*/
+    Q = SearchNode_Graph(*G,succ);
+    P = SearchNode_Graph(*G,prec);
+    if (P == Nil) {
+      InsertNode_Graph(G,prec,&P);
+      printf("Tes P\n");
     }
+
+    if (Q == Nil){
+      printf("Tes Q\n");
+      InsertNode_Graph(G,succ,&Q);
+
+    }
+
+    Pn = Trail(P);
+    if (Pn == Nil) {
+      Trail(P) = AlokSuccNode(Q,Trans,Spawn);
+      Pn = Trail(P);
+      printf("TEST1 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
+    }
+
+    else {
+      while (Next_Trail(Pn) != Nil) {
+        Pn = Next_Trail(Pn);
+      }
+      Next_Trail(Pn) = AlokSuccNode(Q,Trans,Spawn);
+      printf("TEST2 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
+    }
+
 }

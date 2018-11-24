@@ -9,7 +9,7 @@
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */
 /* *** Konstruktor membentuk Matrix *** */
-void MakeEmpty_Map (int NB, int NK, Matrix * M){
+void MakeEmpty_Map (int NB, int NK, Matrix * M, int RoomID){
   int i,j;
   NRowEff(*M) = NB;
   NColEff(*M) = NK;
@@ -18,6 +18,7 @@ void MakeEmpty_Map (int NB, int NK, Matrix * M){
       ElmtMx(*M,i,j).tag = EMPTY;
     }
   }
+  (*M).RoomID = RoomID;
 }
 /* Membuat Map kosong */
 

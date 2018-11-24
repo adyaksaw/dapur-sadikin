@@ -25,6 +25,7 @@ typedef struct {
 	ElType_Matrix Mem[MAX_ROW_MAP+1][MAX_COL_MAP+1];
   	int NRowEff; /* banyaknya/ukuran baris yg terdefinisi */
 	int NColEff; /* banyaknya/ukuran kolom yg terdefinisi */
+	int RoomID;
 } Matrix;
 /* NRowEff <= 1 dan NColEff <= 1 */
 /* Indeks matriks yang digunakan: [MIN_ROW_MAP..MAX_ROW_MAP][MIN_COL_MAP..MAX_COL_MAP] */
@@ -33,10 +34,11 @@ typedef struct {
 #define NRowEff(M)      (M).NRowEff
 #define NColEff(M)      (M).NColEff
 #define ElmtMx(M,i,j)   (M).Mem[(i)][(j)]
+#define RoomID(M) 			(M).RoomID
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */
 /* *** Konstruktor membentuk Matrix *** */
-void MakeEmpty_Map (int NB, int NK, Matrix * M);
+void MakeEmpty_Map (int NB, int NK, Matrix * M, int RoomID);
 /* Membuat Map kosong */
 
 void MakeEmpty_Meja ( Matrix *M, int i, int j);

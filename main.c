@@ -5,6 +5,7 @@
 #include "lib/data_structure/gdt/game_data_type.h"
 #include "lib/handler/handler_include.h"
 
+
 #define initialX 4
 #define initialY 4
 
@@ -21,6 +22,10 @@ Object *ArrayOfMeja[13];
 Item ArrayOfItem[30];
 
 Matrix Map1, Map2, Map3, Kitchen;
+Graph BIG_MAP;
+adrNode Pn;
+adrSuccNode Pt;
+
 
 void SaveToFile(char *FileName){
     int i;
@@ -38,7 +43,7 @@ void SaveToFile(char *FileName){
     fprintf(save,"ESPlayerHand");
     Save_Stack(&Food(player),save);
     fprintf(save,"ESPlayerFood");
-    
+
     //Customer Queue
     Save_Queue(CustomerQueue,save);
     fprintf(save,"EQCust");
@@ -98,8 +103,10 @@ void Dealokasi_All_Meja(){
 }
 
 void Init(){
+    CreateBigMap(&Map1,&Map2,&Map3,&Kitchen,&BIG_MAP);
     int i;
     srand(time(NULL));
+
     for(i = 0; i <= 29; i++){
         ItemID(ArrayOfItem[i]) = 0;
         isiKata(&(ArrayOfItem[i].name),"Test_food", 9);
@@ -144,6 +151,7 @@ void Init(){
     }
 
     player.currentMap = &Map1;
+    player.currentRoom = 1;
 
     Absis(player.pos) = initialX;
     Ordinat(player.pos) = initialY;
@@ -178,7 +186,7 @@ void reduceAllCustPatience(){
                     RemoveCustomerFromTable(ArrayOfMeja[i]);
                     Reduce_Life(&player);
                 }
-            }        
+            }
         } else {
             for(i = 1; i <= MaxEl(CustomerQueue); i++){
                 Reduce_Patience(CustomerQueue.T[i]);
@@ -288,25 +296,164 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
         Print_Player(player);
     }else if (IsKataSama(processedInput, moveInputUp)){ //COMMAND GU
-        Move_Player_Direction(player.currentMap, &player, UP);
-        reduceAllCustPatience();
-        CustomerGenerator(&CustomerQueue);
-        UpdateTime(&GameTime);
+          Move_Player_Direction(player.currentMap, &player, UP);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
     }else if (IsKataSama(processedInput, moveInputDown)){ //COMMAND GD
-        Move_Player_Direction(player.currentMap, &player, DOWN);
-        reduceAllCustPatience();
-        CustomerGenerator(&CustomerQueue);
-        UpdateTime(&GameTime);
+      Pt = SearchEdge(BIG_MAP,player.currentMap,&Kitchen);
+      //printf("TESTING ORDINAT %f\n",(Ordinat(Transition(Pt))));
+      if (Pt != Nil) {
+        if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos))) {
+          //printf("TES1\n");
+          //printf("%d %d",(int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))));
+
+          SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+          player.pos = Spawn(Pt);
+          player.currentMap = Id(Succ(Pt));
+          SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
+          player.currentRoom = RoomID(*player.currentMap);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        } else {
+          //printf("TES2\n");
+          Move_Player_Direction(player.currentMap, &player, DOWN);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        }
+      } else {
+        Pt = SearchEdge(BIG_MAP,player.currentMap,&Map3);
+        if (Pt != Nil) {
+          if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos)))  {
+            //printf("TES3\n");
+            SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+            player.pos = Spawn(Pt);
+            player.currentMap = Id(Succ(Pt));
+            SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
+            player.currentRoom = RoomID(*player.currentMap);
+            reduceAllCustPatience();
+            CustomerGenerator(&CustomerQueue);
+            UpdateTime(&GameTime);
+          } else {
+            //printf("TES4\n");
+            Move_Player_Direction(player.currentMap, &player,DOWN);
+            reduceAllCustPatience();
+            CustomerGenerator(&CustomerQueue);
+            UpdateTime(&GameTime);
+          }
+        } else {
+          //printf("TES5\n");
+          printf("Player pos : %f %f\n",Absis(player.pos),Ordinat(player.pos));
+          Move_Player_Direction(player.currentMap, &player, DOWN);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        }
+      }
     }else if (IsKataSama(processedInput, moveInputLeft)){ //COMMAND GL
-        Move_Player_Direction(player.currentMap, &player, LEFT);
-        reduceAllCustPatience();
-        CustomerGenerator(&CustomerQueue);
-        UpdateTime(&GameTime);
+      Pt = SearchEdge(BIG_MAP,player.currentMap,&Map1);
+      if (Pt != Nil) {
+        if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos))) {
+          //printf("TES1\n");
+          //printf("%d %d",(int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))));
+
+          SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+          player.pos = Spawn(Pt);
+          player.currentMap = Id(Succ(Pt));
+          SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
+          player.currentRoom = RoomID(*player.currentMap);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        } else {
+          //printf("TES2\n");
+          Move_Player_Direction(player.currentMap, &player, LEFT);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        }
+      } else {
+        Pt = SearchEdge(BIG_MAP,player.currentMap,&Kitchen);
+        if (Pt != Nil) {
+          if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos)))  {
+            //printf("TES3\n");
+            SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+            player.pos = Spawn(Pt);
+            player.currentMap = Id(Succ(Pt));
+            SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
+            player.currentRoom = RoomID(*player.currentMap);
+            reduceAllCustPatience();
+            CustomerGenerator(&CustomerQueue);
+            UpdateTime(&GameTime);
+          } else {
+            //printf("TES4\n");
+            Move_Player_Direction(player.currentMap, &player,LEFT);
+            reduceAllCustPatience();
+            CustomerGenerator(&CustomerQueue);
+            UpdateTime(&GameTime);
+          }
+        } else {
+          //printf("TES5\n");
+          printf("Player pos : %f %f\n",Absis(player.pos),Ordinat(player.pos));
+          Move_Player_Direction(player.currentMap, &player, LEFT);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        }
+      }
     }else if (IsKataSama(processedInput, moveInputRight)){ //COMMAND GR
-        Move_Player_Direction(player.currentMap, &player, RIGHT);
-        reduceAllCustPatience();
-        CustomerGenerator(&CustomerQueue);
-        UpdateTime(&GameTime);
+      Pt = SearchEdge(BIG_MAP,player.currentMap,&Map2);
+      if (Pt != Nil) {
+        if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos))) {
+          //printf("TES1\n");
+          //printf("%d %d",(int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))));
+
+          SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+          player.pos = Spawn(Pt);
+          player.currentMap = Id(Succ(Pt));
+          SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
+          player.currentRoom = RoomID(*player.currentMap);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        } else {
+          //printf("TES2\n");
+          Move_Player_Direction(player.currentMap, &player, RIGHT);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        }
+      } else {
+        Pt = SearchEdge(BIG_MAP,player.currentMap,&Map3);
+        if (Pt != Nil) {
+          if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos)))  {
+            //printf("TES3\n");
+            SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+            player.pos = Spawn(Pt);
+            player.currentMap = Id(Succ(Pt));
+            SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
+            player.currentRoom = RoomID(*player.currentMap);
+            reduceAllCustPatience();
+            CustomerGenerator(&CustomerQueue);
+            UpdateTime(&GameTime);
+          } else {
+            //printf("TES4\n");
+            Move_Player_Direction(player.currentMap, &player,RIGHT);
+            reduceAllCustPatience();
+            CustomerGenerator(&CustomerQueue);
+            UpdateTime(&GameTime);
+          }
+        } else {
+          //printf("TES5\n");
+          printf("Player pos : %f %f\n",Absis(player.pos),Ordinat(player.pos));
+          Move_Player_Direction(player.currentMap, &player, RIGHT);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        }
+      }
     }else if (IsKataSama(processedInput, queueInput)){ //COMMAND queue
         Print_Queue(CustomerQueue);
     }else if (IsKataSama(processedInput, allOrderInput)){ //COMMAND allOrder
@@ -490,9 +637,11 @@ int main(){
     printf("%d\n", gameState);
 
     MainScreen();
+    printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
     printf("After mainscreen\n");
     //PrintAllMemory(Map1);
     printf("After mainscreen2\n");
+    printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
     //PrintAllMemory(Map1);
 
     MainGame();

@@ -12,7 +12,7 @@
 /* Definisi Type */
 typedef Matrix* TypeGraph;
 typedef struct gNode *adrNode;
-typedef struct SuccNode *adrSuccNode;
+typedef struct gSuccNode *adrSuccNode;
 typedef struct gNode
 {
   TypeGraph Id;
@@ -20,7 +20,7 @@ typedef struct gNode
   adrNode Next;
 } Node_Graph;
 
-typedef struct SuccNode
+typedef struct gSuccNode
 {
   adrNode Succ;
   Point Pos;
@@ -39,7 +39,7 @@ typedef struct
 #define Next_Node(Pn) (Pn)->Next
 #define Succ(Pt) (Pt)->Succ
 #define Transition(Pt) (Pt)->Pos
-#define Spawn(Pt) (Pt)->Spawn 
+#define Spawn(Pt) (Pt)->Spawn
 #define Next_Trail(Pt) (Pt)->Next
 
 void CreateGraph(TypeGraph X, Graph *L);
@@ -48,7 +48,7 @@ adrNode AlokNode_Graph(TypeGraph X);
 
 void DealokNode_Graph(adrNode P);
 
-adrSuccNode AlokSuccNode(adrNode Pn);
+adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn);
 
 void DealokSuccNode(adrSuccNode P);
 
@@ -58,6 +58,6 @@ adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ);
 
 void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn);
 
-void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ);
+void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spawn);
 
 #endif

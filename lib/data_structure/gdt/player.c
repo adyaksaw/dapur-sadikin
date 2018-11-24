@@ -12,6 +12,7 @@ void Move_Player_Direction (Matrix * M, Player * player, Direction dir){
 
     Point newPoint;
     newPoint = (*player).pos;
+    
     if (dir == UP){
         printf("TRYING TO MOVE2\n");
         Absis(newPoint) += -1;
@@ -158,7 +159,7 @@ Object * Closest_Object(Player player, Matrix *M, GameObj Obj){
     counter++;
   }
   //printf("Memaddress: %p\n", retVal);
-  return retVal;  
+  return retVal;
 }
 
 void Reduce_Life(Player *player){
@@ -199,7 +200,7 @@ void Masak(Player * player, BinTree resep){
         printKata(Info(currentNode).name);
         printf("\n");
       }else {
-        printf("Tidak ada resep yang sesuain!\n");
+        printf("Tidak ada resep yang sesuai!\n");
       }
     }
   }else{

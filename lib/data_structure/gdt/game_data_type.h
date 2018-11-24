@@ -8,5 +8,6 @@
 #include "item.h"
 #include "player.h"
 #include "customer.h"
+#include "map.h"
 
 #endif
