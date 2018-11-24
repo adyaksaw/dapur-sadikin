@@ -56,7 +56,20 @@ void Save_Stack (Stack * S, FILE * fptr){
 	/* Menyimpan Stack S ke FILE teks eksternal. */
 	/* I.S. S terdefinisi */
 	/* F.S. Stack S terdefinisi ke FILE fptr */
+	Stack Temp;
+	infotype_food T;
 
+	CreateEmpty_Stack(&Temp);
+	while (!IsEmpty_Stack(*S)){
+		Pop_Stack(S,&T);
+		Push_Stack(&Temp,T);
+	}
+	while (!IsEmpty_Stack(Temp)){
+		Pop_Stack(&Temp,&T);
+		Push_Stack(S,T);
+		fprintf(fptr,"%d %s",ItemID(T),ItemName(T));
+		//fprintf(fptr,ItemName(T));
+	}
 }
 
 void PrintData_Stack (Stack S){

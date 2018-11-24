@@ -22,6 +22,30 @@ Item ArrayOfItem[30];
 
 Matrix Map1, Map2, Map3, Kitchen;
 
+void SaveToFile(char *FileName){
+    FILE *save;
+    Stack handtemp;
+    save = fopen(FileName,"w");
+    //Player Info
+    fprintf(save,"%s",Name(player));
+    fprintf(save,"%d %d",Absis(player.pos),Ordinat(player.pos));
+    fprintf(save,"%ld",Money(player));
+    fprintf(save,"%d",Life(player));
+    fprintf(save,"%d", GameTime);
+    Save_Stack(&Hand(player),save);
+    fprintf(save,"ESPlayerHand");
+    Save_Stack(&Food(player),save);
+    fprintf(save,"ESPlayerFood");
+    
+    //Customer Queue
+    Save_Queue(CustomerQueue,save);
+    fprintf(save,"EQCust");
+
+    //Table
+
+    //
+    fclose(save);
+}
 void PrintAllOrder(){
     for (int i = 1; i <= 12; i++){
         if (IsOccupied(*(ArrayOfMeja[i]))){

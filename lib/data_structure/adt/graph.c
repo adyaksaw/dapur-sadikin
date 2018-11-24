@@ -58,7 +58,7 @@ adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ)
 {
     if (First(G) == Nil)
         return Nil;
-    adrNode Pn = SearchNodeG(G, prec);
+    adrNode Pn = SearchNode_Graph(G, prec);
 
     if (Pn == Nil)
         return Nil;

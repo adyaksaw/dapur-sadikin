@@ -192,3 +192,29 @@ void Print_Queue(Queue Q){
         }
     }
 }
+
+void Save_Queue(Queue Q, FILE *file)
+{
+    int HeadID = Head(Q);
+    if (HeadID < Tail(Q)){
+        while (HeadID <= Tail(Q)){
+            Save_Cust(*(Q.T[HeadID]), file);
+            HeadID++;
+        }
+    }else if (HeadID > Tail(Q)){
+        while (HeadID != Tail(Q)){
+            Save_Cust(*(Q.T[HeadID]),file);
+            HeadID++;
+            if (HeadID == MaxEl(Q)){
+                HeadID = 1;
+            }
+        }
+        if (HeadID == Tail(Q)){
+            Save_Cust(*(Q.T[HeadID]),file);
+        }
+    }else {
+        if (HeadID != Nil_Queue && HeadID == Tail(Q)){
+            Save_Cust(*(Q.T[HeadID]),file);
+        }
+    }
+}

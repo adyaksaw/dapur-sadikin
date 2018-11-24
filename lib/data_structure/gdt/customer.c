@@ -36,6 +36,10 @@ void printCustomer(Customer customer){
   printf("%d orang. Meja nomor %d. Kesabaran %d. Prioritas %d. Status %d.\n", Amount(customer), TableNum(customer), Patience(customer), Priority(customer), Status(customer));
 }
 
+void Save_Cust(Customer customer, FILE *fp){
+  fprintf(fp,"%d %d %d %d %d",Amount(customer), TableNum(customer), Patience(customer), Priority(customer), Status(customer));
+}
+
 void Dealokasi_Customer(Customer *Cust){
   free(Cust);
   printf("FREED\n");

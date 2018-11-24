@@ -77,4 +77,6 @@ void normalizedQueue(Queue * Q, Address_Queue emptyEl);
 
 void Print_Queue(Queue Q);
 
+void Save_Queue(Queue Q, FILE *file);
+
 #endif
