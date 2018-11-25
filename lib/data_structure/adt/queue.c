@@ -178,8 +178,8 @@ void Print_Queue(Queue Q){
         while (HeadID != Tail(Q)){
             printCustomer(*(Q.T[HeadID]));
             HeadID++;
-            if (HeadID == MaxEl(Q)){
-                HeadID = 1;
+            if (HeadID > MaxEl(Q)){
+                HeadID-= MaxEl(Q);
             }
         }
         if (HeadID == Tail(Q)){
