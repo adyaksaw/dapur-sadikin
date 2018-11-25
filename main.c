@@ -56,7 +56,7 @@ void SaveToFile(char *FileName){
         if (!IsOccupied(M)){
             fprintf(save,"%d %d\n",TableNumber(M), IsOccupied(M));
         } else {
-            fprintf(save,"%d %d %d %d %d %d\n",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)));
+            fprintf(save,"%d %d %d %d %d %d %d\n",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)),Status(CustomerAt(M)));
         }
     }
     fprintf(save,"EQ\n");
@@ -94,10 +94,16 @@ void LoadFromFile(char *FileName){
         //TableNumber(*ArrayOfMeja[i])
         fscanf(load,"%d %d",&NomerMeja, &IsOccupied(*ArrayOfMeja[i]));
         printf("%d Mantap\n", NomerMeja);
+        printf("%d", IsOccupied(*ArrayOfMeja[i]));
         if (IsOccupied(*ArrayOfMeja[i]) == 1){
             Customer *customer = malloc(sizeof(Customer));
-            fscanf(load,"%d %d %d %d",&Amount(CustomerAt(*ArrayOfMeja[i])), &OrdersAt(*ArrayOfMeja[i]), &Patience(CustomerAt(*ArrayOfMeja[i])), &Priority(CustomerAt(*ArrayOfMeja[i])));
-            TableNum(CustomerAt(*ArrayOfMeja[i])) = TableNumber(*ArrayOfMeja[i]);
+            fscanf(load,"%d %d %d %d %d",&Amount(*customer), &FoodOrderID(*customer), &Patience(*customer), &Priority(*customer), &Status(*customer));
+
+            TableNum(*customer) = TableNumber(*ArrayOfMeja[i]);
+            printCustomer(*customer);
+
+            (*ArrayOfMeja[i]).data.table.customer_here = customer;
+            (*ArrayOfMeja[i]).data.table.isOccupied = true;
             printf("BINGITS\n");
         }
     }
