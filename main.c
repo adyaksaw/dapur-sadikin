@@ -503,9 +503,9 @@ void InputProcessor(char input[], int input_length){
             if((*ClosestTable).data.table.isOccupied){
                 Customer * Cust = (*ClosestTable).data.table.customer_here;
                 if(FoodOrderID(*Cust) == ItemID(InfoTop(player.food))){
-                    Money(player) += FoodPrice*((Patience(*Cust)+Priority(*Cust))/FoodPriceModifier);
+                    Money(player) += FoodPrice*(1+(Patience(*Cust)+Priority(*Cust)+Amount(*Cust))/FoodPriceModifier);
                     printf("Pelanggan tersebut puas dengan makanannya!\n");
-                    printf("Kamu mendapatkan %d\n", printf("Pelanggan tersebut puas dengan makanan", FoodPrice*(Patience(*Cust)/FoodPriceModifier)));
+                    printf("Kamu mendapatkan %d\n", FoodPrice*(1+(Patience(*Cust)+Priority(*Cust)+Amount(*Cust))/FoodPriceModifier));
                     RemoveCustomerFromTable(ClosestTable);
                 } else if(IsEmpty_Stack(player.food)){
                     printf("Nampan kosong\n");

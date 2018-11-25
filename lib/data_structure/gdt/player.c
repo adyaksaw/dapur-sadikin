@@ -53,7 +53,7 @@ void Print_Player(Player player){
     printf("Nama : ");
     printKata(player.name);
     printf("\n");
-    printf("Uang : %f\n", player.money);
+    printf("Uang : %d\n", player.money);
     printf("Nyawa : %d\n", player.life);
     printf("Posisi Baris %.1f Kolom %.1f.\n", Ordinat(player.pos), Ordinat(player.pos));
 }
