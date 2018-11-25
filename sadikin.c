@@ -6,32 +6,39 @@
 
 int main()
 {
+    initscr();            /* Start curses mode 		*/
+    raw();                /* Line buffering disabled	*/
+    keypad(stdscr, TRUE); /* We get F1, F2 etc..		*/
+    noecho();             /* Don't echo() while we do getch */
+
     Init();
-    printf("After init\n");
+    printw("After init\n");
     //PrintAllMemory(Map1);
-    printf("After init2\n");
+    printw("After init2\n");
     //PrintAllMemory(Map1);
 
     gameState = MAIN_MENU;
-    printf("%d\n", gameState);
+    printw("%d\n", gameState);
 
     MainScreen();
-    printf("Player pos : %f %f", Absis(player.pos), Ordinat(player.pos));
-    printf("After mainscreen\n");
+    printw("Player pos : %f %f", Absis(player.pos), Ordinat(player.pos));
+    printw("After mainscreen\n");
     //PrintAllMemory(Map1);
-    printf("After mainscreen2\n");
-    printf("Player pos : %f %f", Absis(player.pos), Ordinat(player.pos));
+    printw("After mainscreen2\n");
+    printw("Player pos : %f %f", Absis(player.pos), Ordinat(player.pos));
     //PrintAllMemory(Map1);
 
     MainGame();
 
     gameState = CREDITS;
-    printf("%d\n", gameState);
+    printw("%d\n", gameState);
 
-    printf("Before quit\n");
+    printw("Before quit\n");
     //PrintAllMemory(Map1);
-    printf("Before quit2\n");
+    printw("Before quit2\n");
     //PrintAllMemory(Map1);
+
+    endwin(); /* End curses mode		  */
 
     return 0;
 }

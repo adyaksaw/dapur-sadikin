@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "session.h"
+#include <ncurses.h>
 
 GameState gameState;
 Player player;
@@ -27,19 +28,19 @@ void SaveToFile(char *FileName)
     Stack handtemp;
     save = fopen(FileName, "w");
     //Player Info
-    fprintf(save, "%s", Name(player));
-    fprintf(save, "%d %d", Absis(player.pos), Ordinat(player.pos));
-    fprintf(save, "%ld", Money(player));
-    fprintf(save, "%d", Life(player));
-    fprintf(save, "%d", GameTime);
+    fprintw(save, "%s", Name(player));
+    fprintw(save, "%d %d", Absis(player.pos), Ordinat(player.pos));
+    fprintw(save, "%ld", Money(player));
+    fprintw(save, "%d", Life(player));
+    fprintw(save, "%d", GameTime);
     Save_Stack(&Hand(player), save);
-    fprintf(save, "ES");
+    fprintw(save, "ES");
     Save_Stack(&Food(player), save);
-    fprintf(save, "ES");
+    fprintw(save, "ES");
 
     //Customer Queue
     Save_Queue(CustomerQueue, save);
-    fprintf(save, "0"); //0 Adalah "tanda" yang menandakan Berakhirnya Pembacaan Queue
+    fprintw(save, "0"); //0 Adalah "tanda" yang menandakan Berakhirnya Pembacaan Queue
 
     //Table
     for (i = 1; i <= 12; i++)
@@ -47,14 +48,14 @@ void SaveToFile(char *FileName)
         Object M = *ArrayOfMeja[i];
         if (!IsOccupied(M))
         {
-            fprintf(save, "%d %d", TableNumber(M), IsOccupied(M));
+            fprintw(save, "%d %d", TableNumber(M), IsOccupied(M));
         }
         else
         {
-            fprintf(save, "%d %d %d %d %d %d", TableNumber(M), IsOccupied(M), Amount(CustomerAt(M)), OrdersAt(M), Patience(CustomerAt(M)), Priority(CustomerAt(M)));
+            fprintw(save, "%d %d %d %d %d %d", TableNumber(M), IsOccupied(M), Amount(CustomerAt(M)), OrdersAt(M), Patience(CustomerAt(M)), Priority(CustomerAt(M)));
         }
     }
-    fprintf(save, "EQ");
+    fprintw(save, "EQ");
     //
     fclose(save);
 }
@@ -99,23 +100,23 @@ void PrintAllOrder()
     {
         if (IsOccupied(*(ArrayOfMeja[i])))
         {
-            printf("Meja No.%d memesan OrderID %d.\n", i, OrdersAt(*(ArrayOfMeja[i])));
+            printw("Meja No.%d memesan OrderID %d.\n", i, OrdersAt(*(ArrayOfMeja[i])));
         }
         else
         {
-            printf("Meja No.%d kosong.\n", i);
+            printw("Meja No.%d kosong.\n", i);
         }
     }
 }
 
 void PrintTableStatus(Object Meja)
 {
-    printf("Nomor Meja: %d\n", TableNumber(Meja));
-    printf("IsOccupied: %d\n", IsOccupied(Meja));
+    printw("Nomor Meja: %d\n", TableNumber(Meja));
+    printw("IsOccupied: %d\n", IsOccupied(Meja));
     if (IsOccupied(Meja))
     {
-        printf("Patience: %d\n", Patience(CustomerAt(Meja)));
-        printf("Jumlah orang: %d\n", Amount(CustomerAt(Meja)));
+        printw("Patience: %d\n", Patience(CustomerAt(Meja)));
+        printw("Jumlah orang: %d\n", Amount(CustomerAt(Meja)));
         printCustomer(CustomerAt(Meja));
     }
 }
@@ -126,7 +127,7 @@ void PrintAllMemory(Matrix *M)
     {
         for (int j = 1; j <= 8; j++)
         {
-            printf("ALAMAT MEMORY M KE %d-%d adalah %p.\n", i, j, &((*M).Mem[i][j]));
+            printw("ALAMAT MEMORY M KE %d-%d adalah %p.\n", i, j, &((*M).Mem[i][j]));
         }
     }
 }
@@ -165,7 +166,7 @@ void Init()
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
 
     GameTime = 0;
-    printf("Init\n");
+    printw("Init\n");
     //PrintAllMemory(&Map1);
 
     resep = NULL;
@@ -225,7 +226,7 @@ void CustomerGenerator()
         Customer *newCustomer;
         newCustomer = GenerateCustomer();
 
-        printf("New Customer\n");
+        printw("New Customer\n");
         printCustomer(*newCustomer);
 
         Add_Queue(&CustomerQueue, newCustomer);
@@ -247,7 +248,7 @@ void reduceAllCustPatience()
                 Reduce_Patience(CustomerQueue.T[i]);
                 if (Patience(*(CustomerQueue.T[i])) == 0)
                 {
-                    printf("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
+                    printw("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
                     normalizedQueue(&CustomerQueue, i);
                     RemoveCustomerFromTable(ArrayOfMeja[i]);
                     Reduce_Life(&player);
@@ -261,7 +262,7 @@ void reduceAllCustPatience()
                 Reduce_Patience(CustomerQueue.T[i]);
                 if (Patience(*(CustomerQueue.T[i])) == 0)
                 {
-                    printf("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
+                    printw("Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
                     normalizedQueue(&CustomerQueue, i);
                     RemoveCustomerFromTable(ArrayOfMeja[i]);
                     Reduce_Life(&player);
@@ -277,7 +278,7 @@ void reduceAllCustPatience()
             Reduce_Patience(Cust);
             if (Patience(*Cust) == 0)
             {
-                printf("Terlalu lama menunggu, pelanggan di meja %d bosan dan memilih makan di geprek.\n", i);
+                printw("Terlalu lama menunggu, pelanggan di meja %d bosan dan memilih makan di geprek.\n", i);
                 RemoveCustomerFromTable(ArrayOfMeja[i]);
                 Reduce_Life(&player);
             }
@@ -520,21 +521,21 @@ void InputProcessor(char input[], int input_length)
                 if (!hasOrdered((*ClosestTable).data.table.customer_here))
                 {
                     GenerateOrder((*ClosestTable).data.table.customer_here);
-                    printf("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printw("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
                 }
                 else
                 {
-                    printf("Customer pada meja %d telah memesan FoodID %d sebelumnya\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printw("Customer pada meja %d telah memesan FoodID %d sebelumnya\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
                 }
             }
             else
             {
-                printf("Meja nomor %d kosong.\n", TableNumber(*ClosestTable));
+                printw("Meja nomor %d kosong.\n", TableNumber(*ClosestTable));
             }
         }
         else
         {
-            printf("Tidak ada meja kosong disekitarmu!\n");
+            printw("Tidak ada meja kosong disekitarmu!\n");
         }
     }
     else if (IsKataSama(processedInput, placeInput))
@@ -542,7 +543,7 @@ void InputProcessor(char input[], int input_length)
         Object *ClosestTable = Closest_Empty_Table(player, (player.currentMap));
         if (ClosestTable != NULL)
         {
-            printf("Meja dengan nomor %d kosong.\n", (*ClosestTable).data.table.num);
+            printw("Meja dengan nomor %d kosong.\n", (*ClosestTable).data.table.num);
             if (!IsEmpty_Queue(CustomerQueue))
             {
                 Customer *CustomerToPlace = InfoHead(CustomerQueue);
@@ -556,36 +557,36 @@ void InputProcessor(char input[], int input_length)
                     successfulPlace = findValidCust(ClosestTable, &CustomerQueue);
                     if (!successfulPlace)
                     {
-                        printf("Tidak ada customer yang valid untuk meja ini\n");
+                        printw("Tidak ada customer yang valid untuk meja ini\n");
                     }
                 }
                 if (IsOccupied(*ClosestTable))
                 {
-                    printf("Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
+                    printw("Sekarang meja nomor %d sudah diduduki.\n", TableNumber(*ClosestTable));
                 }
             }
             else
             {
-                printf("Antrian kosong.\n");
+                printw("Antrian kosong.\n");
             }
         }
         else
         {
-            printf("Tidak ada meja kosong disekitarmu!\n");
+            printw("Tidak ada meja kosong disekitarmu!\n");
         }
     }
     else if (IsKataSama(processedInput, helpInput))
     { //COMMAND help
-        printf("Ketik help untuk melihat daftar command.\n");
-        printf("Ketik GU untuk memindahkan player ke atas.\n");
-        printf("Ketik GD untuk memindahkan player ke bawah.\n");
-        printf("Ketik GL untuk memindahkan player ke kiri.\n");
-        printf("Ketik GR untuk memindahkan player ke kanan.\n");
-        printf("Ketik allOrder untuk melihat order untuk setiap meja.\n");
-        printf("Ketik queue untuk melihat antrian saat ini\n");
-        printf("Ketik status untuk melihat status pemain\n");
-        printf("Ketik place untuk mengecek petak sekitar");
-        printf("Ketik quit untuk keluar dari permainan.\n");
+        printw("Ketik help untuk melihat daftar command.\n");
+        printw("Ketik GU untuk memindahkan player ke atas.\n");
+        printw("Ketik GD untuk memindahkan player ke bawah.\n");
+        printw("Ketik GL untuk memindahkan player ke kiri.\n");
+        printw("Ketik GR untuk memindahkan player ke kanan.\n");
+        printw("Ketik allOrder untuk melihat order untuk setiap meja.\n");
+        printw("Ketik queue untuk melihat antrian saat ini\n");
+        printw("Ketik status untuk melihat status pemain\n");
+        printw("Ketik place untuk mengecek petak sekitar");
+        printw("Ketik quit untuk keluar dari permainan.\n");
     }
     else if (IsKataSama(processedInput, giveInput))
     { //COMMAND give
@@ -598,27 +599,27 @@ void InputProcessor(char input[], int input_length)
                 if (FoodOrderID(*Cust) == ItemID(InfoTop(player.food)))
                 {
                     Money(player) += FoodPrice * (Patience(*Cust) / FoodPriceModifier);
-                    printf("Pelanggan tersebut puas dengan makanannya!\n");
-                    printf("Kamu mendapatkan %d\n", printf("Pelanggan tersebut puas dengan makanan", FoodPrice * (Patience(*Cust) / FoodPriceModifier)));
+                    printw("Pelanggan tersebut puas dengan makanannya!\n");
+                    printw("Kamu mendapatkan %d\n", printw("Pelanggan tersebut puas dengan makanan", FoodPrice * (Patience(*Cust) / FoodPriceModifier)));
                     RemoveCustomerFromTable(ClosestTable);
                 }
                 else if (IsEmpty_Stack(player.food))
                 {
-                    printf("Nampan kosong\n");
+                    printw("Nampan kosong\n");
                 }
                 else
                 {
-                    printf("Makanan di nampan paling atas tidak sesuai dengan keinginan customer ini\n");
+                    printw("Makanan di nampan paling atas tidak sesuai dengan keinginan customer ini\n");
                 }
             }
             else
             {
-                printf("Tidak ada customer di meja tersebut\n");
+                printw("Tidak ada customer di meja tersebut\n");
             }
         }
         else
         {
-            printf("Tidak ada meja disekitarmu\n");
+            printw("Tidak ada meja disekitarmu\n");
         }
     }
     else if (IsKataSama(processedInput, removeCustInput))
@@ -641,12 +642,12 @@ void InputProcessor(char input[], int input_length)
         Object *Closest_Stove = Closest_Object(player, player.currentMap, STOVE);
         if (Closest_Stove != NULL)
         {
-            printf("Kamu mengambil ItemID %d dari kompor!\n", ItemID(ArrayOfItem[(*Closest_Stove).data.stove.itemID]));
+            printw("Kamu mengambil ItemID %d dari kompor!\n", ItemID(ArrayOfItem[(*Closest_Stove).data.stove.itemID]));
             Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
         }
         else
         {
-            printf("Tidak ada kompor di sekitar player\n");
+            printw("Tidak ada kompor di sekitar player\n");
         }
     }
     else if (IsKataSama(processedInput, recipeInput))
@@ -655,36 +656,36 @@ void InputProcessor(char input[], int input_length)
         FILE *fp;
         fp = fopen(NamaFile3, "r");
         if (fp == NULL)
-            printf("File tidak terdeteksi\n");
+            printw("File tidak terdeteksi\n");
         P = BuildBalanceTree(23, fp);
-        printf("Berikut adalah resep makanan di game ini!\n\n");
+        printw("Berikut adalah resep makanan di game ini!\n\n");
         PrintTree(P, 3);
-        printf("\n");
+        printw("\n");
     }
 }
 
 void MainScreen()
 {
-    printf("Main Screen\n");
+    printw("Main Screen\n");
     char rawInput[10] = "";
     while (gameState == MAIN_MENU)
     {
         Create_New_Player(&player);
-        printf("Welcome to Dapur Sadikin!\n");
-        printf("What is your name?\n");
-        printf("Name : ");
+        printw("Welcome to Dapur Sadikin!\n");
+        printw("What is your name?\n");
+        printw("Name : ");
         scanf("%s", &rawInput);
         Set_Player_Name(&player, rawInput, 10);
-        printf("Selamat datang, ");
+        printw("Selamat datang, ");
         printKata(player.name);
-        printf(".\n");
+        printw(".\n");
         gameState = IN_GAME;
     }
 }
 
 void MainGame()
 {
-    printf("Main Game\n");
+    printw("Main Game\n");
     //PrintAllMemory(Map1);
 
     char rawInput[10] = "";
@@ -694,23 +695,23 @@ void MainGame()
     while (gameState == IN_GAME)
     {
         /*
-        printf("Map 1\n");
+        printw("Map 1\n");
         Print_Room(Map1);
-        printf("Map 2\n");
+        printw("Map 2\n");
         Print_Room(Map2);
-        printf("Map 3\n");
+        printw("Map 3\n");
         Print_Room(Map3);
-        printf("Dapur\n");
+        printw("Dapur\n");
         Print_Kitchen(Kitchen);
         */
-        printf("Input : ");
+        printw("Input : ");
         scanf("%s", &rawInput);
         InputProcessor(rawInput, 10);
         Print_Room(*(player.currentMap));
         if (Life(player) <= 0)
         {
-            printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
-            printf("GAME OVER!\n");
+            printw("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
+            printw("GAME OVER!\n");
             gameState = CREDITS;
         }
     }
