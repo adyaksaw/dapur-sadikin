@@ -44,6 +44,8 @@ void Load_Player (Player * player, FILE * player_save_file);
 
 void Move_Player_Direction (Matrix * M, Player * player, Direction dir);
 
+boolean isPointValid(Point P);
+
 void Move_Player (Matrix * M, Player * player, Point P);
 
 Object * Closest_Table(Player player, Matrix *M);
