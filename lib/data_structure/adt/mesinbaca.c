@@ -122,6 +122,14 @@ void printKata(Kata k){
   }
 }
 
+void printKataToFile(Kata k, FILE *fp){
+  int i = 1;
+  while (i <= k.Length && k.TabKata[i] != '\0'){
+    fprintf(fp, "%c", k.TabKata[i]);
+    i++;
+  }
+}
+
 int KataToInt (Kata Kata1) {
   int hsl = 0;
   int i;

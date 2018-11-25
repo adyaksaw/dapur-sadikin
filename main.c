@@ -34,11 +34,13 @@ void SaveToFile(char *FileName){
     Stack handtemp;
     save = fopen(FileName,"w");
     //Player Info
-    fprintf(save,"%s",Name(player));
-    fprintf(save,"%d %d",Absis(player.pos),Ordinat(player.pos));
-    fprintf(save,"%ld",Money(player));
-    fprintf(save,"%d",Life(player));
-    fprintf(save,"%d", GameTime);
+    printKataToFile(Name(player), save);
+    fprintf(save,"\n");
+    //fprintf(save,"%s\n",Name(player).TabKata);
+    fprintf(save,"%d %d\n",Absis(player.pos),Ordinat(player.pos));
+    fprintf(save,"%ld\n",Money(player));
+    fprintf(save,"%d\n",Life(player));
+    fprintf(save,"%d\n", GameTime);
     Save_Stack(&Hand(player),save);
     fprintf(save,"ES");
     Save_Stack(&Food(player),save);
@@ -52,9 +54,9 @@ void SaveToFile(char *FileName){
     for (i = 1; i<=12; i++){
         Object M = *ArrayOfMeja[i];
         if (!IsOccupied(M)){
-            fprintf(save,"%d %d",TableNumber(M), IsOccupied(M));
+            fprintf(save,"%d %d\n",TableNumber(M), IsOccupied(M));
         } else {
-            fprintf(save,"%d %d %d %d %d %d",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)));
+            fprintf(save,"%d %d %d %d %d %d\n",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)));
         }
     }
     fprintf(save,"EQ");
@@ -69,11 +71,14 @@ void LoadFromFile(char *FileName){
     Stack handtemp;
     load = fopen(FileName,"r");
     //Player Info
-    fscanf(load,"%s",&Name(player));
+    char raw_input[10] = "";
+    fscanf(load,"%s",raw_input);
+    isiKata(&Name(player),raw_input,9);
     fscanf(load,"%d %d",&Absis(player.pos),&Ordinat(player.pos));
     fscanf(load,"%ld",&Money(player));
     fscanf(load,"%d",&Life(player));
     fscanf(load,"%d", &GameTime);
+    printf("1\n");
     Input_Stack(&Hand(player),load);
     Input_Stack(&Food(player),load);
 
@@ -393,6 +398,12 @@ void InputProcessor(char input[], int input_length){
     Kata recipeInput;
     isiKata(&recipeInput, "recipe",6);
 
+    Kata saveInput;
+    isiKata(&saveInput , "save",4);
+
+    Kata loadInput;
+    isiKata(&loadInput, "load",4);
+
     if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
@@ -430,7 +441,7 @@ void InputProcessor(char input[], int input_length){
         } else {
             printf("Tidak ada nampan disekitarmu!\n");
         }
-        
+
     }else if (IsKataSama(processedInput, orderInput)){ //COMMAND order
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
@@ -523,6 +534,10 @@ void InputProcessor(char input[], int input_length){
         printf("Berikut adalah resep makanan di game ini!\n\n");
         PrintTree(resep,3);
         printf("\n");
+    } else if (IsKataSama(processedInput, loadInput)){
+      LoadFromFile("save.txt");
+    } else if (IsKataSama(processedInput,saveInput)) {
+      SaveToFile("save.txt");
     }
 }
 
