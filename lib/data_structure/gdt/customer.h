@@ -42,6 +42,9 @@ boolean hasOrdered(Customer * Cust);
 void printCustomer(Customer customer);
 
 void Save_Cust(Customer customer,FILE *fp);
+
+void Load_Cust(Customer *customer, FILE *fp);
+
 void Dealokasi_Customer(Customer *Cust);
 
 void Reduce_Patience(Customer *Cust);
