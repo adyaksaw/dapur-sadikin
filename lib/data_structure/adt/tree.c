@@ -200,7 +200,7 @@ boolean SearchTree(BinTree P, TypeTree X)
   if (IsTreeEmpty(P)){
     return false;
   } else {
-    if ((ItemName(X) == ItemName(Akar(P))) && (ItemID(X) == ItemID(Akar(P)))){
+    if (Akar(P).id == X.id && IsKataSama(Akar(P).name, X.name)){
       return true;
     } else {
       return (SearchTree(Left(P),X) || SearchTree(Right(P),X));
