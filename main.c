@@ -81,13 +81,13 @@ void LoadFromFile(char *FileName){
     isiKata(&Name(player),raw_input,9);
     fscanf(load,"%f %f %d",&Absis(player.pos),&Ordinat(player.pos),&player.currentRoom);
     if(player.currentRoom == 1){
-        *(player.currentMap) = Map1;
+        player.currentMap = &Map1;
     } else if(player.currentRoom == 2){
-        *(player.currentMap) = Map2;
+        player.currentMap = &Map2;
     } else if(player.currentRoom == 3){
-        *(player.currentMap) = Map3;
+        player.currentMap = &Map3;
     } else {
-        *(player.currentMap) = Kitchen;
+        player.currentMap = &Kitchen;
     }
     SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), PLAYER_POS);
     fscanf(load,"%ld",&Money(player));
