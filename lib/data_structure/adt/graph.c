@@ -76,16 +76,9 @@ adrNode SearchNode_Graph(Graph G, TypeGraph X)
 
 adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ)
 {
-<<<<<<< Updated upstream
-    if (First(G) == Nil)
-        return Nil;
-    adrNode Pn = SearchNode_Graph(G, prec);
-
-=======
     boolean found = false;
     adrSuccNode Pt ;
     adrNode Pn = SearchNode_Graph(G, prec);
->>>>>>> Stashed changes
     if (Pn == Nil)
       return Nil;
     else {
@@ -125,28 +118,6 @@ void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn)
       Next_Node(P) = AlokNode_Graph(X);
       *Pn = P;
     }
-
-    /*
-    if (SearchNode_Graph(*G, X) != Nil)
-        return;
-
-    *Pn = AlokNode_Graph(X);
-
-    if (*Pn != Nil)
-    {
-        if (First(*G) == Nil)
-            First(*G) = *Pn;
-        else
-        {
-            adrNode P = First(*G);
-
-            while (Next_Node(P) != Nil)
-                P = Next_Node(P);
-
-            Next_Node(P) = *Pn;
-        }
-    }
-    */
 }
 
 void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spawn)
