@@ -50,6 +50,15 @@ void Input_Stack (Stack * S, FILE * fptr){
 	/* Membaca Stack S dari FILE teks eksternal. */
 	/* I.S. S sembarang */
 	/* F.S. Save FILE fptr masuk ke Stack S */
+	infotype_food F;
+
+	CreateEmpty_Stack(S);
+	fscanf(fptr, "%s", &ItemName(F));
+	while (ItemName(F) != "ES"){
+		fscanf(fptr, "%d", &ItemID(F));
+		Push_Stack(S,F);
+		fscanf(fptr, "%s", &ItemName(F));
+	}
 }
 
 void Save_Stack (Stack * S, FILE * fptr){
@@ -67,7 +76,7 @@ void Save_Stack (Stack * S, FILE * fptr){
 	while (!IsEmpty_Stack(Temp)){
 		Pop_Stack(&Temp,&T);
 		Push_Stack(S,T);
-		fprintf(fptr,"%d %s",ItemID(T),ItemName(T));
+		fprintf(fptr,"%s %d",ItemName(T),ItemID(T));
 		//fprintf(fptr,ItemName(T));
 	}
 }

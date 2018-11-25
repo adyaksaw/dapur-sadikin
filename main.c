@@ -40,13 +40,13 @@ void SaveToFile(char *FileName){
     fprintf(save,"%d",Life(player));
     fprintf(save,"%d", GameTime);
     Save_Stack(&Hand(player),save);
-    fprintf(save,"ESPlayerHand");
+    fprintf(save,"ES");
     Save_Stack(&Food(player),save);
-    fprintf(save,"ESPlayerFood");
+    fprintf(save,"ES");
 
     //Customer Queue
     Save_Queue(CustomerQueue,save);
-    fprintf(save,"EQCust");
+    fprintf(save,"0"); //0 Adalah "tanda" yang menandakan Berakhirnya Pembacaan Queue
 
     //Table
     for (i = 1; i<=12; i++){
@@ -57,8 +57,41 @@ void SaveToFile(char *FileName){
             fprintf(save,"%d %d %d %d %d %d",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)));
         }
     }
+    fprintf(save,"EQ");
     //
     fclose(save);
+}
+
+void LoadFromFile(char *FileName){
+    int i;
+
+    FILE *load;
+    Stack handtemp;
+    load = fopen(FileName,"r");
+    //Player Info
+    fscanf(load,"%s",&Name(player));
+    fscanf(load,"%d %d",&Absis(player.pos),&Ordinat(player.pos));
+    fscanf(load,"%ld",&Money(player));
+    fscanf(load,"%d",&Life(player));
+    fscanf(load,"%d", &GameTime);
+    Input_Stack(&Hand(player),load);
+    Input_Stack(&Food(player),load);
+
+    //Customer Queue
+    Load_Queue(&CustomerQueue,load);
+    //Pembacaan berhenti saat pembacaan menemukan 0 sebagai nilai Amount,
+    //Amount pastilah [1..4]
+
+    //Table
+    for (i = 1; i<=12; i++){
+        Object M = *ArrayOfMeja[i];
+        fscanf(load,"%d %d",&TableNumber(M), &IsOccupied(M));
+        if (IsOccupied(M)){
+            fscanf(load,"%d %d %d %d",&Amount(CustomerAt(M)), &OrdersAt(M), &Patience(CustomerAt(M)), &Priority(CustomerAt(M)));
+            TableNum(CustomerAt(M)) = TableNumber(M);
+        }
+    }
+    fclose(load);
 }
 void PrintAllOrder(){
     for (int i = 1; i <= 12; i++){

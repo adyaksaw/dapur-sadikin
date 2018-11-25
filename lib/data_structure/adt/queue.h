@@ -79,4 +79,6 @@ void Print_Queue(Queue Q);
 
 void Save_Queue(Queue Q, FILE *file);
 
+void Load_Queue(Queue *Q, FILE *file);
+
 #endif

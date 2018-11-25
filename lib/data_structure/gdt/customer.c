@@ -40,6 +40,10 @@ void Save_Cust(Customer customer, FILE *fp){
   fprintf(fp,"%d %d %d %d %d",Amount(customer), TableNum(customer), Patience(customer), Priority(customer), Status(customer));
 }
 
+void Load_Cust(Customer *customer, FILE *fp){
+  fscanf(fp,"%d %d %d %d %d",&Amount(*customer), &TableNum(*customer), &Patience(*customer), &Priority(*customer), &Status(*customer));
+}
+
 void Dealokasi_Customer(Customer *Cust){
   free(Cust);
   printf("FREED\n");
