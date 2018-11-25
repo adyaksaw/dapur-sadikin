@@ -470,8 +470,8 @@ void InputProcessor(char input[], int input_length){
     } else if(IsKataSama(processedInput, takeInput)){
         Object * Closest_Stove = Closest_Object(player, player.currentMap, STOVE);
         if(Closest_Stove != NULL){
-            Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
             printf("Kamu mengambil ItemID %d dari kompor!\n", ItemID(ArrayOfItem[(*Closest_Stove).data.stove.itemID]));
+            Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
         } else {
             printf("Tidak ada kompor di sekitar player\n");
         }

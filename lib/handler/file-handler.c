@@ -68,6 +68,7 @@ void LoadKitchen (Matrix *M) {
   Kata Kata1, Kata2;
   int i = MIN_ROW_MAP;
   int j;
+  int CountItem = 1;
 
   Kata1.TabKata[1] = 'M'; //KOMPOR
   Kata1.Length = 1;
@@ -82,8 +83,9 @@ void LoadKitchen (Matrix *M) {
     while ((CC != BREAKLINE) && (CC != BARRIER)) {
         if (IsKataSama(CKata,Kata1)) {
           ElmtMx(*M,i,j).tag = STOVE;
-          ElmtMx(*M,i,j).data.stove.itemID = 0;
-
+          ElmtMx(*M,i,j).data.stove.itemID = CountItem;
+          printf("ItemID : %d\n",ElmtMx(*M,i,j).data.stove.itemID);
+          CountItem++;
           //MakeEmpty_Table (M1,i,j);
         } else if (IsKataSama(CKata,Kata2)) {
           ElmtMx(*M,i,j).tag = TRAY;
