@@ -20,6 +20,7 @@ typedef struct gNode
   adrNode Next;
 } Node_Graph;
 
+/* Arah player akan bergerak kemana saja */
 typedef enum {
   UP,
   DOWN,
@@ -55,21 +56,35 @@ typedef struct
 #define Next_Trail(Pt) (Pt)->Next
 
 void CreateGraph(TypeGraph X, Graph *L);
+/* Membuat sebuah graf L*/
 
 adrNode AlokNode_Graph(TypeGraph X);
+/* Mengalokasikan Node pada Graph, mereturn address tidak Nil kalau berhasil dialokasi */
 
 void DealokNode_Graph(adrNode P);
+/* Mendealokasikan Node pada Graph, memori dikembalikan ke sistem */
 
 adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn, Direction dir);
+/* Mengalokasikan SuccNode sehingga dapat terbentuk Edge */
 
 void DealokSuccNode(adrSuccNode P);
+/* Mendealokasikan SuccNode pada Graph, memori dikembalikan ke sistem */
 
 adrNode SearchNode_Graph(Graph G, TypeGraph X);
+/* Menngembalikan address yang berisi X pada Node di Graph,
+jika tidak ditemukan akan dikembalikan Nil */
 
 adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ);
+/* Menngembalikan address yang berasal dari prec dan menuju ke succ
+pada SearchNode di Graph, jika tidak ditemukan akan dikembalikan Nil */
 
 void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn);
+/* Memasukkan Node pada Graph G dengan isi X dan Pn berisi dengan address Node tersebut */
+
 
 void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spawn, Direction dir);
+/* Memasukkan Edge Baru pada graf G, yang berasal dari prec dan menuju ke succ.
+Isi adalah Trans -> Posisi player sekarang di ruangan sekarang, Spawn -> Posisi player nanti di ruangan
+baru, Dir -> Direction dari player (GU/GL/GD/GR) */
 
 #endif

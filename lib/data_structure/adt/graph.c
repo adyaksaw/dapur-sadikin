@@ -1,11 +1,13 @@
 #include "graph.h"
 
 void CreateGraph(TypeGraph X, Graph *L)
+/* Membuat sebuah graf L */
 {
     First(*L) = AlokNode_Graph(X);
 }
 
 adrNode AlokNode_Graph(TypeGraph X)
+/* Mengalokasikan Node pada Graph, mereturn address tidak Nil kalau berhasil dialokasi */
 {
     adrNode G = (adrNode)malloc(sizeof(Node_Graph));
 
@@ -20,11 +22,13 @@ adrNode AlokNode_Graph(TypeGraph X)
 }
 
 void DealokNode_Graph(adrNode P)
+/* Mendealokasikan Node pada Graph, memori dikembalikan ke sistem */
 {
     free(P);
 }
 
 adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn, Direction dir)
+/* Mengalokasikan SuccNode sehingga dapat terbentuk Edge */
 {
     adrSuccNode Pt = (adrSuccNode) malloc(sizeof(SuccNode));
 
@@ -40,11 +44,14 @@ adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn, Direction dir)
 }
 
 void DealokSuccNode(adrSuccNode P)
+/* Mendealokasikan SuccNode pada Graph, memori dikembalikan ke sistem */
 {
     free(P);
 }
 
 adrNode SearchNode_Graph(Graph G, TypeGraph X)
+/* Menngembalikan address yang berisi X pada Node di Graph,
+jika tidak ditemukan akan dikembalikan Nil */
 {
   boolean found = false;
   adrNode P;
@@ -59,15 +66,7 @@ adrNode SearchNode_Graph(Graph G, TypeGraph X)
         P = Next_Node(P);
     }
   }
-  /*
-    if (First(G) == Nil)
-        return Nil;
-    else {
-      adrNode P = First(G);
-      while (P != Nil && Id(P) != X)
-          P = Next_Node(P);
-      return P;
-    } */
+
     if (found)
       return P;
     else
@@ -75,6 +74,8 @@ adrNode SearchNode_Graph(Graph G, TypeGraph X)
 }
 
 adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ)
+/* Menngembalikan address yang berasal dari prec dan menuju ke succ
+pada SearchNode di Graph, jika tidak ditemukan akan dikembalikan Nil */
 {
     boolean found = false;
     adrSuccNode Pt ;
@@ -98,6 +99,7 @@ adrSuccNode SearchEdge(Graph G, TypeGraph prec, TypeGraph succ)
 }
 
 void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn)
+/* Memasukkan Node pada Graph G dengan isi X dan Pn berisi dengan address Node tersebut */
 {
 
     adrNode P;
@@ -121,33 +123,13 @@ void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn)
 }
 
 void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spawn, Direction dir)
+/* Memasukkan Edge Baru pada graf G, yang berasal dari prec dan menuju ke succ.
+Isi adalah Trans -> Posisi player sekarang di ruangan sekarang, Spawn -> Posisi player nanti di ruangan
+baru, Dir -> Direction dari player (GU/GL/GD/GR) */
 {
   adrNode P,Q;
   adrSuccNode Pn;
-    /*if (First(*G) == Nil || SearchEdge(*G, prec, succ) != Nil)
-        return;
 
-    adrNode Pn = SearchNode_Graph(*G, prec);
-
-    if (Pn != Nil)
-    {
-        adrSuccNode Pt = AlokSuccNode(Pn,Trans,Spawn);
-
-        if (Pt != Nil)
-        {
-            if (Trail(Pn) == Nil)
-                Trail(Pn) = Pt;
-            else
-            {
-                adrSuccNode P = Trail(Pn);
-
-                while (Next_Trail(P) != Nil)
-                    P = Next_Trail(P);
-
-                Next_Trail(P) = Pt;
-            }
-        }
-    }*/
     Q = SearchNode_Graph(*G,succ);
     P = SearchNode_Graph(*G,prec);
     if (P == Nil) {
@@ -165,7 +147,7 @@ void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spa
     if (Pn == Nil) {
       Trail(P) = AlokSuccNode(Q,Trans,Spawn,dir);
       Pn = Trail(P);
-      //printf("TEST1 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
+
     }
 
     else {
@@ -173,7 +155,6 @@ void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spa
         Pn = Next_Trail(Pn);
       }
       Next_Trail(Pn) = AlokSuccNode(Q,Trans,Spawn,dir);
-      //printf("TEST2 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
     }
 
 }
