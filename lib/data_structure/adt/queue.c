@@ -116,18 +116,19 @@ void Add_Queue (Queue * Q, ElType_Queue X)
         i = Tail(*Q);
         boolean foundsama = false;
         while ((!foundsama) && (i != Head(*Q))){
-        if (Priority(*ElmtQ(*Q,i)) > Priority(*ElmtQ(*Q,i-1))) {
-            ElType_Queue temp = ElmtQ(*Q,i);
-            ElmtQ(*Q,i) = ElmtQ(*Q,i-1);
-            ElmtQ(*Q,i-1) = temp;
-        } else {
-            foundsama = true;
-        }
-        if (i == 1){
-            i = MaxEl(*Q);
-        } else{
-            i--;
-        }
+            int prevIdx = 1+((i+MaxEl(*Q)-2)%MaxEl(*Q));
+            if (Priority(*ElmtQ(*Q,i)) > Priority(*ElmtQ(*Q,prevIdx))) {
+                ElType_Queue temp = ElmtQ(*Q,i);
+                ElmtQ(*Q,i) = ElmtQ(*Q,prevIdx);
+                ElmtQ(*Q,prevIdx) = temp;
+            } else {
+                foundsama = true;
+            }
+            if (i == 1){
+                i = MaxEl(*Q);
+            } else{
+                i--;
+            }
         }
     }
 }
@@ -177,8 +178,8 @@ void Print_Queue(Queue Q){
         while (HeadID != Tail(Q)){
             printCustomer(*(Q.T[HeadID]));
             HeadID++;
-            if (HeadID == MaxEl(Q)){
-                HeadID = 1;
+            if (HeadID > MaxEl(Q)){
+                HeadID-= MaxEl(Q);
             }
         }
         if (HeadID == Tail(Q)){
