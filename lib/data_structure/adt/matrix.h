@@ -46,12 +46,12 @@ void MakeEmpty_Meja ( Matrix *M, int i, int j);
 boolean IsEmptyPoint_Map (Matrix M, Point p);
 /* Mengirimkan true jika i, j tidak diisi objek */
 
-ElType_Matrix CloseToWhat_Map (Matrix M, Point p);
-
 void Print_Room (Matrix M);
 /* Print Map ke layar. */
 
 void Print_Kitchen(Matrix M);
+/* I.S M sudah terdefinisi */
+/* F.S Isi M jika isinya objek pada Kitchen, diprint */
 
 void SetTag_Matrix(Matrix * M, int i, int j, GameObj Tag);
 /*Lebih baik pakai ini!*/
