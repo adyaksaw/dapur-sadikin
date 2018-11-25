@@ -76,7 +76,7 @@ void Save_Stack (Stack * S, FILE * fptr);
 /* I.S. S terdefinisi */
 /* F.S. Stack S terdefinisi ke FILE fptr */
 
-void PrintData_Stack (Stack S);
+void PrintData_Stack (Stack S, boolean isHand);
 /* Proses : Menuliskan data dari FILE eksternal yang terkait dengan isi stack */
 /* I.S. S boleh kosong */
 /* F.S. Jika S tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
