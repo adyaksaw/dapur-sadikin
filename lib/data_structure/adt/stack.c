@@ -106,17 +106,24 @@ void PrintData_Stack (Stack S){
 }
 
 //Fungsi Lain
-void Reverse_Stack(Stack *S){
-	Stack Temp;
+Stack Reverse_Stack(Stack *S){
+	Stack Temp1, Temp2;
 	infotype_food T;
 
-	CreateEmpty_Stack(&Temp);
+	CreateEmpty_Stack(&Temp1);
+	CreateEmpty_Stack(&Temp2);
+	//Make 2 Reversed Version of Stack Input,
+	//1 for return
+	//2 for normalize Stack Input
 	while (!IsEmpty_Stack(*S)){
 		Pop_Stack(S,&T);
-		Push_Stack(&Temp,T);
+		Push_Stack(&Temp1,T);
+		Push_Stack(&Temp2,T);
 	}
-	while (!IsEmpty_Stack(Temp)){
-		Pop_Stack(&Temp,&T);
+	//Normalize Stack Input
+	while (!IsEmpty_Stack(Temp1)){
+		Pop_Stack(&Temp1,&T);
 		Push_Stack(S,T);
 	}
+	return Temp2;
 }
