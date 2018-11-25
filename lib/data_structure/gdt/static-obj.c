@@ -30,14 +30,17 @@ boolean findValidCust(Object * Table, Queue * Q){
       isFound = true;
     }
   }
+  if(!isFound){
   Customer * Cust = InfoTail(*Q);
-  if(CapacityOf(*Table) >= Amount(*Cust)){
-    (*Table).data.table.customer_here = Cust;
-    (*Table).data.table.isOccupied = true;
-    printf("Pelanggan telah ditaruh di meja nomor %d.\n", TableNumber(*Table));
-    normalizedQueue(Q, Tail(*Q));
-    isFound = true;
+    if(CapacityOf(*Table) >= Amount(*Cust)){
+      (*Table).data.table.customer_here = Cust;
+      (*Table).data.table.isOccupied = true;
+      printf("Pelanggan telah ditaruh di meja nomor %d.\n", TableNumber(*Table));
+      normalizedQueue(Q, Tail(*Q));
+      isFound = true;
+    }
   }
+
   return isFound;
 }
 
