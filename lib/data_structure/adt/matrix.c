@@ -111,10 +111,15 @@ void Print_Room (Matrix M)
         printf("-");
       }
       if (j != NColEff(M)) {
-        if (TableNumber(ElmtMx(M,i,j)) / 10 == 0) //Kalau panjang angka > 2, maka dia langsung dikurangi dengan 1 space
+        if (ElmtMx(M,i,j).tag == TABLE) {
+          if (TableNumber(ElmtMx(M,i,j)) / 10 == 0) //Kalau panjang angka > 2, maka dia langsung dikurangi dengan 1 space
+            printf("    ");
+          else
+            printf("   ");
+        } else {
           printf("    ");
-        else
-          printf("   ");
+        }
+
       }
 
     }

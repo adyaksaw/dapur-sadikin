@@ -165,7 +165,7 @@ void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spa
     if (Pn == Nil) {
       Trail(P) = AlokSuccNode(Q,Trans,Spawn,dir);
       Pn = Trail(P);
-      printf("TEST1 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
+      //printf("TEST1 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
     }
 
     else {
@@ -173,7 +173,7 @@ void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spa
         Pn = Next_Trail(Pn);
       }
       Next_Trail(Pn) = AlokSuccNode(Q,Trans,Spawn,dir);
-      printf("TEST2 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
+      //printf("TEST2 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
     }
 
 }

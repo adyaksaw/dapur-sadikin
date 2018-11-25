@@ -29,30 +29,13 @@ void CreateBigMap (Matrix *M1, Matrix *M2 , Matrix *M3 , Matrix *M4, Graph *BIG_
 
   //CreateGraph(M1,BIG_MAP);
   InsertNode_Graph(BIG_MAP,M1,&Pn1);
-  printf("Pn1 = %d\n",Pn1);
+  //printf("Pn1 = %d\n",Pn1);
   InsertNode_Graph(BIG_MAP,M2,&Pn2);
-  printf("Pn2 = %d\n",Pn2);
+  //printf("Pn2 = %d\n",Pn2);
   InsertNode_Graph(BIG_MAP,M3,&Pn3);
-  printf("Pn3 = %d\n",Pn3);
+  //printf("Pn3 = %d\n",Pn3);
   InsertNode_Graph(BIG_MAP,M4,&Pn4);
-  printf("Pn4 = %d\n",Pn4);
-
-  if (SearchNode_Graph(*BIG_MAP,M1) == Nil ){
-    printf("Node M1 Nil\n");
-  }
-
-  if (SearchNode_Graph(*BIG_MAP,M2) == Nil ){
-    printf("Node M2 Nil\n");
-  }
-
-  if (SearchNode_Graph(*BIG_MAP,M3) == Nil ){
-    printf("Node M3 Nil\n");
-  }
-
-  if (SearchNode_Graph(*BIG_MAP,M4) == Nil ){
-    printf("Node M4 Nil\n");
-  }
-
+  //printf("Pn4 = %d\n",Pn4);
   InsertEdge(BIG_MAP,M1,M2,Trans12,Spawn12,RIGHT);
   InsertEdge(BIG_MAP,M1,M4,Trans14,Spawn14,DOWN);
 

@@ -81,10 +81,12 @@ void LoadKitchen (Matrix *M) {
     ADVKATA();
     j = MIN_COL_MAP;
     while ((CC != BREAKLINE) && (CC != BARRIER)) {
+
         if (IsKataSama(CKata,Kata1)) {
           ElmtMx(*M,i,j).tag = STOVE;
           ElmtMx(*M,i,j).data.stove.itemID = CountItem;
-          printf("ItemID : %d\n",ElmtMx(*M,i,j).data.stove.itemID);
+          //printf("Elemen ke %d, %d adalah %d\n",i,j,ElmtMx(*M,i,j).tag );
+          //printf("ItemID : %d\n",ElmtMx(*M,i,j).data.stove.itemID);
           CountItem++;
           //MakeEmpty_Table (M1,i,j);
         } else if (IsKataSama(CKata,Kata2)) {
