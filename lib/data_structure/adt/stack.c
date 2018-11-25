@@ -81,7 +81,7 @@ void Save_Stack (Stack * S, FILE * fptr){
 	}
 }
 
-void PrintData_Stack (Stack S){
+void PrintData_Stack (Stack S, boolean isHand){
 	/* Proses : Menuliskan data dari FILE eksternal yang terkait dengan isi stack */
 	/* I.S. S boleh kosong */
 	/* F.S. Jika S tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
@@ -95,7 +95,11 @@ void PrintData_Stack (Stack S){
 	*/
 	int i;
 	if(IsEmpty_Stack(S)){
-		printf("Nampan anda kosong.\n");
+		if(isHand){
+			printf("Anda tidak memegang apapun\n");
+		} else {
+			printf("Nampan anda kosong.\n");
+		}
 	} else {
 		for(i = 1; i <= Top(S); i++){
 			printf("[%d]", i);

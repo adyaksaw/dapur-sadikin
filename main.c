@@ -198,7 +198,8 @@ void Init(){
 }
 
 void CustomerGenerator(){
-    if (!IsFull_Queue(CustomerQueue)){
+    float customerAppearChance = 100*(1-sqrt(1.0/GameTime));
+    if (!IsFull_Queue(CustomerQueue) && (rand()%100) + 1 <= customerAppearChance){
         Customer *newCustomer;
         newCustomer = GenerateCustomer();
 
@@ -415,11 +416,11 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, tableInput)){ //COMMAND printMeja
         PrintAllTable();
     }else if (IsKataSama(processedInput, tanganInput)){ //COMMAND hand
-        PrintData_Stack(player.hand);
+        PrintData_Stack(player.hand, 1);
     }else if (IsKataSama(processedInput, buangTanganInput)){ //COMMAND CH
         CreateEmpty_Stack(&(player.hand));
     }else if (IsKataSama(processedInput, nampanInput)){ //COMMAND tray
-        PrintData_Stack(player.food);
+        PrintData_Stack(player.food, 0);
     }else if (IsKataSama(processedInput, buangNampanInput)){ //COMMAND CH
         CreateEmpty_Stack(&(player.food));
     }else if (IsKataSama(processedInput, putInput)){ //COMMAND CH
@@ -436,9 +437,12 @@ void InputProcessor(char input[], int input_length){
             if (IsOccupied(*ClosestTable)){
                 if(!hasOrdered((*ClosestTable).data.table.customer_here)){
                     GenerateOrder((*ClosestTable).data.table.customer_here);
-                    printf("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printf("Pesanan di meja nomor %d adalah FoodID %d, yaitu ", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printKata(ArrayOfItem[OrdersAt(*ClosestTable)].name);
+                    printf(".\n");
                 } else {
-                    printf("Customer pada meja %d telah memesan FoodID %d sebelumnya\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printf("Customer pada meja %d telah memesan FoodID %d, yaitu ", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printKata(ArrayOfItem[OrdersAt(*ClosestTable)].name);
                 }
             } else {
                 printf("Meja nomor %d kosong.\n", TableNumber(*ClosestTable));
@@ -489,7 +493,7 @@ void InputProcessor(char input[], int input_length){
             if((*ClosestTable).data.table.isOccupied){
                 Customer * Cust = (*ClosestTable).data.table.customer_here;
                 if(FoodOrderID(*Cust) == ItemID(InfoTop(player.food))){
-                    Money(player) += FoodPrice*(Patience(*Cust)/FoodPriceModifier);
+                    Money(player) += FoodPrice*((Patience(*Cust)+Priority(*Cust))/FoodPriceModifier);
                     printf("Pelanggan tersebut puas dengan makanannya!\n");
                     printf("Kamu mendapatkan %d\n", printf("Pelanggan tersebut puas dengan makanan", FoodPrice*(Patience(*Cust)/FoodPriceModifier)));
                     RemoveCustomerFromTable(ClosestTable);
