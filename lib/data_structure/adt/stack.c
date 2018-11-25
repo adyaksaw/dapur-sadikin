@@ -53,12 +53,12 @@ void Input_Stack (Stack * S, FILE * fptr){
 	infotype_food F;
 
 	CreateEmpty_Stack(S);
-	fscanf(fptr, "%s", &ItemName(F));
-	while (ItemName(F)[0] == 'E' && ItemName(F)[1] == 'S'){
+	fscanf(fptr,"%s %d", &ItemName(F), &ItemID(F));
+	while (ItemName(F)[0] != 'E' && ItemName(F)[1] != 'S'){
 		printf("%s\n", ItemName(F));
-		fscanf(fptr, "%d", &ItemID(F));
+		//fscanf(fptr, "%d", &ItemID(F));
 		Push_Stack(S,F);
-		fscanf(fptr, "%s", &ItemName(F));
+		fscanf(fptr, "%s %d", &ItemName(F), ItemID(F));
 	}
 }
 

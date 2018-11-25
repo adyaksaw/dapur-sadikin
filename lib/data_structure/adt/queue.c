@@ -221,13 +221,15 @@ void Save_Queue(Queue Q, FILE *file)
 
 void Load_Queue(Queue *Q, FILE *file)
 {
-    int i = 1;
-    ElType_Queue customer;
+    boolean yes = true;
     CreateEmpty_Queue(Q,5);
-    Load_Cust(customer, file);
-    while (Amount(*customer) != 0){
-        printf("1\n");
-        Add_Queue(Q,customer);
+    do{
+        Customer *customer = malloc(sizeof(Customer));
         Load_Cust(customer, file);
-    }
+        if(Amount(*customer) != 0){
+            Add_Queue(Q,customer);
+        } else {
+            yes = false;
+        }
+    } while(yes);
 }

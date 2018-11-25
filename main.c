@@ -37,14 +37,14 @@ void SaveToFile(char *FileName){
     printKataToFile(Name(player), save);
     fprintf(save,"\n");
     //fprintf(save,"%s\n",Name(player).TabKata);
-    fprintf(save,"%d %d\n",Absis(player.pos),Ordinat(player.pos));
+    fprintf(save,"%f %f\n",Absis(player.pos),Ordinat(player.pos));
     fprintf(save,"%ld\n",Money(player));
     fprintf(save,"%d\n",Life(player));
     fprintf(save,"%d\n", GameTime);
     Save_Stack(&Hand(player),save);
-    fprintf(save,"ES\n");
+    fprintf(save,"ES 0\n");
     Save_Stack(&Food(player),save);
-    fprintf(save,"ES\n");
+    fprintf(save,"ES 0\n");
 
     //Customer Queue
     Save_Queue(CustomerQueue,save);
@@ -59,8 +59,9 @@ void SaveToFile(char *FileName){
             fprintf(save,"%d %d %d %d %d %d\n",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)));
         }
     }
-    fprintf(save,"EQ");
+    fprintf(save,"EQ\n");
     //
+    printf("Save Sukses\n");
     fclose(save);
 }
 
@@ -74,7 +75,7 @@ void LoadFromFile(char *FileName){
     char raw_input[10] = "";
     fscanf(load,"%s",raw_input);
     isiKata(&Name(player),raw_input,9);
-    fscanf(load,"%d %d",&Absis(player.pos),&Ordinat(player.pos));
+    fscanf(load,"%f %f",&Absis(player.pos),&Ordinat(player.pos));
     fscanf(load,"%ld",&Money(player));
     fscanf(load,"%d",&Life(player));
     fscanf(load,"%d", &GameTime);
@@ -82,19 +83,25 @@ void LoadFromFile(char *FileName){
     Input_Stack(&Food(player),load);
     //Customer Queue
     Load_Queue(&CustomerQueue,load);
-    printf("0\n");
+    printf("End Pembacaan Q\n");
     //Pembacaan berhenti saat pembacaan menemukan 0 sebagai nilai Amount,
     //Amount pastilah [1..4]
 
     //Table
     for (i = 1; i<=12; i++){
-        Object M = *ArrayOfMeja[i];
-        fscanf(load,"%d %d",&TableNumber(M), &IsOccupied(M));
-        if (IsOccupied(M)){
-            fscanf(load,"%d %d %d %d",&Amount(CustomerAt(M)), &OrdersAt(M), &Patience(CustomerAt(M)), &Priority(CustomerAt(M)));
-            TableNum(CustomerAt(M)) = TableNumber(M);
+        //printf("Mantap");
+        int NomerMeja;
+        //TableNumber(*ArrayOfMeja[i])
+        fscanf(load,"%d %d",&NomerMeja, &IsOccupied(*ArrayOfMeja[i]));
+        printf("%d Mantap\n", NomerMeja);
+        if (IsOccupied(*ArrayOfMeja[i]) == 1){
+            Customer *customer = malloc(sizeof(Customer));
+            fscanf(load,"%d %d %d %d",&Amount(CustomerAt(*ArrayOfMeja[i])), &OrdersAt(*ArrayOfMeja[i]), &Patience(CustomerAt(*ArrayOfMeja[i])), &Priority(CustomerAt(*ArrayOfMeja[i])));
+            TableNum(CustomerAt(*ArrayOfMeja[i])) = TableNumber(*ArrayOfMeja[i]);
+            printf("BINGITS\n");
         }
     }
+    printf("Load Sukses\n");
     fclose(load);
 }
 void PrintAllOrder(){
