@@ -37,7 +37,7 @@ void SaveToFile(char *FileName){
     printKataToFile(Name(player), save);
     fprintf(save,"\n");
     //fprintf(save,"%s\n",Name(player).TabKata);
-    fprintf(save,"%f %f\n",Absis(player.pos),Ordinat(player.pos));
+    fprintf(save,"%f %f %d\n",Absis(player.pos),Ordinat(player.pos),player.currentRoom);
     fprintf(save,"%ld\n",Money(player));
     fprintf(save,"%d\n",Life(player));
     fprintf(save,"%d\n", GameTime);
@@ -70,12 +70,26 @@ void LoadFromFile(char *FileName){
 
     FILE *load;
     Stack handtemp;
+    if(isPointValid(player.pos) && ElmtMx(*(player.currentMap), (int) Absis(player.pos), (int) Ordinat(player.pos)).tag == PLAYER_POS){
+        printf("1\n");
+        SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+    }
     load = fopen(FileName,"r");
     //Player Info
     char raw_input[10] = "";
     fscanf(load,"%s",raw_input);
     isiKata(&Name(player),raw_input,9);
-    fscanf(load,"%f %f",&Absis(player.pos),&Ordinat(player.pos));
+    fscanf(load,"%f %f %d",&Absis(player.pos),&Ordinat(player.pos),&player.currentRoom);
+    if(player.currentRoom == 1){
+        *(player.currentMap) = Map1;
+    } else if(player.currentRoom == 2){
+        *(player.currentMap) = Map2;
+    } else if(player.currentRoom == 3){
+        *(player.currentMap) = Map3;
+    } else {
+        *(player.currentMap) = Kitchen;
+    }
+    SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), PLAYER_POS);
     fscanf(load,"%ld",&Money(player));
     fscanf(load,"%d",&Life(player));
     fscanf(load,"%d", &GameTime);
