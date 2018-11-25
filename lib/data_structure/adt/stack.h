@@ -89,4 +89,5 @@ void PrintData_Stack (Stack S);
    [4]Garpu
 */
 
+void Reverse_Stack(Stack *S);
 #endif
