@@ -7,6 +7,7 @@ void CreateBigMap (Matrix *M1, Matrix *M2 , Matrix *M3 , Matrix *M4, Graph *BIG_
   Point Trans41, Spawn41, Trans43, Spawn43;
   adrNode Pn1,Pn2,Pn3,Pn4;
 
+  /*Mengalokasikan Node dengan membuat Point yang nantinya digunakan untuk setiap Trail */
   Trans12 = MakePoint(5,8);
   Spawn12 = MakePoint(5,1);
   Trans14 = MakePoint(8,5);
@@ -27,6 +28,7 @@ void CreateBigMap (Matrix *M1, Matrix *M2 , Matrix *M3 , Matrix *M4, Graph *BIG_
   Trans43 = MakePoint(5,8);
   Spawn43 = MakePoint(5,1);
 
+  /* Menginsert Node pada Graf */
   //CreateGraph(M1,BIG_MAP);
   InsertNode_Graph(BIG_MAP,M1,&Pn1);
   //printf("Pn1 = %d\n",Pn1);
@@ -36,6 +38,8 @@ void CreateBigMap (Matrix *M1, Matrix *M2 , Matrix *M3 , Matrix *M4, Graph *BIG_
   //printf("Pn3 = %d\n",Pn3);
   InsertNode_Graph(BIG_MAP,M4,&Pn4);
   //printf("Pn4 = %d\n",Pn4);
+
+  /*Menginsert Edge pada Graf */
   InsertEdge(BIG_MAP,M1,M2,Trans12,Spawn12,RIGHT);
   InsertEdge(BIG_MAP,M1,M4,Trans14,Spawn14,DOWN);
 

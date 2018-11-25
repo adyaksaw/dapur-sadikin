@@ -8,13 +8,13 @@ Deskripsi : File Implementasi dari mesinkata.h
 Kata CKata;
 boolean EndKata;
 #include <stdio.h>
-/* File: mesinkata.h */
-/* Definisi Mesin Kata: Model Akuisisi Versi I */
+
+/* Definisi Mesin Bata: Model Akuisisi Versi I */
 
 void IgnoreBlank()
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : CC sembarang
-   F.S. : CC ≠ BLANK atau CC = MARK */
+   F.S. : ((CC == BLANK) || (CC == BARRIER) || (CC == BREAKLINE) || (CC == SECTION)) && (CC != MARK)*/
 {
   while (((CC == BLANK) || (CC == BARRIER) || (CC == BREAKLINE) || (CC == SECTION)) && (CC != MARK)){
     ADV();
@@ -43,6 +43,7 @@ void ADVKATA()
    F.S. : CKata adalah kata terakhir yang sudah diakuisisi,
           CC adalah karakter pertama dari kata berikutnya, mungkin MARK
           Jika CC = MARK, EndKata = true.
+          (CC != BREAKLINE), Salin Kata
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 {
   IgnoreBlank();
@@ -57,14 +58,13 @@ void SalinKata()
 /* Mengakuisisi kata, menyimpan dalam CKata
    I.S. : CC adalah karakter pertama dari kata
    F.S. : CKata berisi kata yang sudah diakuisisi;
-          CC = BLANK atau CC = MARK;
+          CC = BLANK atau CC = MARK atau (CC == BREAKLINE) ||(CC == BARRIER) || (CC == SECTION)) ;
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 {
     int i = 1;
     while (i <= NMax){
       CKata.TabKata[i] = CC;
-      //printf("Isi dari CKata.TabKata[%d] %c\n",i, CKata.TabKata[i]);
       ADV();
       if ((CC == BLANK) || (CC == MARK) || (CC == BREAKLINE) ||(CC == BARRIER) || (CC == SECTION)){
         break;
@@ -73,41 +73,38 @@ void SalinKata()
       }
     }
 
-    //printf("%s",CKata.TabKata);
-
     if (i == NMax+1){
       CKata.Length = NMax;
       while ((CC != BLANK) && (CC != MARK) && (CC != BREAKLINE) && (CC != BARRIER) && (CC != SECTION))
         ADV();
     } else {
       CKata.Length = i;
-      
+
     }
 
 }
 
 boolean IsKataSama(Kata Kata1 , Kata Kata2) {
+  /* Fungsi mengembalikan apakah Kata1 = Kata2 */
   int i = 1;
   boolean sama = true;
   int looper = Kata1.Length < Kata2.Length ? Kata1.Length : Kata2.Length;
   while (i <= looper && sama){
-    //printf("%c = %c\n", Kata1.TabKata[i], Kata2.TabKata[i]);
     sama = Kata1.TabKata[i] == Kata2.TabKata[i];
-    //printf("SAMA %d\n", sama);
     i++;
   }
   if (sama){
     if (Kata1.Length < Kata2.Length){
-      sama = Kata2.TabKata[i] == '\0'; 
+      sama = Kata2.TabKata[i] == '\0';
     }else if (Kata1.Length > Kata2.Length){
       sama = Kata1.TabKata[i] == '\0';
     }
-    //printf("SAMA %d\n", sama);
   }
   return sama;
 }
 
 void isiKata(Kata * k, char isi[], int isi_length){
+  /* Mengisi Kata *k dengan char isi */
   for (int i = 1; i <= isi_length; i++){
     (*k).TabKata[i] = isi[i-1];
   }
@@ -115,6 +112,7 @@ void isiKata(Kata * k, char isi[], int isi_length){
 }
 
 void printKata(Kata k){
+  /* Memprint Kata yang ada ke layar*/
   int i = 1;
   while (i <= k.Length && k.TabKata[i] != '\0'){
     printf("%c", k.TabKata[i]);
@@ -123,6 +121,7 @@ void printKata(Kata k){
 }
 
 void printKataToFile(Kata k, FILE *fp){
+  /* Memprint Kata yang ada ke file*/
   int i = 1;
   while (i <= k.Length && k.TabKata[i] != '\0'){
     fprintf(fp, "%c", k.TabKata[i]);
@@ -131,6 +130,7 @@ void printKataToFile(Kata k, FILE *fp){
 }
 
 int KataToInt (Kata Kata1) {
+  /* Menkonversi Kata menjadi Integer*/
   int hsl = 0;
   int i;
   if (Kata1.Length == 1)
@@ -142,6 +142,7 @@ int KataToInt (Kata Kata1) {
 }
 
 void IntToKata(int n , Kata *Kata1 ) {
+  /* Menkonversi Integer menjadi Kata*/
   int hsl =n;
   int mod = 0;
   int i = 0;
@@ -161,6 +162,7 @@ void IntToKata(int n , Kata *Kata1 ) {
 }
 
 void normalizeFromFscanf(Kata *Kata1){
+  /*IdxMin Kata diset menjadi 0 */
   int i;
   for(i = NMax; i >= 1; i--){
     (*Kata1).TabKata[i] = (*Kata1).TabKata[i-1];

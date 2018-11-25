@@ -14,20 +14,27 @@
 #include "../data_structure/adt/matrix.h"
 #include "../data_structure/adt/tree.h"
 
-/* Semuanya masih bisa diubah sesuai kebutuhan */
+
+
+void LoadRoom (Matrix *M, int TableNum1 , int TableNum2 , int TableNum3, int TableNum4 );
+/* I.S. *M sembarang, TableNum1,2,3,4 terdefinisi */
+/* F.S. Matriks M diload dengan TableNumbernya dan beberapa hal terkait untuk gameplay, selama dia bukan kitchen */
+
 
 void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4);
 /*
     Prosedur ini akan melakukan load dari file eksternal yang berisi objek-objek dan koordinatnya.
-    Parameter masih belum jelas.
+    Isinya adalah Map yang berisi room-room dan kitchen.
 */
 
-void LoadGameStatus();
+void LoadKitchen (Matrix *M);
 
-void LoadMapStatus();
+/* I.S. *M sembarang  */
+/* F.S. Matriks M diload dengan  M/T nya dan beberapa hal terkait untuk gameplay, M diisi dengan objek pada kitchen */
 
-void LoadMapSave();
+void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4);
 
-void Save();
+/* I.S M1,M2,M3,M4 sembarang */
+/* F.S. M1 diisi Room1, M2 diisi Room2, M3 diisi Room3, M4 diisi Kitchen */
 
 #endif

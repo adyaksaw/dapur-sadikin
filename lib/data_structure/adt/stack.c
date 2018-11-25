@@ -81,7 +81,8 @@ void Save_Stack (Stack * S, FILE * fptr){
 	while (!IsEmpty_Stack(Temp)){
 		Pop_Stack(&Temp,&T);
 		Push_Stack(S,T);
-		fprintf(fptr,"%s %d",ItemName(T),ItemID(T));
+		printKataToFile((T).name, fptr);
+		fprintf(fptr," %d\n",ItemID(T));
 		//fprintf(fptr,ItemName(T));
 	}
 }
