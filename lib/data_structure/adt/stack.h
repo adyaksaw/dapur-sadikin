@@ -89,4 +89,6 @@ void PrintData_Stack (Stack S, boolean isHand);
    [4]Garpu
 */
 
+Stack Reverse_Stack(Stack *S);
+
 #endif
