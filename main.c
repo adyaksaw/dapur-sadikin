@@ -392,6 +392,12 @@ void InputProcessor(char input[], int input_length){
     Kata recipeInput;
     isiKata(&recipeInput, "recipe",6);
 
+    Kata saveInput;
+    isiKata(&saveInput , "save",4);
+
+    Kata loadInput;
+    isiKata(&loadInput, "load",4);
+
     if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
@@ -429,7 +435,7 @@ void InputProcessor(char input[], int input_length){
         } else {
             printf("Tidak ada nampan disekitarmu!\n");
         }
-        
+
     }else if (IsKataSama(processedInput, orderInput)){ //COMMAND order
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
@@ -519,6 +525,10 @@ void InputProcessor(char input[], int input_length){
         printf("Berikut adalah resep makanan di game ini!\n\n");
         PrintTree(resep,3);
         printf("\n");
+    } else if (IsKataSama(processedInput, loadInput)){
+      LoadFromFile("load.txt");
+    } else if (IsKataSama(processedInput,saveInput)) {
+      SaveToFile("save.txt");
     }
 }
 
