@@ -7,6 +7,13 @@
 int main()
 {
     initscr();            /* Start curses mode 		*/
+    if (has_colors() == FALSE)
+    {
+        endwin();
+        printf("Your terminal does not support color\n");
+        exit(1);
+    }
+    start_color(); /* Start color 			*/
     raw();                /* Line buffering disabled	*/
     keypad(stdscr, TRUE); /* We get F1, F2 etc..		*/
     noecho();             /* Don't echo() while we do getch */
