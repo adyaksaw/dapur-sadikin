@@ -51,15 +51,19 @@ void Input_Stack (Stack * S, FILE * fptr){
 	/* I.S. S sembarang */
 	/* F.S. Save FILE fptr masuk ke Stack S */
 	infotype_food F;
+	boolean yes = true;
 
 	CreateEmpty_Stack(S);
-	fscanf(fptr,"%s %d", &ItemName(F), &ItemID(F));
-	while (ItemName(F)[0] != 'E' && ItemName(F)[1] != 'S'){
-		printf("%s\n", ItemName(F));
-		//fscanf(fptr, "%d", &ItemID(F));
-		Push_Stack(S,F);
-		fscanf(fptr, "%s %d", &ItemName(F), ItemID(F));
-	}
+	do{
+		char raw_input[20] = "";
+		fscanf(fptr,"%s %d", raw_input, &ItemID(F));
+		if (raw_input[0] != 'E' && raw_input[1] != 'S'){
+			isiKata(&(F.name),raw_input,19);
+			Push_Stack(S,F);
+		} else {
+			yes = false;
+		}
+	} while (yes);
 }
 
 void Save_Stack (Stack * S, FILE * fptr){
