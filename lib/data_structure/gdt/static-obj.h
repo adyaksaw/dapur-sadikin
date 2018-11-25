@@ -24,6 +24,7 @@ typedef struct {
   //unsigned short tag;
   GameObj tag;
 
+
   union {
     /* *** Table *** */
     struct {
@@ -45,6 +46,7 @@ typedef struct {
 /* *** GAME OBJECTS *** */
 #define Tag(O)   (O).tag
 
+
 /* *** Table *** */
 #define TableNumber(O)  (O).data.table.num
 #define CapacityOf(O)   (O).data.table.size
@@ -53,7 +55,7 @@ typedef struct {
 #define CustomerAt(O)   (*((O).data.table.customer_here))
 
 /* *** Stove *** */
-#define ItemsIn(O) (O).data.stove.item
+#define ItemsIn(O) (O).data.stove.itemID
 
 boolean PlaceCustomerToTable(Object * Table, Customer * Cust);
 

@@ -29,6 +29,7 @@ void LoadRoom (Matrix *M, int TableNum1 , int TableNum2 , int TableNum3, int Tab
             ElmtMx(*M,i,j).tag = TABLE;
             TableNumber(ElmtMx(*M,i,j)) = TableNum1;
             CapacityOf(ElmtMx(*M,i,j)) = 4;
+
             //MakeEmpty_Table (M,i,j);
           } else if (IsKataSama(CKata,Kata2)) {
             ElmtMx(*M,i,j).tag = TABLE;
@@ -82,6 +83,7 @@ void LoadKitchen (Matrix *M) {
         if (IsKataSama(CKata,Kata1)) {
           ElmtMx(*M,i,j).tag = STOVE;
           ElmtMx(*M,i,j).data.stove.itemID = 0;
+
           //MakeEmpty_Table (M1,i,j);
         } else if (IsKataSama(CKata,Kata2)) {
           ElmtMx(*M,i,j).tag = TRAY;
@@ -109,10 +111,10 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
     Parameter masih belum jelas. */
 {
     Kata Kata1, Kata2, Kata3, Kata4;
-    MakeEmpty_Map(8,8,M1);
-    MakeEmpty_Map(8,8,M2);
-    MakeEmpty_Map(8,8,M3);
-    MakeEmpty_Map(8,8,M4);
+    MakeEmpty_Map(8,8,M1,1);
+    MakeEmpty_Map(8,8,M2,2);
+    MakeEmpty_Map(8,8,M3,3);
+    MakeEmpty_Map(8,8,M4,4);
 
     STARTKATA();
 
@@ -132,7 +134,6 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
         //printf("%c\n",CKata.TabKata[1]);
         //printf("Panjang : %d\n",CKata.Length);
         if (IsKataSama(CKata,Kata1)) {
-            //printf("Tes\n");
             LoadRoom(M1,1,2,3,4);
         }
 
@@ -160,6 +161,7 @@ void LoadMap(Matrix *M1, Matrix *M2, Matrix *M3, Matrix *M4)
         Kata1.Length = 1;
         if (IsKataSama(CKata,Kata1)) {
           LoadKitchen(M4);
+
         }
         ADV();
       }

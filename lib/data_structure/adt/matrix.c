@@ -9,7 +9,7 @@
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */
 /* *** Konstruktor membentuk Matrix *** */
-void MakeEmpty_Map (int NB, int NK, Matrix * M){
+void MakeEmpty_Map (int NB, int NK, Matrix * M, int RoomID){
   int i,j;
   NRowEff(*M) = NB;
   NColEff(*M) = NK;
@@ -18,6 +18,7 @@ void MakeEmpty_Map (int NB, int NK, Matrix * M){
       ElmtMx(*M,i,j).tag = EMPTY;
     }
   }
+  (*M).RoomID = RoomID;
 }
 /* Membuat Map kosong */
 
@@ -44,8 +45,14 @@ void Print_Room (Matrix M)
 /* Print Map ke layar. */
 {
   int i,j;
+  printf("\n\n");
   for (i = MIN_ROW_MAP ; i <= NRowEff(M) ; ++i ) {
+
     for (j = MIN_COL_MAP ; j <= NColEff(M) ; ++j) {
+      if (j == 1) {
+        printf("          ");
+      }
+
       if (ElmtMx(M,(i-1),j).tag == TABLE)
         if (IsOccupied(ElmtMx(M,(i-1),j))){
           printf("C");
@@ -103,11 +110,15 @@ void Print_Room (Matrix M)
       } else {
         printf("-");
       }
+      if (j != NColEff(M)) {
+        if (TableNumber(ElmtMx(M,i,j)) / 10 == 0) //Kalau panjang angka > 2, maka dia langsung dikurangi dengan 1 space
+          printf("    ");
+        else
+          printf("   ");
+      }
 
-      if (j != NColEff(M))
-        printf(" ");
     }
-    printf("\n");
+    printf("\n\n\n");
   }
 }
 

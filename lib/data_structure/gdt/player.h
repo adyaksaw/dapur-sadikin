@@ -12,13 +12,9 @@
 #include "../adt/table.h"
 #include "../adt/stack.h"
 #include "../adt/tree.h"
+#include "map.h"
 
-typedef enum {
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT,
-} Direction;
+
 
 typedef struct {
   Kata name;
@@ -28,6 +24,7 @@ typedef struct {
   Stack hand;          // refer to 'data_structure/arraystr.h'
   Stack food;           // refer to 'data_structure/stackt.h'
   Matrix * currentMap;
+  int currentRoom;
 } Player;
 
 /* *** Player *** */
