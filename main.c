@@ -423,7 +423,13 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, buangNampanInput)){ //COMMAND CH
         CreateEmpty_Stack(&(player.food));
     }else if (IsKataSama(processedInput, putInput)){ //COMMAND CH
-        Masak(&player, resep);
+        Object * Closest_Tray = Closest_Object(player, player.currentMap, TRAY);
+        if(Closest_Tray != NULL){
+            Masak(&player, resep);
+        } else {
+            printf("Tidak ada nampan disekitarmu!\n");
+        }
+        
     }else if (IsKataSama(processedInput, orderInput)){ //COMMAND order
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
