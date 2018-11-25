@@ -54,7 +54,8 @@ void Input_Stack (Stack * S, FILE * fptr){
 
 	CreateEmpty_Stack(S);
 	fscanf(fptr, "%s", &ItemName(F));
-	while (ItemName(F) != "ES"){
+	while (ItemName(F)[0] == 'E' && ItemName(F)[1] == 'S'){
+		printf("%s\n", ItemName(F));
 		fscanf(fptr, "%d", &ItemID(F));
 		Push_Stack(S,F);
 		fscanf(fptr, "%s", &ItemName(F));

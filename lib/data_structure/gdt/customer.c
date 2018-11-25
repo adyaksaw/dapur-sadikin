@@ -37,11 +37,11 @@ void printCustomer(Customer customer){
 }
 
 void Save_Cust(Customer customer, FILE *fp){
-  fprintf(fp,"%d %d %d %d %d",Amount(customer), TableNum(customer), Patience(customer), Priority(customer), Status(customer));
+  fprintf(fp,"%d %d %d %d %d\n",Amount(customer), TableNum(customer), Patience(customer), Priority(customer), Status(customer));
 }
 
 void Load_Cust(Customer *customer, FILE *fp){
-  fscanf(fp,"%d %d %d %d %d",&Amount(*customer), &TableNum(*customer), &Patience(*customer), &Priority(*customer), &Status(*customer));
+  fscanf(fp,"%hi %hi %hi %hi %hi",&Amount(*customer), &TableNum(*customer), &Patience(*customer), &Priority(*customer), &Status(*customer));
 }
 
 void Dealokasi_Customer(Customer *Cust){

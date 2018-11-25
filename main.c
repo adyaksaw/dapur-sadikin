@@ -42,13 +42,13 @@ void SaveToFile(char *FileName){
     fprintf(save,"%d\n",Life(player));
     fprintf(save,"%d\n", GameTime);
     Save_Stack(&Hand(player),save);
-    fprintf(save,"ES");
+    fprintf(save,"ES\n");
     Save_Stack(&Food(player),save);
-    fprintf(save,"ES");
+    fprintf(save,"ES\n");
 
     //Customer Queue
     Save_Queue(CustomerQueue,save);
-    fprintf(save,"0"); //0 Adalah "tanda" yang menandakan Berakhirnya Pembacaan Queue
+    fprintf(save,"0 0 0 0 0\n"); //0 Adalah "tanda" yang menandakan Berakhirnya Pembacaan Queue
 
     //Table
     for (i = 1; i<=12; i++){
@@ -78,12 +78,11 @@ void LoadFromFile(char *FileName){
     fscanf(load,"%ld",&Money(player));
     fscanf(load,"%d",&Life(player));
     fscanf(load,"%d", &GameTime);
-    printf("1\n");
     Input_Stack(&Hand(player),load);
     Input_Stack(&Food(player),load);
-
     //Customer Queue
     Load_Queue(&CustomerQueue,load);
+    printf("0\n");
     //Pembacaan berhenti saat pembacaan menemukan 0 sebagai nilai Amount,
     //Amount pastilah [1..4]
 

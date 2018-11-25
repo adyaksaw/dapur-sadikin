@@ -224,9 +224,10 @@ void Load_Queue(Queue *Q, FILE *file)
     int i = 1;
     ElType_Queue customer;
     CreateEmpty_Queue(Q,5);
-
     Load_Cust(customer, file);
     while (Amount(*customer) != 0){
+        printf("1\n");
         Add_Queue(Q,customer);
+        Load_Cust(customer, file);
     }
 }
