@@ -24,7 +24,7 @@ void DealokNode_Graph(adrNode P)
     free(P);
 }
 
-adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn)
+adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn, Direction dir)
 {
     adrSuccNode Pt = (adrSuccNode) malloc(sizeof(SuccNode));
 
@@ -32,7 +32,7 @@ adrSuccNode AlokSuccNode(adrNode Pn, Point Trans, Point Spawn)
     {
         Succ(Pt) = Pn;
         Transition(Pt) = Trans; //hardcode when use
-
+        Dir(Pt) = dir;
         Spawn(Pt) = Spawn;
         Next_Trail(Pt) = Nil;
     }
@@ -120,7 +120,7 @@ void InsertNode_Graph(Graph *G, TypeGraph X, adrNode *Pn)
     }
 }
 
-void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spawn)
+void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spawn, Direction dir)
 {
   adrNode P,Q;
   adrSuccNode Pn;
@@ -163,7 +163,7 @@ void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spa
 
     Pn = Trail(P);
     if (Pn == Nil) {
-      Trail(P) = AlokSuccNode(Q,Trans,Spawn);
+      Trail(P) = AlokSuccNode(Q,Trans,Spawn,dir);
       Pn = Trail(P);
       printf("TEST1 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
     }
@@ -172,7 +172,7 @@ void InsertEdge(Graph *G, TypeGraph prec, TypeGraph succ, Point Trans, Point Spa
       while (Next_Trail(Pn) != Nil) {
         Pn = Next_Trail(Pn);
       }
-      Next_Trail(Pn) = AlokSuccNode(Q,Trans,Spawn);
+      Next_Trail(Pn) = AlokSuccNode(Q,Trans,Spawn,dir);
       printf("TEST2 %f %f\n", Absis(Transition(Pn)), Ordinat(Transition(Pn)) );
     }
 

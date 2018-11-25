@@ -216,27 +216,9 @@ void CheckTransitiontoGraph (Matrix *M1, Matrix *M2, Direction dir) {
 
   Pt = SearchEdge(BIG_MAP,player.currentMap,M1);
   if (Pt != Nil) {
-    if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos))) {
+    if(Dir(Pt) == dir) {
+      if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos))) {
 
-      SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
-      player.pos = Spawn(Pt);
-      player.currentMap = Id(Succ(Pt));
-      SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
-      player.currentRoom = RoomID(*player.currentMap);
-      reduceAllCustPatience();
-      CustomerGenerator(&CustomerQueue);
-      UpdateTime(&GameTime);
-    } else {
-      Move_Player_Direction(player.currentMap, &player, dir);
-      reduceAllCustPatience();
-      CustomerGenerator(&CustomerQueue);
-      UpdateTime(&GameTime);
-    }
-  } else {
-    Pt = SearchEdge(BIG_MAP,player.currentMap,M2);
-    if (Pt != Nil) {
-      if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos)))  {
-        //printf("TES3\n");
         SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
         player.pos = Spawn(Pt);
         player.currentMap = Id(Succ(Pt));
@@ -246,7 +228,7 @@ void CheckTransitiontoGraph (Matrix *M1, Matrix *M2, Direction dir) {
         CustomerGenerator(&CustomerQueue);
         UpdateTime(&GameTime);
       } else {
-        Move_Player_Direction(player.currentMap, &player,dir);
+        Move_Player_Direction(player.currentMap, &player, dir);
         reduceAllCustPatience();
         CustomerGenerator(&CustomerQueue);
         UpdateTime(&GameTime);
@@ -257,7 +239,39 @@ void CheckTransitiontoGraph (Matrix *M1, Matrix *M2, Direction dir) {
       CustomerGenerator(&CustomerQueue);
       UpdateTime(&GameTime);
     }
+  } else {
+    Pt = SearchEdge(BIG_MAP,player.currentMap,M2);
+    if (Pt != Nil) {
+      if(Dir(Pt) == dir) {
+        if((Ordinat(Transition(Pt)) == Ordinat(player.pos)) && (Absis(Transition(Pt)) == Absis(player.pos))) {
+
+          SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+          player.pos = Spawn(Pt);
+          player.currentMap = Id(Succ(Pt));
+          SetTag_Matrix(player.currentMap, (int)(Absis(Spawn(Pt))), (int)(Ordinat(Spawn(Pt))), PLAYER_POS);
+          player.currentRoom = RoomID(*player.currentMap);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        } else {
+          Move_Player_Direction(player.currentMap, &player, dir);
+          reduceAllCustPatience();
+          CustomerGenerator(&CustomerQueue);
+          UpdateTime(&GameTime);
+        }
+      } else {
+        Move_Player_Direction(player.currentMap, &player, dir);
+        reduceAllCustPatience();
+        CustomerGenerator(&CustomerQueue);
+        UpdateTime(&GameTime);
+      }
+  } else {
+    Move_Player_Direction(player.currentMap, &player, dir);
+    reduceAllCustPatience();
+    CustomerGenerator(&CustomerQueue);
+    UpdateTime(&GameTime);
   }
+}
 
 }
 

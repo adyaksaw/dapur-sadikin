@@ -53,15 +53,15 @@ void CreateBigMap (Matrix *M1, Matrix *M2 , Matrix *M3 , Matrix *M4, Graph *BIG_
     printf("Node M4 Nil\n");
   }
 
-  InsertEdge(BIG_MAP,M1,M2,Trans12,Spawn12);
-  InsertEdge(BIG_MAP,M1,M4,Trans14,Spawn14);
+  InsertEdge(BIG_MAP,M1,M2,Trans12,Spawn12,RIGHT);
+  InsertEdge(BIG_MAP,M1,M4,Trans14,Spawn14,DOWN);
 
-  InsertEdge(BIG_MAP,M2,M1,Trans21,Spawn21);
-  InsertEdge(BIG_MAP,M2,M3,Trans23,Spawn23);
+  InsertEdge(BIG_MAP,M2,M1,Trans21,Spawn21,LEFT);
+  InsertEdge(BIG_MAP,M2,M3,Trans23,Spawn23,DOWN);
 
-  InsertEdge(BIG_MAP,M3,M4,Trans34,Spawn34);
-  InsertEdge(BIG_MAP,M3,M2,Trans32,Spawn32);
+  InsertEdge(BIG_MAP,M3,M4,Trans34,Spawn34,LEFT);
+  InsertEdge(BIG_MAP,M3,M2,Trans32,Spawn32,UP);
 
-  InsertEdge(BIG_MAP,M4,M1,Trans41,Spawn41);
-  InsertEdge(BIG_MAP,M4,M3,Trans43,Spawn43);
+  InsertEdge(BIG_MAP,M4,M1,Trans41,Spawn41,UP);
+  InsertEdge(BIG_MAP,M4,M3,Trans43,Spawn43,RIGHT);
 }

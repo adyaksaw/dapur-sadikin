@@ -14,12 +14,7 @@
 #include "../adt/tree.h"
 #include "map.h"
 
-typedef enum {
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT,
-} Direction;
+
 
 typedef struct {
   Kata name;

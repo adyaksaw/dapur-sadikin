@@ -45,8 +45,14 @@ void Print_Room (Matrix M)
 /* Print Map ke layar. */
 {
   int i,j;
+  printf("\n\n");
   for (i = MIN_ROW_MAP ; i <= NRowEff(M) ; ++i ) {
+
     for (j = MIN_COL_MAP ; j <= NColEff(M) ; ++j) {
+      if (j == 1) {
+        printf("          ");
+      }
+
       if (ElmtMx(M,(i-1),j).tag == TABLE)
         if (IsOccupied(ElmtMx(M,(i-1),j))){
           printf("C");
@@ -104,13 +110,13 @@ void Print_Room (Matrix M)
       } else {
         printf("-");
       }
-
       if (j != NColEff(M)) {
         if (TableNumber(ElmtMx(M,i,j)) / 10 == 0) //Kalau panjang angka > 2, maka dia langsung dikurangi dengan 1 space
-          printf("   ");
+          printf("    ");
         else
-          printf("  ");
+          printf("   ");
       }
+
     }
     printf("\n\n\n");
   }
