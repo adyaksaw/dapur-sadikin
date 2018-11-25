@@ -190,9 +190,9 @@ void Masak(Player * player, BinTree resep){
                     currentStackElmt -= 1;
                     printf("Current stack elmt %d\n", currentStackElmt);
                     if (currentStackElmt > 0){
-                        if (SearchItemTree(Left(resep), reversedStack.T[currentStackElmt].id).id != 255){
+                        if (SearchItemTree(Left(currentNode), reversedStack.T[currentStackElmt].id).id != 255){
                             currentNode = Left(currentNode);
-                        }else if (SearchItemTree(Right(resep), reversedStack.T[currentStackElmt].id).id != 255){
+                        }else if (SearchItemTree(Right(currentNode), reversedStack.T[currentStackElmt].id).id != 255){
                             currentNode = Right(currentNode);
                         }else {
                             inventoriValid = false;

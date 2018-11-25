@@ -187,9 +187,9 @@ Item SearchItemTree(BinTree P, SmallNum X){
       return Akar(P);
     } else if(ItemID(SearchItemTree(Left(P), X)) != 255){
       return SearchItemTree(Left(P),X);
-    } else {
+    } else if(ItemID(SearchItemTree(Right(P),X)) != 255){
       return SearchItemTree(Right(P),X);
-    }
+    } else return notFound;
   }
 }
 

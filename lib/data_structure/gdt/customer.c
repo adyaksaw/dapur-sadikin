@@ -14,9 +14,9 @@ Customer * GenerateCustomer(){
   TableNum(*newCustomer) = 0;
   Priority(*newCustomer) = rand() % 2;
   if (Priority(*newCustomer) == 0){
-    Patience(*newCustomer) = 30;
+    Patience(*newCustomer) = 70;
   }else if (Priority(*newCustomer) == 1){
-    Patience(*newCustomer) = 20;
+    Patience(*newCustomer) = 50;
   }
   Status(*newCustomer) = QUEUE;
 
