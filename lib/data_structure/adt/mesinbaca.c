@@ -151,3 +151,10 @@ void IntToKata(int n , Kata *Kata1 ) {
 
 
 }
+
+void normalizeFromFscanf(Kata *Kata1){
+  int i;
+  for(i = NMax; i >= 1; i--){
+    (*Kata1).TabKata[i] = (*Kata1).TabKata[i-1];
+  }
+}

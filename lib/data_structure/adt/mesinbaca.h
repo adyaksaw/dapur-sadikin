@@ -59,4 +59,6 @@ boolean IsKataSama(Kata Kata1 , Kata Kata2);
 int KataToInt (Kata Kata1);
 void IntToKata(int n , Kata* Kata1 );
 
+void normalizeFromFscanf(Kata *Kata1);
+
 #endif

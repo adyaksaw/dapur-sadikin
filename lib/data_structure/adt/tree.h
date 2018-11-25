@@ -91,6 +91,10 @@ A
 */
 
 /* *** Searching *** */
+
+Item SearchItemTree(BinTree P, SmallNum X);
+/* Mengirimkan true jika ada node dari P yang memiliki ItemID X */
+
 boolean SearchTree(BinTree P, TypeTree X);
 /* Mengirimkan true jika ada node dari P yang bernilai X */
 

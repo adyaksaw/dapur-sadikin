@@ -51,6 +51,7 @@ BinTree BuildBalanceTree(int n, FILE *fp)
     return Nil;
   } else {
     fscanf(fp, "%d %s", &ItemID(X), ItemName(X));
+    normalizeFromFscanf(&(X.name));
     P = AlokNode(X);
     if (P != Nil){
       Left(P) = BuildBalanceTree(n/2, fp);
@@ -151,7 +152,8 @@ A
   {
     int i;
     if (!IsTreeEmpty(P)){
-      printf("%s\n", ItemName(Akar(P)));
+      printKata(Akar(P).name);
+      printf("\n");
       if (!IsTreeEmpty(Left(P))){
         for (i=1; i<=h+idt;i++){
           printf(" ");
@@ -172,6 +174,26 @@ A
   PrintTreeWithIndent(P,h,0);
 }
 /* *** Searching *** */
+
+
+Item SearchItemTree(BinTree P, SmallNum X){
+  /* Mengirimkan true jika ada node dari P yang memiliki ItemID X */
+  Item notFound;
+  ItemID(notFound) = 255;
+  if (IsTreeEmpty(P)){
+    return notFound;
+  } else {
+    if (X == ItemID(Akar(P))){
+      return Akar(P);
+    } else if(ItemID(SearchItemTree(Left(P), X)) != 255){
+      return SearchItemTree(Left(P),X);
+    } else {
+      return SearchItemTree(Right(P),X);
+    }
+  }
+}
+
+
 boolean SearchTree(BinTree P, TypeTree X)
 /* Mengirimkan true jika ada node dari P yang bernilai X */
 {

@@ -139,20 +139,25 @@ void Init(){
     CreateBigMap(&Map1,&Map2,&Map3,&Kitchen,&BIG_MAP);
     int i;
     srand(time(NULL));
-
-    for(i = 0; i <= 29; i++){
-        ItemID(ArrayOfItem[i]) = 0;
-        isiKata(&(ArrayOfItem[i].name),"Test_food", 9);
-    }
     Create_New_Player(&player);
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
+
+    FILE *fp;
+    fp = fopen(NamaFile3, "r");
+    if (fp == NULL)
+        printf("File tidak terdeteksi\n");
+    resep = BuildBalanceTree(23,fp);
+
+    for(i = 1; i <= 23; i++){
+        ArrayOfItem[i] = SearchItemTree(resep, i);
+        printf("Nama item ke %d: ",i);
+        printKata((ArrayOfItem[i].name));
+        printf(" %d\n", ItemID(ArrayOfItem[i]));
+    }
 
     GameTime = 0;
     printf("Init\n");
     //PrintAllMemory(&Map1);
-
-    resep = NULL;
-
     /*
         Melakukan inisialisasi dari array of pointer ArrayOfMeja.
         ArrayOfMeja akan berisi pointer menuju semua objek meja sesuai nomornya.
@@ -468,8 +473,10 @@ void InputProcessor(char input[], int input_length){
         printf("Ketik allOrder untuk melihat order untuk setiap meja.\n");
         printf("Ketik queue untuk melihat antrian saat ini\n");
         printf("Ketik status untuk melihat status pemain\n");
-        printf("Ketik place untuk mengecek petak sekitar");
-        printf("Ketik quit untuk keluar dari permainan.\n");
+        printf("Ketik place untuk menaruh customer di meja sekitar");
+        printf("Ketik give untuk memberikan makanan dari food tray ke customer.\n");
+        printf("Ketik take untuk mengambil makanan dari kompor ke tangan.\n");
+        printf("Ketik recipe untuk melihat resep yang ada.\n");
     } else if(IsKataSama(processedInput, giveInput)){ //COMMAND give
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if(ClosestTable != NULL){
@@ -494,30 +501,18 @@ void InputProcessor(char input[], int input_length){
     } else if(IsKataSama(processedInput, removeCustInput)){ //COMMAND debug: remove
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         RemoveCustomerFromTable(ClosestTable);
-    } else if(IsKataSama(processedInput, teleportDapurInput)){
-        player.currentMap = &Kitchen;
-        Move_Player(player.currentMap,&player,player.pos);
-    } else if(IsKataSama(processedInput, teleportMap1Input)){
-        player.currentMap = &Map1;
-        Move_Player(player.currentMap,&player,player.pos);
-    } else if(IsKataSama(processedInput, takeInput)){
+    } else if(IsKataSama(processedInput, takeInput)){ // COMMAND take
         Object * Closest_Stove = Closest_Object(player, player.currentMap, STOVE);
         if(Closest_Stove != NULL){
-            printf("Kamu mengambil ItemID %d dari kompor!\n", ItemID(ArrayOfItem[(*Closest_Stove).data.stove.itemID]));
+            printf("Kamu mengambil ItemID %d dari kompor!\n", (*Closest_Stove).data.stove.itemID);
             Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
         } else {
             printf("Tidak ada kompor di sekitar player\n");
         }
-    } else if (IsKataSama(processedInput,recipeInput)) {
-      BinTree P;
-      FILE *fp;
-      fp = fopen(NamaFile3, "r");
-      if (fp == NULL)
-        printf("File tidak terdeteksi\n");
-      P = BuildBalanceTree(23,fp);
-      printf("Berikut adalah resep makanan di game ini!\n\n");
-      PrintTree(P,3);
-      printf("\n");
+    } else if (IsKataSama(processedInput,recipeInput)) { // COMMAND recipe
+        printf("Berikut adalah resep makanan di game ini!\n\n");
+        PrintTree(resep,3);
+        printf("\n");
     }
 }
 
