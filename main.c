@@ -524,7 +524,9 @@ void InputProcessor(char input[], int input_length){
     } else if(IsKataSama(processedInput, takeInput)){ // COMMAND take
         Object * Closest_Stove = Closest_Object(player, player.currentMap, STOVE);
         if(Closest_Stove != NULL){
-            printf("Kamu mengambil ItemID %d dari kompor!\n", (*Closest_Stove).data.stove.itemID);
+
+            printf("Kamu mengambil ItemID %d dari kompor, yaitu: ", (*Closest_Stove).data.stove.itemID);
+            printKata((ArrayOfItem[(*Closest_Stove).data.stove.itemID].name));
             Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
         } else {
             printf("Tidak ada kompor di sekitar player\n");
@@ -536,7 +538,7 @@ void InputProcessor(char input[], int input_length){
     } else if (IsKataSama(processedInput, loadInput)){
       LoadFromFile("save.txt");
     } else if (IsKataSama(processedInput,saveInput)) {
-      SaveToFile("save.txt");
+      SaveToFile("Save.txt");
     }
 }
 
@@ -601,11 +603,11 @@ int main(){
     printf("%d\n", gameState);
 
     MainScreen();
-    printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
-    printf("After mainscreen\n");
+    //printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
+    //printf("After mainscreen\n");
     //PrintAllMemory(Map1);
-    printf("After mainscreen2\n");
-    printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
+    //printf("After mainscreen2\n");
+    //printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
     //PrintAllMemory(Map1);
 
     MainGame();

@@ -3,7 +3,7 @@
 
 /* ADT Pohon Biner */
 /* Implementasi dengan menggunakan pointer */
-/* Penamaan type infotype, type addrNode, dan beberapa fungsi disesuikan 
+/* Penamaan type infotype, type addrNode, dan beberapa fungsi disesuikan
    karena melibatkan modul list rekursif. */
 
 /* Modul lain yang digunakan : */
@@ -33,7 +33,7 @@ BinTree Tree(TypeTree Akar, BinTree L, BinTree R)
 }
 void MakeTree(TypeTree Akar, BinTree L, BinTree R, BinTree *P)
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
-/* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R 
+/* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R
 		jika alokasi berhasil. P = Nil jika alokasi gagal. */
 {
   /*Kamus Lokal */
@@ -63,7 +63,7 @@ BinTree BuildBalanceTree(int n, FILE *fp)
 /* Manajemen Memory */
 addrNode AlokNode(TypeTree X)
 /* Mengirimkan addrNode hasil alokasi sebuah elemen */
-/* Jika alokasi berhasil, maka addrNode tidak Nil, dan misalnya menghasilkan P, 
+/* Jika alokasi berhasil, maka addrNode tidak Nil, dan misalnya menghasilkan P,
   maka Akar(P) = X, Left(P) = Nil, Right(P)=Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
 {
@@ -132,7 +132,7 @@ void PrintTree(BinTree P, int h)
 /* I.S. P terdefinisi, h adalah jarak indentasi (spasi) */
 /* F.S. Semua simpul P sudah ditulis dengan indentasi (spasi) */
 /* Penulisan akar selalu pada baris baru (diakhiri newline) */
-/* Contoh, jika h = 2: 
+/* Contoh, jika h = 2:
 1) Pohon preorder: (A()()) akan ditulis sbb:
 A
 2) Pohon preorder: (A(B()())(C()())) akan ditulis sbb:
@@ -152,6 +152,7 @@ A
   {
     int i;
     if (!IsTreeEmpty(P)){
+      printf("%d ",Akar(P).id);
       printKata(Akar(P).name);
       printf("\n");
       if (!IsTreeEmpty(Left(P))){
@@ -235,7 +236,7 @@ boolean IsSkewLeft(BinTree P)
 /* Pohon kosong adalah pohon condong kiri */
 {
 	/*Kamus Lokal*/
-	
+
 	/*Algortima*/
 	if (IsTreeEmpty(P)){
 		return true;
@@ -254,7 +255,7 @@ boolean IsSkewRight(BinTree P)
 /* Pohon kosong adalah pohon condong kanan */
 {
 	/*Kamus Lokal*/
-	
+
 	/*Algortima*/
 	if (IsTreeEmpty(P)){
 		return true;
@@ -269,16 +270,16 @@ boolean IsSkewRight(BinTree P)
 	}
 }
 int Level(BinTree P, TypeTree X)
-/* Mengirimkan level dari node X yang merupakan salah satu simpul dari pohon biner P. 
+/* Mengirimkan level dari node X yang merupakan salah satu simpul dari pohon biner P.
    Akar(P) level-nya adalah 1. Pohon P tidak kosong. */
 {
   /*Kamus Lokal*/
-	
+
 	/*Algortima*/
 	if ((ItemName(X) == ItemName(Akar(P)) && (X.id == Akar(P).id))){
 		return 1;
 	}
-	else 
+	else
 		if (SearchTree(Left(P), X)) {
 			return 1+Level(Left(P), X);
 		}
@@ -321,7 +322,7 @@ void AddDaunTerkiri(BinTree *P, TypeTree X)
 }
 void AddDaun(BinTree *P, TypeTree X, TypeTree Y, boolean Kiri)
 /* I.S. P tidak kosong, X adalah salah satu daun Pohon Biner P */
-/* F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri = true), atau 
+/* F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri = true), atau
         sebagai anak Kanan X (jika Kiri = false) */
 /*		Jika ada > 1 daun bernilai X, diambil daun yang paling kiri */
 {

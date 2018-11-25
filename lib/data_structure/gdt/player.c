@@ -12,7 +12,7 @@ void Move_Player_Direction (Matrix * M, Player * player, Direction dir){
 
     Point newPoint;
     newPoint = (*player).pos;
-    
+
     if (dir == UP){
         printf("TRYING TO MOVE2\n");
         Absis(newPoint) += -1;
@@ -55,7 +55,7 @@ void Print_Player(Player player){
     printf("\n");
     printf("Uang : %d\n", player.money);
     printf("Nyawa : %d\n", player.life);
-    printf("Posisi Baris %.1f Kolom %.1f.\n", Ordinat(player.pos), Ordinat(player.pos));
+    printf("Posisi Baris %.1f Kolom %.1f.\n", Absis(player.pos), Ordinat(player.pos));
 }
 
 void Set_Player_Name(Player * player, char nama[], int length){
