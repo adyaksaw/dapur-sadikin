@@ -5,7 +5,7 @@
 
 int main(){
     Queue Q;
-    
+
     Customer *Y = malloc(sizeof(Customer));
 
     //Crate Empty
