@@ -8,11 +8,30 @@
 int main(){
     BinTree P;
     FILE *fp;
-    int X;
+    Item X;
 
-    scanf("%d", &X);
+    //Build Balance Tree Modiication
+    //AlokNode
     fp = fopen("Temp.txt", "r");
-    P = BuildBalanceTree(X, fp);
+    P = BuildBalanceTree(23, fp);
+
+    //PrintTree
     PrintTree(P,2);
     fclose(fp);
+
+    //Basis
+    if (IsTreeEmpty(P)){
+        printf("Kosong\n");
+    } else {
+        printf("Nope\n");
+    }
+    if (IsTreeOneElmt(P)){
+        printf("Satu\n");
+    } else {
+        printf("Nope\n");
+    }
+
+    //SearchItemTree
+    X = SearchItemTree(P,2);
+    printf("%d %s", ItemID(X),ItemName(X));
 }

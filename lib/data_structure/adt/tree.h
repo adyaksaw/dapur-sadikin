@@ -36,14 +36,6 @@ typedef addrNode BinTree;
 #define Left(P) (P)->left
 #define Right(P) (P)->right
 
-/* *** Konstruktor *** */
-BinTree Tree(TypeTree Akar, BinTree L, BinTree R);
-/* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */
-/* Menghasilkan pohon kosong (Nil) jika alokasi gagal */
-void MakeTree(TypeTree Akar, BinTree L, BinTree R, BinTree *P);
-/* I.S. Akar, L, R terdefinisi. P Sembarang */
-/* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R 
-		jika alokasi berhasil. P = Nil jika alokasi gagal. */
 BinTree BuildBalanceTree(int n, FILE *fp);
 /* Menghasilkan sebuah balanced tree dengan n node, nilai setiap node dibaca */
 
@@ -63,12 +55,6 @@ boolean IsTreeEmpty(BinTree P);
 /* Mengirimkan true jika P adalah pohon biner kosong */
 boolean IsTreeOneElmt(BinTree P);
 /* Mengirimkan true jika P adalah pohon biner tidak kosong dan hanya memiliki 1 elemen */
-boolean IsUnerLeft(BinTree P);
-/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon unerleft: hanya mempunyai subpohon kiri */
-boolean IsUnerRight(BinTree P);
-/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon unerright: hanya mempunyai subpohon kanan*/
-boolean IsBiner(BinTree P);
-/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon biner: mempunyai subpohon kiri dan subpohon kanan*/
 
 /* *** Traversal *** */
 void PrintTree(BinTree P, int h);
@@ -94,49 +80,5 @@ A
 
 Item SearchItemTree(BinTree P, SmallNum X);
 /* Mengirimkan true jika ada node dari P yang memiliki ItemID X */
-
-boolean SearchTree(BinTree P, TypeTree X);
-/* Mengirimkan true jika ada node dari P yang bernilai X */
-
-/* *** Fungsi-Fungsi Lain *** */
-int NbElmt(BinTree P);
-/* Mengirimkan banyaknya elemen (node) pohon biner P */
-int NbDaun(BinTree P);
-/* Mengirimkan banyaknya daun (node) pohon biner P */
-/* Prekondisi: P tidak kosong */
-boolean IsSkewLeft(BinTree P);
-/* Mengirimkan true jika P adalah pohon condong kiri */
-/* Pohon kosong adalah pohon condong kiri */
-boolean IsSkewRight(BinTree P);
-/* Mengirimkan true jika P adalah pohon condong kanan */
-/* Pohon kosong adalah pohon condong kanan */
-int Level(BinTree P, TypeTree X);
-/* Mengirimkan level dari node X yang merupakan salah satu simpul dari pohon biner P. 
-   Akar(P) level-nya adalah 1. Pohon P tidak kosong. */
-int Tinggi(BinTree P);
-/* Pohon Biner mungkin kosong. Tinggi pohon kosong = 0.
-   Mengirim "height" yaitu tinggi dari pohon */
-
-/* *** Operasi lain *** */
-void AddDaunTerkiri(BinTree *P, TypeTree X);
-/* I.S. P boleh kosong */
-/* F.S. P bertambah simpulnya, dengan X sebagai simpul daun terkiri */
-void AddDaun(BinTree *P, TypeTree X, TypeTree Y, boolean Kiri);
-/* I.S. P tidak kosong, X adalah salah satu daun Pohon Biner P */
-/* F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri = true), atau 
-        sebagai anak Kanan X (jika Kiri = false) */
-/*		Jika ada > 1 daun bernilai X, diambil daun yang paling kiri */
-
-/* *** Binary  Search  Tree  *** */
-boolean BSearch(BinTree P, TypeTree X);
-/* Mengirimkan true jika ada node dari P yang bernilai X */
-
-void InsSearch(BinTree *P, TypeTree X);
-/* Menghasilkan sebuah pohon Binary Search Tree P dengan tambahan simpul X. Belum ada simpul P yang bernilai X. */
-
-void DelBtree(BinTree *P, TypeTree X);
-/* I.S. Pohon P tidak  kosong */
-/* F.S. Nilai X yang dihapus pasti ada */
-/* Sebuah node dengan nilai X dihapus */
 
 #endif
