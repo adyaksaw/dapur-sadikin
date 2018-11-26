@@ -615,8 +615,20 @@ void MainGame(){
             gameState = CREDITS;
         }
     }
+
     DeAlokasi_Queue(&CustomerQueue);
     Dealokasi_All_Meja();
+}
+
+void CreditsScene(){
+    printf("Terima kasih terlah memainkan Engi's Kitchen!\n");
+    printf("Created by:\n");
+    printf("Adyaksa Wisanggeni\n");
+    printf("Aidil Rezjki S. S.\n");
+    printf("Edward Alexander J.\n");
+    printf("Harry Prabowo\n");
+    printf("Mohammad Ridwan Hady A.\n");
+    printf("Vincent Chuardy\n");
 }
 
 int main(){
@@ -641,6 +653,10 @@ int main(){
 
     gameState = CREDITS;
     printf("%d\n", gameState);
+
+    if (gameState == CREDITS){
+        CreditsScene();
+    }
 
     printf("Before quit\n");
     //PrintAllMemory(Map1);
