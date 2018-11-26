@@ -83,10 +83,10 @@ void LoadKitchen (Matrix *M) {
         if (IsKataSama(CKata,Kata1)) {
           ElmtMx(*M,i,j).tag = STOVE;
           ElmtMx(*M,i,j).data.stove.itemID = CountItem;
-          printf("Elemen ke %d, %d adalah %d\n",i,j,ElmtMx(*M,i,j).tag );
-          printf("ItemID : %d\n",ElmtMx(*M,i,j).data.stove.itemID);
-          CountItem++; //Setiap Kompor dipetakan dengan ItemID yang unik, isinya bahan makanan.
-
+          //printf("Elemen ke %d, %d adalah %d\n",i,j,ElmtMx(*M,i,j).tag );
+          //printf("ItemID : %d\n",ElmtMx(*M,i,j).data.stove.itemID);
+          CountItem++;
+          //MakeEmpty_Table (M1,i,j);
         } else if (IsKataSama(CKata,Kata2)) {
           ElmtMx(*M,i,j).tag = TRAY;
 
