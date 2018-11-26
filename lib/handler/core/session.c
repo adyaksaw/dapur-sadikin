@@ -725,7 +725,7 @@ void InputProcessor(char input[], int input_length)
 void MainScreen()
 {
     //printf("Main Screen\n");
-    char *rawInput = "";
+    char rawInput[10] = "";
     while (gameState == MAIN_MENU)
     {
         Create_New_Player(&player);
@@ -733,8 +733,8 @@ void MainScreen()
         printf("What is your name?\n");
         printf("Name : ");
         //getstr(&rawInput);
-        scanf("%s", &rawInput);
-        Set_Player_Name(&player, &rawInput, 10);
+        scanf("%s", rawInput);
+        Set_Player_Name(&player, rawInput, 10);
         gameState = IN_GAME;
         printf("\n");
     }
