@@ -23,21 +23,20 @@ boolean IsFull_Table (Table T){
 
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-void Input_Table (Table * T, FILE * fptr){
-    /* Membaca Table dari file teks eksternal. */
-    /* I.S. T sembarang */
-    /* F.S. Save file fptr masuk ke Table T */
-}
-
 void Save_Table (Table T, FILE * fptr){
     /* Menyimpan Table ke file teks eksternal. */
     /* I.S. T terdefinisi */
     /* F.S. Table T tersimpan ke file fptr */
+    int i;
+    for(i = 1; i <= T.NEff; i++){
+        printKataToFile(Elmt(T,i).name, fptr);
+        fprintf(fptr," %d\n",ItemID(Elmt(T,i)));
+    }
 }
 
 void PrintData_Table (Table T){
     if (IsEmpty_Table(T)){
-        printf("Tangan anda kosong.\n");
+        printf("Order kosong\n");
     }else {
         for (int i = IDX_MIN_TI; i < NEff(T); i++){
             PrintItem(Elmt(T, i));
@@ -46,33 +45,24 @@ void PrintData_Table (Table T){
     }
 }
 
-/* ********** SORTNG ********** */
-void Sort_Table (Table * T, SortType x);
-/* I.S. T boleh kosong */
-/* F.S. T elemennya terurut berdasarkan sortType */
-/* Proses : mengurutkan T sehingga elemennya menurun/mengecil */
-
-/* ***  Perhatian : Tabel boleh kosong!! Tabel TERURUT!! *** */
 /* ********** SEARCHING ********** */
-IdxType_Table Search_Table (Table T, IdxType_Table X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
-/* Jika tidak ada, mengirimkan IDX_UNDEF_TI */
-/* Menghasilkan indeks tak terdefinisi (IDX_UNDEF_TI) jika tabel T kosong */
+IdxType_Table Search_Table (Table T, ElType_Table X){
+    /* Search apakah ada elemen tabel T yang bernilai X */
+    /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
+    /* Jika tidak ada, mengirimkan IDX_UNDEF_TI */
+    /* Menghasilkan indeks tak terdefinisi (IDX_UNDEF_TI) jika tabel T kosong */
+    IdxType_Table ret = IDX_UNDEF_TI;
+    IdxType_Table i;
+
+    for(i = NEff(T); i >= IDX_MIN_TI; i--){
+        if(Elmt(T,i).id == X.id)ret = i;
+    }
+    return ret;
+}
 
 boolean FoundIn_Table (Table T, IdxType_Table X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
-
-IdxType_Table Max_Table (Table T);
-/* Prekondisi : Tabel tidak kosong, elemen terurut membesar */
-/* Mengirimkan nilai maksimum pada tabel */
-
-IdxType_Table Min_Table (Table T);
-/* Prekondisi : Tabel tidak kosong, elemen terurut membesar */
-/* Mengirimkan nilai minimum pada tabel*/
-
-/* ***  Perhatian : Tabel boleh kosong!! Tabel TERURUT!! *** */
 
 /* ********** MENAMBAH ELEMEN ********** */
 /* *** Menambahkan elemen terakhir *** */

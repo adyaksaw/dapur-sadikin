@@ -18,6 +18,7 @@
 #define IDX_MAX_TI 100
 /* Indeks maksimum array, sekaligus ukuran maksimum array dalam C */
 #define IDX_MIN_TI 1
+#define IDX_UNDEF_TI 0
 /* Indeks minimum array */
 
 typedef int IdxType_Table;
@@ -66,11 +67,6 @@ boolean IsFull_Table (Table T);
 
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-void Input_Table (Table * T, FILE * fptr);
-/* Membaca Table dari file teks eksternal. */
-/* I.S. T sembarang */
-/* F.S. Save file fptr masuk ke Table T */
-
 void Save_Table (Table T, FILE * fptr);
 /* Menyimpan Table ke file teks eksternal. */
 /* I.S. T terdefinisi */
@@ -89,15 +85,8 @@ void PrintData_Table (Table T);
    [4]Garpu
 */
 
-/* ********** SORTNG ********** */
-void Sort_Table (Table * T, SortType x);
-/* I.S. T boleh kosong */
-/* F.S. T elemennya terurut berdasarkan sortType */
-/* Proses : mengurutkan T sehingga elemennya menurun/mengecil */
-
-/* ***  Perhatian : Tabel boleh kosong!! Tabel TERURUT!! *** */
 /* ********** SEARCHING ********** */
-IdxType_Table Search_Table (Table T, IdxType_Table X);
+IdxType_Table Search_Table (Table T, ElType_Table X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IDX_UNDEF_TI */
@@ -106,16 +95,6 @@ IdxType_Table Search_Table (Table T, IdxType_Table X);
 boolean FoundIn_Table (Table T, IdxType_Table X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
-
-IdxType_Table Max_Table (Table T);
-/* Prekondisi : Tabel tidak kosong, elemen terurut membesar */
-/* Mengirimkan nilai maksimum pada tabel */
-
-IdxType_Table Min_Table (Table T);
-/* Prekondisi : Tabel tidak kosong, elemen terurut membesar */
-/* Mengirimkan nilai minimum pada tabel*/
-
-/* ***  Perhatian : Tabel boleh kosong!! Tabel TERURUT!! *** */
 
 /* ********** MENAMBAH ELEMEN ********** */
 /* *** Menambahkan elemen terakhir *** */
