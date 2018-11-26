@@ -735,11 +735,30 @@ void MainScreen()
         //getstr(&rawInput);
         scanf("%s", &rawInput);
         Set_Player_Name(&player, &rawInput, 10);
-        printf("\nWelcome, ");
-        printKata(player.name);
-        printf(".\n");
         gameState = IN_GAME;
+        printf("\n");
     }
+}
+
+void Print_Screen()
+{
+    printf("\n|-----------------------------------------------------------------------------------------------|\n");
+    printf("| Welcome, ");
+    printKata(player.name);
+    printf("!\t   |");
+    printf("\tMoney:\t\t%d\t\t|", Money(player));
+    printf("   Life:\t%d   |", Life(player));
+    printf("\tTime:\t%d\t|", GameTime);
+    printf("\n");
+    printf("|-----------------------------------------------------------------------------------------------|\n");
+    printf("  Waiting cust: %d\n\n", NBElmt_Queue(CustomerQueue));
+    Print_Room(*(player.currentMap));
+    printf("|-----------------------------------------------------------------------------------------------|\n");
+    printf("Food stack: \n");
+    PrintData_Stack(Food(player), true);
+    printf("|-----------------------------------------------------------------------------------------------|\n");
+    printf("Hand: \n");
+    PrintData_Stack(Hand(player), true);
 }
 
 void MainGame()
@@ -764,10 +783,11 @@ void MainGame()
         printf("Dapur\n");
         Print_Kitchen(Kitchen);
         */
-        printf("Input : ");
+        Print_Screen();
+        printf("|-----------------------------------------------------------------------------------------------|\n");
+        printf("\nInput : ");
         scanf("%s", &rawInput);
         InputProcessor(rawInput, 10);
-        Print_Room(*(player.currentMap));
         if (Life(player) <= 0)
         {
             printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
