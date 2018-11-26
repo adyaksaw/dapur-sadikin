@@ -42,7 +42,7 @@ void ADV() {
 	//printf("CC isinya ini lho : %c\n",CC);
 	EOP = (CC == MARK);
 	if (EOP) {
-			printf("FILE AKAN DITUTUP\n");
+			//printf("FILE AKAN DITUTUP\n");
        fclose(pita);
  	}
 

@@ -79,15 +79,15 @@ void DeAlokasi_Queue(Queue * Q)
     /*Algoritma*/
     ElType_Queue current_elmt;
     while (!IsEmpty_Queue(*Q)){
-        printf("NOTEMPTY\n");
+        //printf("NOTEMPTY\n");
         Del_Queue(Q, &current_elmt);
         Dealokasi_Customer(current_elmt);
     }
 
     if (IsEmpty_Queue(*Q)){
-        printf("QUEUE sudah empty.\n");
+        //printf("QUEUE sudah empty.\n");
     }else {
-        printf("BEWARE MEMORY LEAK!\n");
+        //printf("BEWARE MEMORY LEAK!\n");
     }
     MaxEl(*Q) = 0;
     free((*Q).T);
