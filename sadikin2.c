@@ -135,7 +135,7 @@ void drawDynamicItems(){
     mvwprintw(m_pWin, 3, 45, "%d", Money(player));
     mvwprintw(m_pWin, 3, 70, "%d", Life(player));
     mvwprintw(m_pWin, 3, 95, "%d", GameTime);
-    mvwprintw(m_pWin, 6, 2, "&d", );
+//    mvwprintw(m_pWin, 6, 2, "&d", );
 }
 
 void drawStaticItems()

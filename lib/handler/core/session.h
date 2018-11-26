@@ -7,7 +7,6 @@
 #include "../../data_structure/data_type.h"
 #include "../../data_structure/gdt/game_data_type.h"
 #include "../handler_include.h"
-#include <ncurses.h>
 
 #define initialX 4
 #define initialY 4
