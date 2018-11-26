@@ -46,11 +46,19 @@ void PrintData_Table (Table T){
 }
 
 /* ********** SEARCHING ********** */
-IdxType_Table Search_Table (Table T, IdxType_Table X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
-/* Jika tidak ada, mengirimkan IDX_UNDEF_TI */
-/* Menghasilkan indeks tak terdefinisi (IDX_UNDEF_TI) jika tabel T kosong */
+IdxType_Table Search_Table (Table T, ElType_Table X){
+    /* Search apakah ada elemen tabel T yang bernilai X */
+    /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
+    /* Jika tidak ada, mengirimkan IDX_UNDEF_TI */
+    /* Menghasilkan indeks tak terdefinisi (IDX_UNDEF_TI) jika tabel T kosong */
+    IdxType_Table ret = IDX_UNDEF_TI;
+    IdxType_Table i;
+
+    for(i = NEff(T); i >= IDX_MIN_TI; i--){
+        if(Elmt(T,i).id == X.id)ret = i;
+    }
+    return ret;
+}
 
 boolean FoundIn_Table (Table T, IdxType_Table X);
 /* Search apakah ada elemen tabel T yang bernilai X */
