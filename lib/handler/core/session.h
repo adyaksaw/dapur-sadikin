@@ -22,24 +22,23 @@ typedef enum {
 } GameState;
 
 /* Semuanya masih bisa diubah sesuai kebutuhan */
-extern GameState gameState;
-extern Player player;
-extern Queue CustomerQueue;
-extern BinTree resep;
+WINDOW *m_pWin, *g_win;
 
-extern Second GameTime;
+GameState gameState;
+Player player;
+Queue CustomerQueue;
+BinTree resep;
 
-extern Object *ArrayOfMeja[13];
+Second GameTime;
 
-extern Item ArrayOfItem[30];
+Object *ArrayOfMeja[13];
 
-extern Matrix Map1, Map2, Map3, Kitchen;
-extern Graph BIG_MAP;
-extern adrNode Pn;
-extern adrSuccNode Pt;
+Item ArrayOfItem[30];
 
-/* UI Variables */
-extern WINDOW *m_pWin;
+Matrix Map1, Map2, Map3, Kitchen;
+Graph BIG_MAP;
+adrNode Pn;
+adrSuccNode Pt;
 
 extern int m_nXCoord,
     m_nYCoord,

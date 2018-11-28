@@ -5,7 +5,7 @@
 
 int main()
 {
-    initNcurses();
+    //initNcurses();
 
     Initialize_Session();
     
