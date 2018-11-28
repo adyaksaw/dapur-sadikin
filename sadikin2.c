@@ -1,6 +1,8 @@
 #include "lib/handler/core/session.h"
 #include <string.h>
 
+#include <ncurses.h>
+
 void destroy_win(WINDOW *local_win);
 void drawWindow();
 void drawStaticItems();
@@ -33,7 +35,7 @@ int main()
     initNcurses();
 
     Initialize_Session();
-
+    
     gameState = MAIN_MENU;
     MainScreen();
 
@@ -54,8 +56,11 @@ int main()
 
     //MainGame();
 
-    // gameState = CREDITS;
-    // Credits();
+    erase();
+    refresh();
+
+    gameState = CREDITS;
+    Credits();
 
     attroff(COLOR_PAIR(1));
     getch();
@@ -131,11 +136,10 @@ void drawDynamicItems(){
         mvwprintw(m_pWin, 3, 10+i, "%c", Name(player).TabKata[i]);
         i++;
     }
-    //mvwprintw(m_pWin, 3, 10, "%s", Name(player));
     mvwprintw(m_pWin, 3, 45, "%d", Money(player));
     mvwprintw(m_pWin, 3, 70, "%d", Life(player));
     mvwprintw(m_pWin, 3, 95, "%d", GameTime);
-    mvwprintw(m_pWin, 6, 2, "&d", );
+    mvwprintw(m_pWin, 6, 2, "%d", NBElmt_Queue(CustomerQueue));
 }
 
 void drawStaticItems()

@@ -725,18 +725,19 @@ void InputProcessor(char input[], int input_length)
 void MainScreen()
 {
     //printf("Main Screen\n");
-    char *rawInput = "";
+    char rawInput[100] = "";
     while (gameState == MAIN_MENU)
     {
         Create_New_Player(&player);
-        printf("Welcome to Dapur Sadikin!\n");
-        printf("What is your name?\n");
-        printf("Name : ");
-        //getstr(&rawInput);
-        scanf("%s", &rawInput);
-        Set_Player_Name(&player, &rawInput, 10);
+        printw("Welcome to Dapur Sadikin!\n");
+        printw("What is your name?\n");
+        printw("Name : ");
+        getstr(rawInput);
+        printw("%s", rawInput);
+        //scanf("%s", &rawInput);
+        Set_Player_Name(&player, rawInput, strlen(rawInput)+1);
         gameState = IN_GAME;
-        printf("\n");
+        //printf("\n");
     }
 }
 
@@ -800,11 +801,11 @@ void MainGame()
 }
 
 void Credits(){
-    printf("Thank you for playing.\n");
-    printf("Courtesy of DAPUR SADIKIN @2018\n");
+    printw("Thank you for playing.\n");
+    printw("Courtesy of DAPUR SADIKIN @2018\n");
     LINE_BREAK;
 }
 
 void print_line_break(){
-    printf("\n******************************************\n");
+    printw("\n******************************************\n");
 }

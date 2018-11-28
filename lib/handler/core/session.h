@@ -52,5 +52,6 @@ void CheckTransitiontoGraph(Matrix *M1, Matrix *M2, Direction dir);
 void InputProcessor(char input[], int input_length);
 void MainScreen();
 void MainGame();
+void Credits();
 
 #endif
