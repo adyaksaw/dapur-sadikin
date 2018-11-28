@@ -51,14 +51,19 @@ void Input_Stack (Stack * S, FILE * fptr){
 	/* I.S. S sembarang */
 	/* F.S. Save FILE fptr masuk ke Stack S */
 	infotype_food F;
+	boolean yes = true;
 
 	CreateEmpty_Stack(S);
-	fscanf(fptr, "%s", &ItemName(F));
-	while (ItemName(F) != "ES"){
-		fscanf(fptr, "%d", &ItemID(F));
-		Push_Stack(S,F);
-		fscanf(fptr, "%s", &ItemName(F));
-	}
+	do{
+		char raw_input[20] = "";
+		fscanf(fptr,"%s %d", raw_input, &ItemID(F));
+		if (raw_input[0] != 'E' && raw_input[1] != 'S'){
+			isiKata(&(F.name),raw_input,19);
+			Push_Stack(S,F);
+		} else {
+			yes = false;
+		}
+	} while (yes);
 }
 
 void Save_Stack (Stack * S, FILE * fptr){
@@ -81,7 +86,7 @@ void Save_Stack (Stack * S, FILE * fptr){
 	}
 }
 
-void PrintData_Stack (Stack S){
+void PrintData_Stack (Stack S, boolean isHand){
 	/* Proses : Menuliskan data dari FILE eksternal yang terkait dengan isi stack */
 	/* I.S. S boleh kosong */
 	/* F.S. Jika S tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
@@ -95,7 +100,11 @@ void PrintData_Stack (Stack S){
 	*/
 	int i;
 	if(IsEmpty_Stack(S)){
-		printf("Nampan anda kosong.\n");
+		if(isHand){
+			printf("Kosong.\n");
+		} else {
+			printf("Kosong.\n");
+		}
 	} else {
 		for(i = 1; i <= Top(S); i++){
 			printf("[%d]", i);
@@ -103,4 +112,27 @@ void PrintData_Stack (Stack S){
 			printf("\n");
 		}
 	}
+}
+
+//Fungsi Lain
+Stack Reverse_Stack(Stack *S){
+	Stack Temp1, Temp2;
+	infotype_food T;
+
+	CreateEmpty_Stack(&Temp1);
+	CreateEmpty_Stack(&Temp2);
+	//Make 2 Reversed Version of Stack Input,
+	//1 for return
+	//2 for normalize Stack Input
+	while (!IsEmpty_Stack(*S)){
+		Pop_Stack(S,&T);
+		Push_Stack(&Temp1,T);
+		Push_Stack(&Temp2,T);
+	}
+	//Normalize Stack Input
+	while (!IsEmpty_Stack(Temp1)){
+		Pop_Stack(&Temp1,&T);
+		Push_Stack(S,T);
+	}
+	return Temp2;
 }

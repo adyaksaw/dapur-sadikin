@@ -79,15 +79,15 @@ void DeAlokasi_Queue(Queue * Q)
     /*Algoritma*/
     ElType_Queue current_elmt;
     while (!IsEmpty_Queue(*Q)){
-        printf("NOTEMPTY\n");
+        //printf("NOTEMPTY\n");
         Del_Queue(Q, &current_elmt);
         Dealokasi_Customer(current_elmt);
     }
 
     if (IsEmpty_Queue(*Q)){
-        printf("QUEUE sudah empty.\n");
+        //printf("QUEUE sudah empty.\n");
     }else {
-        printf("BEWARE MEMORY LEAK!\n");
+        //printf("BEWARE MEMORY LEAK!\n");
     }
     MaxEl(*Q) = 0;
     free((*Q).T);
@@ -116,18 +116,19 @@ void Add_Queue (Queue * Q, ElType_Queue X)
         i = Tail(*Q);
         boolean foundsama = false;
         while ((!foundsama) && (i != Head(*Q))){
-        if (Priority(*ElmtQ(*Q,i)) > Priority(*ElmtQ(*Q,i-1))) {
-            ElType_Queue temp = ElmtQ(*Q,i);
-            ElmtQ(*Q,i) = ElmtQ(*Q,i-1);
-            ElmtQ(*Q,i-1) = temp;
-        } else {
-            foundsama = true;
-        }
-        if (i == 1){
-            i = MaxEl(*Q);
-        } else{
-            i--;
-        }
+            int prevIdx = 1+((i+MaxEl(*Q)-2)%MaxEl(*Q));
+            if (Priority(*ElmtQ(*Q,i)) > Priority(*ElmtQ(*Q,prevIdx))) {
+                ElType_Queue temp = ElmtQ(*Q,i);
+                ElmtQ(*Q,i) = ElmtQ(*Q,prevIdx);
+                ElmtQ(*Q,prevIdx) = temp;
+            } else {
+                foundsama = true;
+            }
+            if (i == 1){
+                i = MaxEl(*Q);
+            } else{
+                i--;
+            }
         }
     }
 }
@@ -177,8 +178,8 @@ void Print_Queue(Queue Q){
         while (HeadID != Tail(Q)){
             printCustomer(*(Q.T[HeadID]));
             HeadID++;
-            if (HeadID == MaxEl(Q)){
-                HeadID = 1;
+            if (HeadID > MaxEl(Q)){
+                HeadID-= MaxEl(Q);
             }
         }
         if (HeadID == Tail(Q)){
@@ -221,12 +222,15 @@ void Save_Queue(Queue Q, FILE *file)
 
 void Load_Queue(Queue *Q, FILE *file)
 {
-    int i = 1;
-    ElType_Queue customer;
+    boolean yes = true;
     CreateEmpty_Queue(Q,5);
-
-    Load_Cust(customer, file);
-    while (Amount(*customer) != 0){
-        Add_Queue(Q,customer);
-    }
+    do{
+        Customer *customer = malloc(sizeof(Customer));
+        Load_Cust(customer, file);
+        if(Amount(*customer) != 0){
+            Add_Queue(Q,customer);
+        } else {
+            yes = false;
+        }
+    } while(yes);
 }

@@ -122,6 +122,14 @@ void printKata(Kata k){
   }
 }
 
+void printKataToFile(Kata k, FILE *fp){
+  int i = 1;
+  while (i <= k.Length && k.TabKata[i] != '\0'){
+    fprintf(fp, "%c", k.TabKata[i]);
+    i++;
+  }
+}
+
 int KataToInt (Kata Kata1) {
   int hsl = 0;
   int i;
@@ -150,4 +158,11 @@ void IntToKata(int n , Kata *Kata1 ) {
   }
 
 
+}
+
+void normalizeFromFscanf(Kata *Kata1){
+  int i;
+  for(i = NMax; i >= 1; i--){
+    (*Kata1).TabKata[i] = (*Kata1).TabKata[i-1];
+  }
 }

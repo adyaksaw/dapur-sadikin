@@ -34,31 +34,34 @@ void SaveToFile(char *FileName){
     Stack handtemp;
     save = fopen(FileName,"w");
     //Player Info
-    fprintf(save,"%s",Name(player));
-    fprintf(save,"%d %d",Absis(player.pos),Ordinat(player.pos));
-    fprintf(save,"%ld",Money(player));
-    fprintf(save,"%d",Life(player));
-    fprintf(save,"%d", GameTime);
+    printKataToFile(Name(player), save);
+    fprintf(save,"\n");
+    //fprintf(save,"%s\n",Name(player).TabKata);
+    fprintf(save,"%f %f %d\n",Absis(player.pos),Ordinat(player.pos),player.currentRoom);
+    fprintf(save,"%ld\n",Money(player));
+    fprintf(save,"%d\n",Life(player));
+    fprintf(save,"%d\n", GameTime);
     Save_Stack(&Hand(player),save);
-    fprintf(save,"ES");
+    fprintf(save,"ES 0\n");
     Save_Stack(&Food(player),save);
-    fprintf(save,"ES");
+    fprintf(save,"ES 0\n");
 
     //Customer Queue
     Save_Queue(CustomerQueue,save);
-    fprintf(save,"0"); //0 Adalah "tanda" yang menandakan Berakhirnya Pembacaan Queue
+    fprintf(save,"0 0 0 0 0\n"); //0 Adalah "tanda" yang menandakan Berakhirnya Pembacaan Queue
 
     //Table
     for (i = 1; i<=12; i++){
         Object M = *ArrayOfMeja[i];
         if (!IsOccupied(M)){
-            fprintf(save,"%d %d",TableNumber(M), IsOccupied(M));
+            fprintf(save,"%d %d\n",TableNumber(M), IsOccupied(M));
         } else {
-            fprintf(save,"%d %d %d %d %d %d",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)));
+            fprintf(save,"%d %d %d %d %d %d %d\n",TableNumber(M), IsOccupied(M),Amount(CustomerAt(M)), OrdersAt(M),Patience(CustomerAt(M)), Priority(CustomerAt(M)),Status(CustomerAt(M)));
         }
     }
-    fprintf(save,"EQ");
+    fprintf(save,"EQ\n");
     //
+    printf("Save Sukses\n");
     fclose(save);
 }
 
@@ -67,30 +70,58 @@ void LoadFromFile(char *FileName){
 
     FILE *load;
     Stack handtemp;
+    if(isPointValid(player.pos) && ElmtMx(*(player.currentMap), (int) Absis(player.pos), (int) Ordinat(player.pos)).tag == PLAYER_POS){
+        printf("1\n");
+        SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), EMPTY);
+    }
     load = fopen(FileName,"r");
     //Player Info
-    fscanf(load,"%s",&Name(player));
-    fscanf(load,"%d %d",&Absis(player.pos),&Ordinat(player.pos));
+    char raw_input[10] = "";
+    fscanf(load,"%s",raw_input);
+    isiKata(&Name(player),raw_input,9);
+    fscanf(load,"%f %f %d",&Absis(player.pos),&Ordinat(player.pos),&player.currentRoom);
+    if(player.currentRoom == 1){
+        player.currentMap = &Map1;
+    } else if(player.currentRoom == 2){
+        player.currentMap = &Map2;
+    } else if(player.currentRoom == 3){
+        player.currentMap = &Map3;
+    } else {
+        player.currentMap = &Kitchen;
+    }
+    SetTag_Matrix(player.currentMap, (int) Absis((player).pos), (int) Ordinat((player).pos), PLAYER_POS);
     fscanf(load,"%ld",&Money(player));
     fscanf(load,"%d",&Life(player));
     fscanf(load,"%d", &GameTime);
     Input_Stack(&Hand(player),load);
     Input_Stack(&Food(player),load);
-
     //Customer Queue
     Load_Queue(&CustomerQueue,load);
+    printf("End Pembacaan Q\n");
     //Pembacaan berhenti saat pembacaan menemukan 0 sebagai nilai Amount,
     //Amount pastilah [1..4]
 
     //Table
     for (i = 1; i<=12; i++){
-        Object M = *ArrayOfMeja[i];
-        fscanf(load,"%d %d",&TableNumber(M), &IsOccupied(M));
-        if (IsOccupied(M)){
-            fscanf(load,"%d %d %d %d",&Amount(CustomerAt(M)), &OrdersAt(M), &Patience(CustomerAt(M)), &Priority(CustomerAt(M)));
-            TableNum(CustomerAt(M)) = TableNumber(M);
+        //printf("Mantap");
+        int NomerMeja;
+        //TableNumber(*ArrayOfMeja[i])
+        fscanf(load,"%d %d",&NomerMeja, &IsOccupied(*ArrayOfMeja[i]));
+        printf("%d Mantap\n", NomerMeja);
+        printf("%d", IsOccupied(*ArrayOfMeja[i]));
+        if (IsOccupied(*ArrayOfMeja[i]) == 1){
+            Customer *customer = malloc(sizeof(Customer));
+            fscanf(load,"%d %d %d %d %d",&Amount(*customer), &FoodOrderID(*customer), &Patience(*customer), &Priority(*customer), &Status(*customer));
+
+            TableNum(*customer) = TableNumber(*ArrayOfMeja[i]);
+            printCustomer(*customer);
+
+            (*ArrayOfMeja[i]).data.table.customer_here = customer;
+            (*ArrayOfMeja[i]).data.table.isOccupied = true;
+            printf("BINGITS\n");
         }
     }
+    printf("Load Sukses\n");
     fclose(load);
 }
 void PrintAllOrder(){
@@ -139,20 +170,25 @@ void Init(){
     CreateBigMap(&Map1,&Map2,&Map3,&Kitchen,&BIG_MAP);
     int i;
     srand(time(NULL));
-
-    for(i = 0; i <= 29; i++){
-        ItemID(ArrayOfItem[i]) = 0;
-        isiKata(&(ArrayOfItem[i].name),"Test_food", 9);
-    }
     Create_New_Player(&player);
     LoadMap(&Map1, &Map2, &Map3, &Kitchen);
+
+    FILE *fp;
+    fp = fopen(NamaFile3, "r");
+    if (fp == NULL)
+        printf("File tidak terdeteksi\n");
+    resep = BuildBalanceTree(23,fp);
+
+    for(i = 1; i <= 23; i++){
+        ArrayOfItem[i] = SearchItemTree(resep, i);
+        printf("Nama item ke %d: ",i);
+        printKata((ArrayOfItem[i].name));
+        printf(" %d\n", ItemID(ArrayOfItem[i]));
+    }
 
     GameTime = 0;
     printf("Init\n");
     //PrintAllMemory(&Map1);
-
-    resep = NULL;
-
     /*
         Melakukan inisialisasi dari array of pointer ArrayOfMeja.
         ArrayOfMeja akan berisi pointer menuju semua objek meja sesuai nomornya.
@@ -193,7 +229,8 @@ void Init(){
 }
 
 void CustomerGenerator(){
-    if (!IsFull_Queue(CustomerQueue)){
+    float customerAppearChance = 100*(1-sqrt(1.0/GameTime));
+    if (!IsFull_Queue(CustomerQueue) && (rand()%100) + 1 <= customerAppearChance){
         Customer *newCustomer;
         newCustomer = GenerateCustomer();
 
@@ -387,6 +424,12 @@ void InputProcessor(char input[], int input_length){
     Kata recipeInput;
     isiKata(&recipeInput, "recipe",6);
 
+    Kata saveInput;
+    isiKata(&saveInput , "save",4);
+
+    Kata loadInput;
+    isiKata(&loadInput, "load",4);
+
     if (IsKataSama(processedInput, quitInput)){ //COMMAND quit
         gameState = CREDITS;
     }else if (IsKataSama(processedInput, statusInput)){ //COMMAND status
@@ -410,24 +453,33 @@ void InputProcessor(char input[], int input_length){
     }else if (IsKataSama(processedInput, tableInput)){ //COMMAND printMeja
         PrintAllTable();
     }else if (IsKataSama(processedInput, tanganInput)){ //COMMAND hand
-        PrintData_Stack(player.hand);
+        PrintData_Stack(player.hand, 1);
     }else if (IsKataSama(processedInput, buangTanganInput)){ //COMMAND CH
         CreateEmpty_Stack(&(player.hand));
     }else if (IsKataSama(processedInput, nampanInput)){ //COMMAND tray
-        PrintData_Stack(player.food);
+        PrintData_Stack(player.food, 0);
     }else if (IsKataSama(processedInput, buangNampanInput)){ //COMMAND CH
         CreateEmpty_Stack(&(player.food));
     }else if (IsKataSama(processedInput, putInput)){ //COMMAND CH
-        Masak(&player, resep);
+        Object * Closest_Tray = Closest_Object(player, player.currentMap, TRAY);
+        if(Closest_Tray != NULL){
+            Masak(&player, resep);
+        } else {
+            printf("Tidak ada nampan disekitarmu!\n");
+        }
+
     }else if (IsKataSama(processedInput, orderInput)){ //COMMAND order
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if (ClosestTable != NULL){
             if (IsOccupied(*ClosestTable)){
                 if(!hasOrdered((*ClosestTable).data.table.customer_here)){
                     GenerateOrder((*ClosestTable).data.table.customer_here);
-                    printf("Pesanan di meja nomor %d adalah FoodID %d.\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printf("Pesanan di meja nomor %d adalah FoodID %d, yaitu ", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printKata(ArrayOfItem[OrdersAt(*ClosestTable)].name);
+                    printf(".\n");
                 } else {
-                    printf("Customer pada meja %d telah memesan FoodID %d sebelumnya\n", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printf("Customer pada meja %d telah memesan FoodID %d, yaitu ", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
+                    printKata(ArrayOfItem[OrdersAt(*ClosestTable)].name);
                 }
             } else {
                 printf("Meja nomor %d kosong.\n", TableNumber(*ClosestTable));
@@ -468,17 +520,19 @@ void InputProcessor(char input[], int input_length){
         printf("Ketik allOrder untuk melihat order untuk setiap meja.\n");
         printf("Ketik queue untuk melihat antrian saat ini\n");
         printf("Ketik status untuk melihat status pemain\n");
-        printf("Ketik place untuk mengecek petak sekitar");
-        printf("Ketik quit untuk keluar dari permainan.\n");
+        printf("Ketik place untuk menaruh customer di meja sekitar");
+        printf("Ketik give untuk memberikan makanan dari food tray ke customer.\n");
+        printf("Ketik take untuk mengambil makanan dari kompor ke tangan.\n");
+        printf("Ketik recipe untuk melihat resep yang ada.\n");
     } else if(IsKataSama(processedInput, giveInput)){ //COMMAND give
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         if(ClosestTable != NULL){
             if((*ClosestTable).data.table.isOccupied){
                 Customer * Cust = (*ClosestTable).data.table.customer_here;
                 if(FoodOrderID(*Cust) == ItemID(InfoTop(player.food))){
-                    Money(player) += FoodPrice*(Patience(*Cust)/FoodPriceModifier);
+                    Money(player) += FoodPrice*(1+(Patience(*Cust)+Priority(*Cust)+Amount(*Cust))/FoodPriceModifier);
                     printf("Pelanggan tersebut puas dengan makanannya!\n");
-                    printf("Kamu mendapatkan %d\n", printf("Pelanggan tersebut puas dengan makanan", FoodPrice*(Patience(*Cust)/FoodPriceModifier)));
+                    printf("Kamu mendapatkan %d\n", FoodPrice*(1+(Patience(*Cust)+Priority(*Cust)+Amount(*Cust))/FoodPriceModifier));
                     RemoveCustomerFromTable(ClosestTable);
                 } else if(IsEmpty_Stack(player.food)){
                     printf("Nampan kosong\n");
@@ -494,30 +548,24 @@ void InputProcessor(char input[], int input_length){
     } else if(IsKataSama(processedInput, removeCustInput)){ //COMMAND debug: remove
         Object * ClosestTable = Closest_Table(player, (player.currentMap));
         RemoveCustomerFromTable(ClosestTable);
-    } else if(IsKataSama(processedInput, teleportDapurInput)){
-        player.currentMap = &Kitchen;
-        Move_Player(player.currentMap,&player,player.pos);
-    } else if(IsKataSama(processedInput, teleportMap1Input)){
-        player.currentMap = &Map1;
-        Move_Player(player.currentMap,&player,player.pos);
-    } else if(IsKataSama(processedInput, takeInput)){
+    } else if(IsKataSama(processedInput, takeInput)){ // COMMAND take
         Object * Closest_Stove = Closest_Object(player, player.currentMap, STOVE);
         if(Closest_Stove != NULL){
-            printf("Kamu mengambil ItemID %d dari kompor!\n", ItemID(ArrayOfItem[(*Closest_Stove).data.stove.itemID]));
+
+            printf("Kamu mengambil ItemID %d dari kompor, yaitu: ", (*Closest_Stove).data.stove.itemID);
+            printKata((ArrayOfItem[(*Closest_Stove).data.stove.itemID].name));
             Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
         } else {
             printf("Tidak ada kompor di sekitar player\n");
         }
-    } else if (IsKataSama(processedInput,recipeInput)) {
-      BinTree P;
-      FILE *fp;
-      fp = fopen(NamaFile3, "r");
-      if (fp == NULL)
-        printf("File tidak terdeteksi\n");
-      P = BuildBalanceTree(23,fp);
-      printf("Berikut adalah resep makanan di game ini!\n\n");
-      PrintTree(P,3);
-      printf("\n");
+    } else if (IsKataSama(processedInput,recipeInput)) { // COMMAND recipe
+        printf("Berikut adalah resep makanan di game ini!\n\n");
+        PrintTree(resep,3);
+        printf("\n");
+    } else if (IsKataSama(processedInput, loadInput)){
+      LoadFromFile("save.txt");
+    } else if (IsKataSama(processedInput,saveInput)) {
+      SaveToFile("Save.txt");
     }
 }
 
@@ -582,11 +630,11 @@ int main(){
     printf("%d\n", gameState);
 
     MainScreen();
-    printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
-    printf("After mainscreen\n");
+    //printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
+    //printf("After mainscreen\n");
     //PrintAllMemory(Map1);
-    printf("After mainscreen2\n");
-    printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
+    //printf("After mainscreen2\n");
+    //printf("Player pos : %f %f",Absis(player.pos),Ordinat(player.pos));
     //PrintAllMemory(Map1);
 
     MainGame();

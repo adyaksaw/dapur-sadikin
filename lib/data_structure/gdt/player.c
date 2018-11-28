@@ -12,7 +12,7 @@ void Move_Player_Direction (Matrix * M, Player * player, Direction dir){
 
     Point newPoint;
     newPoint = (*player).pos;
-    
+
     if (dir == UP){
         printf("TRYING TO MOVE2\n");
         Absis(newPoint) += -1;
@@ -33,7 +33,7 @@ void Move_Player_Direction (Matrix * M, Player * player, Direction dir){
 }
 
 boolean isPointValid(Point P){
-    printf("CHECKING (%.0f, %f.0f).\n", Absis(P), Ordinat(P));
+    //printf("CHECKING (%.0f, %f.0f).\n", Absis(P), Ordinat(P));
     return Absis(P) >= 1 && Absis(P) <= 8 && Ordinat(P) >= 1 && Ordinat(P) <= 8;
 }
 
@@ -53,9 +53,9 @@ void Print_Player(Player player){
     printf("Nama : ");
     printKata(player.name);
     printf("\n");
-    printf("Uang : %f\n", player.money);
+    printf("Uang : %d\n", player.money);
     printf("Nyawa : %d\n", player.life);
-    printf("Posisi Baris %.1f Kolom %.1f.\n", Ordinat(player.pos), Ordinat(player.pos));
+    printf("Posisi Baris %.1f Kolom %.1f.\n", Absis(player.pos), Ordinat(player.pos));
 }
 
 void Set_Player_Name(Player * player, char nama[], int length){
@@ -167,43 +167,56 @@ void Reduce_Life(Player *player){
 }
 
 void Masak(Player * player, BinTree resep){
-  if (!IsEmpty_Stack((*player).hand)){
-    Node *currentNode = NULL;
-    currentNode = resep;
-    if (currentNode != NULL){
-      boolean inventoriValid = true;
-      SmallNum currentStackElmt = Top((*player).hand);
-      while (inventoriValid && currentStackElmt > 0){
-        if ((*player).hand.T[currentStackElmt].id != Akar(currentNode).id){
-            inventoriValid = false;
-        }else {
-          currentStackElmt -= 1;
-          if (currentStackElmt > 0){
-              if (SearchTree(Left(resep), (*player).hand.T[currentStackElmt])){
-                currentNode = Left(currentNode);
-              }else if (SearchTree(Left(resep), (*player).hand.T[currentStackElmt])){
-                currentNode = Right(currentNode);
-              }else {
-                inventoriValid = false;
-              }
-          }
+    if (!IsEmpty_Stack((*player).hand)){
+        Node *currentNode = NULL;
+        currentNode = resep;
+        if (currentNode != NULL){
+            boolean inventoriValid = true;
+            Stack reversedStack = Reverse_Stack(&((*player).hand));
+            SmallNum currentStackElmt = Top(reversedStack);
+
+            if (SearchItemTree(resep, reversedStack.T[currentStackElmt].id).id != 255){
+                printf("ADA\n");
+            }
+
+            while (inventoriValid && currentStackElmt > 0){
+                printf("Current stack elmt %d\n", currentStackElmt);
+                printf("Membandingkan hand %d dengan pohon %d\n", reversedStack.T[currentStackElmt].id, Akar(currentNode).id);
+                if (reversedStack.T[currentStackElmt].id != Akar(currentNode).id){
+                    printf("Adalah tidak sama hand %d dengan pohon %d\n", reversedStack.T[currentStackElmt].id, Akar(currentNode).id);
+                    inventoriValid = false;
+                }else {
+                    printf("Adalah sama hand %d dengan pohon %d\n", reversedStack.T[currentStackElmt].id, Akar(currentNode).id);
+                    currentStackElmt -= 1;
+                    printf("Current stack elmt %d\n", currentStackElmt);
+                    if (currentStackElmt > 0){
+                        if (SearchItemTree(Left(currentNode), reversedStack.T[currentStackElmt].id).id != 255){
+                            currentNode = Left(currentNode);
+                        }else if (SearchItemTree(Right(currentNode), reversedStack.T[currentStackElmt].id).id != 255){
+                            currentNode = Right(currentNode);
+                        }else {
+                            inventoriValid = false;
+                        }
+                    }
+                }
+            }
+
+            currentNode = Left(currentNode);
+            if (inventoriValid){
+                inventoriValid = IsTreeOneElmt(currentNode);
+            }
+
+            if (inventoriValid){
+                printf("Akan dimasak ");
+                printKata(Info(currentNode).name);
+                printf("\n");
+                Push_Stack(&((*player).food), Info(currentNode));
+                CreateEmpty_Stack(&((*player).hand));
+            }else {
+                printf("Tidak ada resep yang sesuai!\n");
+            }
         }
-      }
-
-      currentNode = Left(currentNode);
-      if (inventoriValid){
-        inventoriValid = IsTreeOneElmt(currentNode);
-      }
-
-      if (inventoriValid){
-        printf("Akan dimasak ");
-        printKata(Info(currentNode).name);
-        printf("\n");
-      }else {
-        printf("Tidak ada resep yang sesuai!\n");
-      }
+    }else{
+        printf("Tangan anda kosong!\n");
     }
-  }else{
-   printf("Tangan anda kosong!\n");
-  }
 }

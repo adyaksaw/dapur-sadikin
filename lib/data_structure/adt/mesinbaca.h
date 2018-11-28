@@ -6,6 +6,7 @@
 
 #include "boolean.h"
 #include "mesinkar.h"
+#include <stdio.h>
 
 #define NMax 50
 #define BLANK ' '
@@ -54,9 +55,13 @@ void isiKata(Kata * k, char isi[], int isi_length);
 void printKata(Kata k);
 /* Menge-print isi dari k tanpa ada karakter tambahan di akhir.*/
 
+void printKataToFile(Kata k, FILE *fp);
+
 boolean IsKataSama(Kata Kata1 , Kata Kata2);
 
 int KataToInt (Kata Kata1);
 void IntToKata(int n , Kata* Kata1 );
+
+void normalizeFromFscanf(Kata *Kata1);
 
 #endif
