@@ -4,7 +4,7 @@
 
 #include "session.h"
 
-WINDOW *m_pWin;
+WINDOW *m_pWin, *g_win;
 
 GameState gameState;
 Player player;
@@ -54,12 +54,12 @@ void print_line_break()
 
     while (n--)
     {
-        sleep(1);
+        //sleep(1);
         printw("%s", breakline);
         refresh();
     }
 
-    sleep(1);
+    //sleep(1);
     curs_set(1); 
 }
 
@@ -542,7 +542,11 @@ void InputProcessor(char input[], int input_length)
 
     if (IsKataSama(processedInput, quitInput))
     { //COMMAND quit
+        erase();
+        refresh();
+
         gameState = CREDITS;
+        Credits();
     }
     else if (IsKataSama(processedInput, statusInput))
     { //COMMAND status
@@ -681,18 +685,18 @@ void InputProcessor(char input[], int input_length)
     }
     else if (IsKataSama(processedInput, helpInput))
     { //COMMAND help
-        printf("Ketik help untuk melihat daftar command.\n");
-        printf("Ketik GU untuk memindahkan player ke atas.\n");
-        printf("Ketik GD untuk memindahkan player ke bawah.\n");
-        printf("Ketik GL untuk memindahkan player ke kiri.\n");
-        printf("Ketik GR untuk memindahkan player ke kanan.\n");
-        printf("Ketik allOrder untuk melihat order untuk setiap meja.\n");
-        printf("Ketik queue untuk melihat antrian saat ini\n");
-        printf("Ketik status untuk melihat status pemain\n");
-        printf("Ketik place untuk menaruh customer di meja sekitar");
-        printf("Ketik give untuk memberikan makanan dari food tray ke customer.\n");
-        printf("Ketik take untuk mengambil makanan dari kompor ke tangan.\n");
-        printf("Ketik recipe untuk melihat resep yang ada.\n");
+        mvwprintw(m_pWin, 5, 23, "Ketik help untuk melihat daftar command.\n");
+        mvwprintw(m_pWin, 6, 23, "Ketik GU untuk memindahkan player ke atas.\n");
+        mvwprintw(m_pWin, 7, 23, "Ketik GD untuk memindahkan player ke bawah.\n");
+        mvwprintw(m_pWin, 8, 23, "Ketik GL untuk memindahkan player ke kiri.\n");
+        mvwprintw(m_pWin, 9, 23, "Ketik GR untuk memindahkan player ke kanan.\n");
+        mvwprintw(m_pWin, 10, 23, "Ketik allOrder untuk melihat order setiap meja.\n");
+        mvwprintw(m_pWin, 11, 23, "Ketik queue untuk melihat antrian saat ini.\n");
+        mvwprintw(m_pWin, 12, 23, "Ketik status untuk melihat status pemain.\n");
+        mvwprintw(m_pWin, 13, 23, "Ketik place untuk menaruh customer di meja.\n");
+        mvwprintw(m_pWin, 14, 23, "Ketik give untuk menyajikan makanan dari tray.\n");
+        mvwprintw(m_pWin, 15, 23, "Ketik take untuk mengambil bahan dari kompor.\n");
+        mvwprintw(m_pWin, 16, 23, "Ketik recipe untuk melihat resep yang ada.\n");
     }
     else if (IsKataSama(processedInput, giveInput))
     { //COMMAND give
@@ -930,15 +934,23 @@ void MainScreen()
 
 void MainGame()
 {
-    char rawInput[10] = "";
+    char rawInput[10] = "", c;
+    int height = 20;
+    int width = 50;
 
     Draw_Dynamic_Items(m_pWin);
     CreateEmpty_Queue(&CustomerQueue, 5);
 
+    g_win = newwin(height, width, (LINES - height) / 2 + 1, (COLS - width) / 2 - 2);
+    box(g_win, 0 ,0);
+    wprintw(g_win, "gdfasfsd");
+
     while (gameState == IN_GAME)
     {
+        Draw_Dynamic_Items(m_pWin);
         refresh();
         wrefresh(m_pWin);
+        wrefresh(g_win);
         wmove(m_pWin, m_cCurrY, m_cCurrX);
         wclrtoeol(m_pWin);
         wgetstr(m_pWin, rawInput);
@@ -946,7 +958,9 @@ void MainGame()
         // printf("|-----------------------------------------------------------------------------------------------|\n");
         // printf("\nInput : ");
         // scanf("%s", &rawInput);
+        wmove(m_pWin, 5, 23);
         InputProcessor(rawInput, 10);
+
         // if (Life(player) <= 0)
         // {
         //     printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
@@ -1014,10 +1028,6 @@ void Credits()
     order
     tray
     hand
-
-    catch input at command section, guarantee with no cursor
-        arrow immediately pushes input
-        anything else buffers
 */
 
 void Draw_Window()
@@ -1112,7 +1122,7 @@ void Draw_Dynamic_Items()
     mvwprintw(m_pWin, 3, 70, "%d", Life(player));
     mvwprintw(m_pWin, 3, 95, "%d", GameTime);
 
-    //iterate on shit
+    mvwprintw(m_pWin, 6, 2, "%d", NBElmt_Queue(CustomerQueue));
     mvwprintw(m_pWin, 6, 2, "%d", NBElmt_Queue(CustomerQueue));
 
     //drawPanel();

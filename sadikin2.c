@@ -14,16 +14,9 @@ int main()
 
     erase();
     refresh();
-    Draw_Window(&m_pWin);
+    Draw_Window();
 
     MainGame();
-    getch();
-
-    erase();
-    refresh();
-    
-    gameState = CREDITS;
-    Credits();
 
     attroff(COLOR_PAIR(1));
     endwin();
