@@ -25,8 +25,8 @@ adrSuccNode Pt;
 int m_nXCoord = 0,
     m_nYCoord = 0,
     m_nWidth = 100,
-    m_nHeight = 28,
-    m_nPageSize = 20,
+    m_nHeight = 35,
+    m_nPageSize = 27,
     m_nTopLine = 5,
     m_nScrWidth,
     m_nScrHeight,
@@ -73,7 +73,7 @@ void SaveToFile(char *FileName)
     //Player Info
     printKataToFile(Name(player), save);
     fprintf(save, "\n");
-    //fprintf(save,"%s\n",Name(player).TabKata);
+    //fprintf(save,"%s\n",Name(wprintw(g_win, player).TabKata);
     fprintf(save, "%f %f %d\n", Absis(player.pos), Ordinat(player.pos), player.currentRoom);
     fprintf(save, "%ld\n", Money(player));
     fprintf(save, "%d\n", Life(player));
@@ -175,17 +175,30 @@ void LoadFromFile(char *FileName)
     //printf("Load Sukses\n");
     fclose(load);
 }
+
+void PrintOrder(){
+    int n = 1;
+    for (int i = 1; i <= 12; i++)
+    {
+        if (IsOccupied(*(ArrayOfMeja[i])))
+        {
+            mvwprintw(m_pWin, 16+n, 2, "ID %d, %d", OrdersAt(*(ArrayOfMeja[i])), i);
+            n++;
+        }
+    }
+}
+
 void PrintAllOrder()
 {
     for (int i = 1; i <= 12; i++)
     {
         if (IsOccupied(*(ArrayOfMeja[i])))
         {
-            printf("Meja No.%d memesan OrderID %d.\n", i, OrdersAt(*(ArrayOfMeja[i])));
+            wprintw(g_win, "Meja No.%d memesan OrderID %d.\n", i, OrdersAt(*(ArrayOfMeja[i])));
         }
         else
         {
-            printf("Meja No.%d kosong.\n", i);
+            wprintw(g_win, "Meja No.%d kosong.\n", i);
         }
     }
 }
@@ -454,6 +467,11 @@ void CheckTransitiontoGraph(Matrix *M1, Matrix *M2, Direction dir)
     }
 }
 
+void printCustomerW(Customer customer)
+{
+    wprintw(g_win, "%d orang. Meja %d. Kesabaran %d. Prioritas %d. Status %d", Amount(customer), TableNum(customer), Patience(customer), Priority(customer), Status(customer));
+}
+
 void InputProcessor(char input[], int input_length)
 {
     Kata processedInput;
@@ -550,7 +568,19 @@ void InputProcessor(char input[], int input_length)
     }
     else if (IsKataSama(processedInput, statusInput))
     { //COMMAND status
-        Print_Player(player);
+        //Print_Player(player);
+        wprintw(g_win, "Nama : ");
+        int i = 1;
+        while (i <= Name(player).Length && Name(player).TabKata[i] != '\0')
+        {
+            wprintw(g_win, "%c", Name(player).TabKata[i]);
+            i++;
+        }
+        //printKata(player.name);
+        wprintw(g_win, "\n");
+        wprintw(g_win, "Uang : %d\n", player.money);
+        wprintw(g_win, "Nyawa : %d\n", player.life);
+        wprintw(g_win, "Posisi Baris %.1f Kolom %.1f.\n", Absis(player.pos), Ordinat(player.pos));
     }
     else if (IsKataSama(processedInput, moveInputUp))
     { //COMMAND GU
@@ -570,7 +600,44 @@ void InputProcessor(char input[], int input_length)
     }
     else if (IsKataSama(processedInput, queueInput))
     { //COMMAND queue
-        Print_Queue(CustomerQueue);
+        //Print_Queue(CustomerQueue);
+        wprintw(g_win, "Customer di Queue:\n");
+        int HeadID = Head(CustomerQueue);
+        if (HeadID < Tail(CustomerQueue))
+        {
+            while (HeadID <= Tail(CustomerQueue))
+            {
+                printCustomerW(*(CustomerQueue.T[HeadID]));
+                HeadID++;
+            }
+        }
+        else if (HeadID > Tail(CustomerQueue))
+        {
+            while (HeadID != Tail(CustomerQueue))
+            {
+                printCustomerW(*(CustomerQueue.T[HeadID]));
+                HeadID++;
+                if (HeadID > MaxEl(CustomerQueue))
+                {
+                    HeadID -= MaxEl(CustomerQueue);
+                }
+            }
+            if (HeadID == Tail(CustomerQueue))
+            {
+                printCustomerW(*(CustomerQueue.T[HeadID]));
+            }
+        }
+        else
+        {
+            if (HeadID != Nil_Queue && HeadID == Tail(CustomerQueue))
+            {
+                printCustomerW(*(CustomerQueue.T[HeadID]));
+            }
+            else
+            {
+                wprintw(g_win, "Queue kosong.\n");
+            }
+        }
     }
     else if (IsKataSama(processedInput, allOrderInput))
     { //COMMAND allOrder
@@ -685,18 +752,18 @@ void InputProcessor(char input[], int input_length)
     }
     else if (IsKataSama(processedInput, helpInput))
     { //COMMAND help
-        mvwprintw(m_pWin, 5, 23, "Ketik help untuk melihat daftar command.\n");
-        mvwprintw(m_pWin, 6, 23, "Ketik GU untuk memindahkan player ke atas.\n");
-        mvwprintw(m_pWin, 7, 23, "Ketik GD untuk memindahkan player ke bawah.\n");
-        mvwprintw(m_pWin, 8, 23, "Ketik GL untuk memindahkan player ke kiri.\n");
-        mvwprintw(m_pWin, 9, 23, "Ketik GR untuk memindahkan player ke kanan.\n");
-        mvwprintw(m_pWin, 10, 23, "Ketik allOrder untuk melihat order setiap meja.\n");
-        mvwprintw(m_pWin, 11, 23, "Ketik queue untuk melihat antrian saat ini.\n");
-        mvwprintw(m_pWin, 12, 23, "Ketik status untuk melihat status pemain.\n");
-        mvwprintw(m_pWin, 13, 23, "Ketik place untuk menaruh customer di meja.\n");
-        mvwprintw(m_pWin, 14, 23, "Ketik give untuk menyajikan makanan dari tray.\n");
-        mvwprintw(m_pWin, 15, 23, "Ketik take untuk mengambil bahan dari kompor.\n");
-        mvwprintw(m_pWin, 16, 23, "Ketik recipe untuk melihat resep yang ada.\n");
+        wprintw(g_win, "Ketik help untuk melihat daftar command.\n");
+        wprintw(g_win, "Ketik GU untuk memindahkan player ke atas.\n");
+        wprintw(g_win, "Ketik GD untuk memindahkan player ke bawah.\n");
+        wprintw(g_win, "Ketik GL untuk memindahkan player ke kiri.\n");
+        wprintw(g_win, "Ketik GR untuk memindahkan player ke kanan.\n");
+        wprintw(g_win, "Ketik allOrder untuk melihat order setiap meja.\n");
+        wprintw(g_win, "Ketik queue untuk melihat antrian saat ini.\n");
+        wprintw(g_win, "Ketik status untuk melihat status pemain.\n");
+        wprintw(g_win, "Ketik place untuk menaruh customer di meja.\n");
+        wprintw(g_win, "Ketik give untuk menyajikan makanan dari tray.\n");
+        wprintw(g_win, "Ketik take untuk mengambil bahan dari kompor.\n");
+        wprintw(g_win, "Ketik recipe untuk melihat resep yang ada.\n");
     }
     else if (IsKataSama(processedInput, giveInput))
     { //COMMAND give
@@ -754,9 +821,8 @@ void InputProcessor(char input[], int input_length)
     }
     else if (IsKataSama(processedInput, recipeInput))
     { // COMMAND recipe
-        printf("Berikut adalah resep makanan di game ini!\n\n");
-        PrintTree(resep, 3);
-        printf("\n");
+        wprintw(g_win, "Berikut adalah resep makanan di game ini!\n\n");
+        PrintTreee(resep, 3);
     }
     else if (IsKataSama(processedInput, loadInput))
     {
@@ -766,27 +832,6 @@ void InputProcessor(char input[], int input_length)
     {
         SaveToFile("Save.txt");
     }
-}
-
-void Print_Screen()
-{
-    printf("\n|-----------------------------------------------------------------------------------------------|\n");
-    printf("| Welcome, ");
-    printKata(player.name);
-    printf("!\t   |");
-    printf("\tMoney:\t\t%d\t\t|", Money(player));
-    printf("   Life:\t%d   |", Life(player));
-    printf("\tTime:\t%d\t|", GameTime);
-    printf("\n");
-    printf("|-----------------------------------------------------------------------------------------------|\n");
-    printf("  Waiting cust: %d\n\n", NBElmt_Queue(CustomerQueue));
-    Print_Room(*(player.currentMap));
-    printf("|-----------------------------------------------------------------------------------------------|\n");
-    printf("Food stack: \n");
-    PrintData_Stack(Food(player), true);
-    printf("|-----------------------------------------------------------------------------------------------|\n");
-    printf("Hand: \n");
-    PrintData_Stack(Hand(player), true);
 }
 
 void EnableRawInput()
@@ -934,22 +979,20 @@ void MainScreen()
 
 void MainGame()
 {
-    char rawInput[10] = "", c;
-    int height = 20;
-    int width = 50;
+    char rawInput[10] = "";
+    int height = 25;
+    int width = 52;
 
     Draw_Dynamic_Items(m_pWin);
     CreateEmpty_Queue(&CustomerQueue, 5);
 
     g_win = newwin(height, width, (LINES - height) / 2 + 1, (COLS - width) / 2 - 2);
-    box(g_win, 0 ,0);
-    wprintw(g_win, "gdfasfsd");
+    //box(g_win, 0, 0);
 
     while (gameState == IN_GAME)
     {
-        Draw_Dynamic_Items(m_pWin);
-        refresh();
-        wrefresh(m_pWin);
+        if (!strcmp(rawInput, "") || !strcmp(rawInput, "GU") || !strcmp(rawInput, "GR") || !strcmp(rawInput, "GL") || !strcmp(rawInput, "GD"))
+            Print_RoomW(*(player.currentMap));
         wrefresh(g_win);
         wmove(m_pWin, m_cCurrY, m_cCurrX);
         wclrtoeol(m_pWin);
@@ -959,8 +1002,9 @@ void MainGame()
         // printf("\nInput : ");
         // scanf("%s", &rawInput);
         wmove(m_pWin, 5, 23);
+        wclear(g_win);
         InputProcessor(rawInput, 10);
-
+        wrefresh(g_win);
         // if (Life(player) <= 0)
         // {
         //     printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
@@ -968,6 +1012,7 @@ void MainGame()
         //     gameState = CREDITS;
         // }
         Draw_Dynamic_Items(m_pWin);
+        wrefresh(m_pWin);
     }
     DeAlokasi_Queue(&CustomerQueue);
     Dealokasi_All_Meja();
@@ -1014,20 +1059,6 @@ void Credits()
 
 /*
     notif line (below table)
-
-    inside panel:
-    map (layer printmap, retrieve from getmap. layer input, pass to input processor)
-    recipe (multilevel list ?)
-    status
-    help
-    allorder
-    - BACK BUTTON
-
-    side panel :
-    queue  (limit display)
-    order
-    tray
-    hand
 */
 
 void Draw_Window()
@@ -1095,15 +1126,15 @@ void Draw_Static_Items()
     }
 
     // line above the status text
-    mvwhline(m_pWin, 25, 1, 0, m_nWidth - 2);
-    mvwhline(m_pWin, 25, 1, 0, m_nWidth - 2);
-    mvwaddch(m_pWin, 25, 0, ACS_LTEE);
-    mvwaddch(m_pWin, 25, 20, ACS_BTEE);
-    mvwaddch(m_pWin, 25, 75, ACS_BTEE);
+    mvwhline(m_pWin, 32, 1, 0, m_nWidth - 2);
+    mvwhline(m_pWin, 32, 1, 0, m_nWidth - 2);
+    mvwaddch(m_pWin, 32, 0, ACS_LTEE);
+    mvwaddch(m_pWin, 32, 20, ACS_BTEE);
+    mvwaddch(m_pWin, 32, 75, ACS_BTEE);
 
     // status text
     wattron(m_pWin, A_BOLD);
-    mvwprintw(m_pWin, 26, 3, "%s", m_strStatus);
+    mvwprintw(m_pWin, 33, 3, "%s", m_strStatus);
     getyx(m_pWin, m_cCurrY, m_cCurrX);
     
     wattroff(m_pWin, A_BOLD);
@@ -1122,8 +1153,201 @@ void Draw_Dynamic_Items()
     mvwprintw(m_pWin, 3, 70, "%d", Life(player));
     mvwprintw(m_pWin, 3, 95, "%d", GameTime);
 
-    mvwprintw(m_pWin, 6, 2, "%d", NBElmt_Queue(CustomerQueue));
-    mvwprintw(m_pWin, 6, 2, "%d", NBElmt_Queue(CustomerQueue));
+    mvwprintw(m_pWin, 7, 2, "%d", NBElmt_Queue(CustomerQueue));
+    //mvwprintw(m_pWin, 16, 2, "%d", NBElmt_Queue(CustomerQueue));
+    PrintOrder();
+
+    //mvwprintw(m_pWin, 6, 77, "Anda tidak memegang apapun");
+    PrtStk(Food(player), 6, 77);
+    PrtStk(Hand(player), 16, 77);
 
     //drawPanel();
+}
+
+void PrtStk(Stack S, int row, int col)
+{
+    if (IsEmpty_Stack(S))
+    {
+        mvwprintw(m_pWin, row, col, "<kosong>");
+    }
+    else
+    {
+        for (int i = 1; i <= Top(S); i++)
+        {
+            mvwprintw(m_pWin, row - 1 + i, col, "[%d]", i);
+            //printKata(S.T[i].name);
+            int j = 1;
+            while (j < S.T[i].name.Length && S.T[i].name.TabKata[j] != '\0')
+            {
+                mvwprintw(m_pWin, 3, 7 + j, "%c", S.T[i].name.TabKata[j]);
+                j++;
+            }
+        }
+    }
+}
+
+void PrintTreee(BinTree P, int h)
+{
+    void PrintTreeWithIndentt(BinTree P, int h, int idt)
+    {
+        int i;
+        if (!IsTreeEmpty(P))
+        {
+            wprintw(g_win, "%d ", Akar(P).id);
+            //printKata(Akar(P).name);
+            int j = 1;
+            while (j < Akar(P).name.Length && Akar(P).name.TabKata[j] != '\0')
+            {
+                wprintw(g_win, "%c", Akar(P).name.TabKata[j]);
+                j++;
+            }
+            wprintw(g_win, "\n");
+            if (!IsTreeEmpty(Left(P)))
+            {
+                for (i = 1; i <= h + idt; i++)
+                {
+                    wprintw(g_win, " ");
+                }
+                PrintTreeWithIndentt(Left(P), h, idt + h);
+            }
+            if (!IsTreeEmpty(Right(P)))
+            {
+                for (i = 1; i <= h + idt; i++)
+                {
+                    wprintw(g_win, " ");
+                }
+                PrintTreeWithIndentt(Right(P), h, idt + h);
+            }
+        }
+    }
+    /*Kamus Lokal*/
+
+    /*Algoritma*/
+    PrintTreeWithIndentt(P, h, 0);
+}
+
+void Print_RoomW(Matrix M)
+/* Print Map ke layar. */
+{
+    int i, j;
+    wprintw(g_win, "\n\n\n\n");
+    for (i = MIN_ROW_MAP; i <= NRowEff(M); ++i)
+    {
+
+        for (j = MIN_COL_MAP; j <= NColEff(M); ++j)
+        {
+            if (j == 1)
+                wprintw(g_win, "\t");
+            if (ElmtMx(M, (i - 1), j).tag == TABLE)
+                if (IsOccupied(ElmtMx(M, (i - 1), j)))
+                {
+                    wprintw(g_win, "C");
+                }
+                else
+                {
+                    wprintw(g_win, "X");
+                }
+            else if (ElmtMx(M, (i + 1), j).tag == TABLE)
+                if (IsOccupied(ElmtMx(M, (i + 1), j)))
+                {
+                    if (Amount(CustomerAt(ElmtMx(M, (i + 1), j))) >= 2)
+                    {
+                        wprintw(g_win, "C");
+                    }
+                    else
+                    {
+                        wprintw(g_win, "X");
+                    }
+                }
+                else
+                {
+                    wprintw(g_win, "X");
+                }
+            else if (ElmtMx(M, i, (j + 1)).tag == TABLE)
+            {
+                if (ElmtMx(M, i, (j + 1)).data.table.size != 2)
+                    if (IsOccupied(ElmtMx(M, (i), j + 1)))
+                    {
+                        if (Amount(CustomerAt(ElmtMx(M, (i), j + 1))) >= 3)
+                        {
+                            wprintw(g_win, "C");
+                        }
+                        else
+                        {
+                            wprintw(g_win, "X");
+                        }
+                    }
+                    else
+                    {
+                        wprintw(g_win, "X");
+                    }
+                else if (ElmtMx(M, i, j).tag == PLAYER_POS)
+                {
+                    wprintw(g_win, "P");
+                }
+                else
+                    wprintw(g_win, "-");
+            }
+            else if (ElmtMx(M, i, (j - 1)).tag == TABLE)
+            {
+                if (ElmtMx(M, i, (j - 1)).data.table.size != 2)
+                    if (IsOccupied(ElmtMx(M, (i), j - 1)))
+                    {
+                        if (Amount(CustomerAt(ElmtMx(M, (i), j - 1))) == 4)
+                        {
+                            wprintw(g_win, "C");
+                        }
+                        else
+                        {
+                            wprintw(g_win, "X");
+                        }
+                    }
+                    else
+                    {
+                        wprintw(g_win, "X");
+                    }
+                else if (ElmtMx(M, i, j).tag == PLAYER_POS)
+                {
+                    wprintw(g_win, "P");
+                }
+                else
+                    wprintw(g_win, "-");
+            }
+            else if (ElmtMx(M, i, j).tag == TABLE)
+            {
+                wprintw(g_win, "%d", ElmtMx(M, i, j).data.table.num);
+            }
+            else if (ElmtMx(M, i, j).tag == PLAYER_POS)
+            {
+                wprintw(g_win, "P");
+            }
+            else if (ElmtMx(M, i, j).tag == STOVE)
+            {
+                wprintw(g_win, "M");
+            }
+            else if (ElmtMx(M, i, j).tag == TRAY)
+            {
+                wprintw(g_win, "T");
+            }
+            else
+            {
+                wprintw(g_win, "-");
+            }
+            if (j != NColEff(M))
+            {
+                if (ElmtMx(M, i, j).tag == TABLE)
+                {
+                    if (TableNumber(ElmtMx(M, i, j)) / 10 == 0) //Kalau panjang angka > 2, maka dia langsung dikurangi dengan 1 space
+                        wprintw(g_win, "    ");
+                    else
+                        wprintw(g_win, "   ");
+                }
+                else
+                {
+                    wprintw(g_win, "    ");
+                }
+            }
+        }
+        wprintw(g_win, "\n\n");
+    }
 }

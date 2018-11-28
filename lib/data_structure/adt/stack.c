@@ -101,9 +101,9 @@ void PrintData_Stack (Stack S, boolean isHand){
 	int i;
 	if(IsEmpty_Stack(S)){
 		if(isHand){
-			printf("Anda tidak memegang apapun\n");
+			printf("Kosong.\n");
 		} else {
-			printf("Nampan anda kosong.\n");
+			printf("Kosong.\n");
 		}
 	} else {
 		for(i = 1; i <= Top(S); i++){
