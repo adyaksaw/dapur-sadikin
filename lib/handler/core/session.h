@@ -8,9 +8,11 @@
 #include "../../data_structure/gdt/game_data_type.h"
 #include "../handler_include.h"
 #include <ncurses.h>
+#include <menu.h>
 
 #define initialX 4
 #define initialY 4
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define LINE_BREAK print_line_break()
 
 typedef enum {
@@ -36,8 +38,24 @@ extern Graph BIG_MAP;
 extern adrNode Pn;
 extern adrSuccNode Pt;
 
+/* UI Variables */
+extern WINDOW *m_pWin;
+
+extern int m_nXCoord,
+    m_nYCoord,
+    m_nWidth,
+    m_nHeight,
+    m_nPageSize,
+    m_nTopLine,
+    m_nScrWidth,
+    m_nScrHeight,
+    m_cTitleColor,
+    m_cCurrColor,
+    m_cStatusColor;
+
 void print_line_break();
 
+/* GAME FUNCTION */
 void SaveToFile(char *FileName);
 void LoadFromFile(char *FileName);
 void PrintAllOrder();
@@ -50,8 +68,16 @@ void CustomerGenerator();
 void reduceAllCustPatience();
 void CheckTransitiontoGraph(Matrix *M1, Matrix *M2, Direction dir);
 void InputProcessor(char input[], int input_length);
+
+/* SESSION */
 void MainScreen();
 void MainGame();
 void Credits();
+
+/* INTERFACE */
+void Draw_Window();
+void Draw_Static_Items();
+void Draw_Dynamic_Items();
+void Draw_Panel();
 
 #endif

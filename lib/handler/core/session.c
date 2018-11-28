@@ -4,6 +4,8 @@
 
 #include "session.h"
 
+WINDOW *m_pWin;
+
 GameState gameState;
 Player player;
 Queue CustomerQueue;
@@ -19,6 +21,44 @@ Matrix Map1, Map2, Map3, Kitchen;
 Graph BIG_MAP;
 adrNode Pn;
 adrSuccNode Pt;
+
+int m_nXCoord = 0,
+    m_nYCoord = 0,
+    m_nWidth = 100,
+    m_nHeight = 28,
+    m_nPageSize = 20,
+    m_nTopLine = 5,
+    m_nScrWidth,
+    m_nScrHeight,
+    m_cTitleColor = (int)(COLOR_YELLOW),
+    m_cCurrColor = (int)(COLOR_YELLOW),
+    m_cStatusColor = (int)(COLOR_YELLOW);
+
+char m_strTitle[20],
+    m_strHeaders[100],
+    m_strStatus[20];
+
+void print_line_break()
+{
+    const char breakline[] = "*******";
+    int n = 2;
+
+    curs_set(0); // hide the cursor
+
+    move(0.9 * m_nScrHeight, (m_nScrWidth - strlen(breakline) * n - 3) / 2);
+
+    printw("***");
+    refresh();
+
+    while (n--)
+    {
+        sleep(1);
+        printw("%s", breakline);
+        refresh();
+    }
+
+    sleep(1);
+}
 
 void SaveToFile(char *FileName)
 {
@@ -722,25 +762,6 @@ void InputProcessor(char input[], int input_length)
     }
 }
 
-void MainScreen()
-{
-    //printf("Main Screen\n");
-    char rawInput[100] = "";
-    while (gameState == MAIN_MENU)
-    {
-        Create_New_Player(&player);
-        printw("Welcome to Dapur Sadikin!\n");
-        printw("What is your name?\n");
-        printw("Name : ");
-        getstr(rawInput);
-        printw("%s", rawInput);
-        //scanf("%s", &rawInput);
-        Set_Player_Name(&player, rawInput, strlen(rawInput)+1);
-        gameState = IN_GAME;
-        //printf("\n");
-    }
-}
-
 void Print_Screen()
 {
     printf("\n|-----------------------------------------------------------------------------------------------|\n");
@@ -762,50 +783,266 @@ void Print_Screen()
     PrintData_Stack(Hand(player), true);
 }
 
-void MainGame()
+void EnableRawInput()
 {
-    //printf("Main Game\n");
-    //PrintAllMemory(Map1);
-    //printw("\nWelcome, %s", player.name);
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+}
 
-    char rawInput[10] = "";
+void DisableRawInput()
+{
+    noraw();
+    echo();
+    keypad(stdscr, FALSE);
+}
 
-    CreateEmpty_Queue(&CustomerQueue, 5);
+void Menu(char *choices[], char *choices2[])
+{
+    ITEM **my_items;
+    int c;
+    MENU *my_menu;
+    int n_choices, i;
+    ITEM *cur_item;
 
-    while (gameState == IN_GAME)
+    EnableRawInput();
+
+    n_choices = ARRAY_SIZE(choices);
+    printw("%d", n_choices);
+    my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+
+    for (i = 0; i < n_choices; ++i)
+        my_items[i] = new_item(choices[i], choices2[0]);
+    my_items[n_choices] = (ITEM *)NULL;
+
+    my_menu = new_menu((ITEM **)my_items);
+    post_menu(my_menu);
+    refresh();
+
+    while ((c = getch()) != KEY_F(1))
     {
-        /*
-        printf("Map 1\n");
-        Print_Room(Map1);
-        printf("Map 2\n");
-        Print_Room(Map2);
-        printf("Map 3\n");
-        Print_Room(Map3);
-        printf("Dapur\n");
-        Print_Kitchen(Kitchen);
-        */
-        Print_Screen();
-        printf("|-----------------------------------------------------------------------------------------------|\n");
-        printf("\nInput : ");
-        scanf("%s", &rawInput);
-        InputProcessor(rawInput, 10);
-        if (Life(player) <= 0)
+        switch (c)
         {
-            printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
-            printf("GAME OVER!\n");
-            gameState = CREDITS;
+        case KEY_DOWN:
+            menu_driver(my_menu, REQ_DOWN_ITEM);
+            break;
+        case KEY_UP:
+            menu_driver(my_menu, REQ_UP_ITEM);
+            break;
         }
     }
+
+    free_item(*my_items);
+    free_menu(my_menu);
+    DisableRawInput();
+}
+
+void MainScreen()
+{
+    //printf("Main Screen\n");
+    const char mesg1[] = "Welcome to Dapur Sadikin!";
+    const char mesg2[] = "Name: ";
+    char rawInput[100] = "";
+    int width = 80, height = 20;
+    char *choices[] = {
+        " LOAD SAVED",
+        " NEW GAME",
+        };
+    char *empty[] = {""};
+
+    WINDOW *new_win;
+
+    refresh();
+    new_win = newwin(height, width, (LINES - height) / 2, (COLS - width) / 2);
+    box(new_win, 0, 0);
+
+    wrefresh(new_win);
+
+    while (gameState == MAIN_MENU)
+    {
+        Create_New_Player(&player);
+
+        attron(A_BOLD);
+        mvprintw(m_nScrHeight / 2 - 2, (m_nScrWidth - strlen(mesg1)) / 2, "%s", mesg1);
+        attroff(A_BOLD);
+
+        //Menu(choices, empty);
+
+        mvprintw(m_nScrHeight / 2 + 3, (m_nScrWidth - strlen(mesg2)) / 2 - 5, "%s", mesg2);
+
+        getstr(rawInput);
+        //scanf("%s", &rawInput);
+
+        Set_Player_Name(&player, rawInput, strlen(rawInput) + 1);
+
+        LINE_BREAK;
+        gameState = IN_GAME;
+    }
+}
+
+void MainGame()
+{
+    char rawInput[10] = "";
+
+    Draw_Dynamic_Items(m_pWin);
+    CreateEmpty_Queue(&CustomerQueue, 5);
+
+    // while (gameState == IN_GAME)
+    // {
+    //     refresh();
+    //     wrefresh(m_pWin);
+
+    //     // Print_Screen();
+    //     // printf("|-----------------------------------------------------------------------------------------------|\n");
+    //     // printf("\nInput : ");
+    //     // scanf("%s", &rawInput);
+    //     // InputProcessor(rawInput, 10);
+    //     // if (Life(player) <= 0)
+    //     // {
+    //     //     printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
+    //     //     printf("GAME OVER!\n");
+    //     //     gameState = CREDITS;
+    //     // }
+    // }
     DeAlokasi_Queue(&CustomerQueue);
     Dealokasi_All_Meja();
 }
 
-void Credits(){
-    printw("Thank you for playing.\n");
-    printw("Courtesy of DAPUR SADIKIN @2018\n");
+void Credits()
+{
+    const char mesg1[] = "Thank you for playing!";
+    const char mesg2[] = "Courtesy of DAPUR SADIKIN @2018";
+
+    attron(A_BOLD);
+    mvprintw(m_nScrHeight / 2 - 1, (m_nScrWidth - strlen(mesg1)) / 2, "%s", mesg1);
+    attroff(A_BOLD);
+
+    mvprintw(m_nScrHeight / 2 + 1, (m_nScrWidth - strlen(mesg2)) / 2, "%s", mesg2);
+
+    refresh();
+
     LINE_BREAK;
 }
 
-void print_line_break(){
-    printw("\n******************************************\n");
+/*
+    notif line (below table)
+
+    inside panel:
+    map (layer printmap, retrieve from getmap. layer input, pass to input processor)
+    recipe (multilevel list ?)
+    status
+    help
+    allorder
+    - BACK BUTTON
+
+    side panel :
+    queue  (limit display)
+    order
+    tray
+    hand
+
+    catch input at command section, guarantee with no cursor
+        arrow immediately pushes input
+        anything else buffers
+
+    welcome - scren welcome, NAME!, newgame. loadgame button
+    credits - savegame quitgame button
+    
+    load game session (categorize by date and name?)
+*/
+
+void Draw_Window()
+{
+    // update the screen width/height variables and make sure that the window will
+    // still fit in case the user happens to resize their terminal (e.g., xterm);
+    // throws an exception if screen too small in either direction
+    checkScreenSize();
+
+    m_pWin = newwin(m_nHeight, m_nWidth, m_nYCoord, m_nXCoord);
+    box(m_pWin, 0, 0);
+
+    Draw_Static_Items();
+    //Draw_Dynamic_Items();
+
+    refresh();
+    wrefresh(m_pWin);
+}
+
+void Draw_Static_Items()
+{
+    strcpy(m_strTitle, "DAPUR SADIKIN");
+    strcpy(m_strHeaders, " Name:             |   Money:                    |  Life:                 |  Time:     ");
+    strcpy(m_strStatus, "Command: ");
+
+    // title, centered
+    wattron(m_pWin, A_BOLD);
+    mvwprintw(m_pWin, 1, (m_nWidth / 2) - strlen(m_strTitle) / 2, "%s", m_strTitle);
+    wattroff(m_pWin, A_BOLD);
+
+    // line underneath the title
+    mvwhline(m_pWin, 2, 1, 0, m_nWidth - 2);
+    mvwhline(m_pWin, 14, 1, 0, 20);
+    mvwhline(m_pWin, 14, 76, 0, 23);
+    mvwaddch(m_pWin, 2, 0, ACS_LTEE);
+    mvwaddch(m_pWin, 2, 20, ACS_TTEE);
+    mvwaddch(m_pWin, 2, 50, ACS_TTEE);
+    mvwaddch(m_pWin, 2, 75, ACS_TTEE);
+
+    // headers
+    mvwprintw(m_pWin, 3, 1, "%s", m_strHeaders);
+    mvwprintw(m_pWin, 5, 2, "Waiting customer:");
+    mvwprintw(m_pWin, 5, 77, "Tray:");
+    mvwprintw(m_pWin, 15, 2, "Orders:");
+    mvwprintw(m_pWin, 15, 77, "Hand:");
+
+    // separators between the headers
+    mvwaddch(m_pWin, 3, 20, ACS_VLINE);
+    mvwaddch(m_pWin, 3, 50, ACS_VLINE);
+    mvwaddch(m_pWin, 3, 75, ACS_VLINE);
+
+    // line underneath the headers
+    mvwhline(m_pWin, 4, 1, 0, m_nWidth - 2);
+    mvwhline(m_pWin, 4, 1, 0, m_nWidth - 2);
+    mvwaddch(m_pWin, 4, 0, ACS_LTEE);
+    mvwaddch(m_pWin, 4, 20, ACS_PLUS);
+    mvwaddch(m_pWin, 4, 50, ACS_BTEE);
+    mvwaddch(m_pWin, 4, 75, ACS_PLUS);
+
+    // column separators in the ASCII list view
+    for (int iii = 0; iii < m_nPageSize; iii++)
+    {
+        mvwaddch(m_pWin, m_nTopLine + iii, 20, ACS_VLINE);
+        mvwaddch(m_pWin, m_nTopLine + iii, 75, ACS_VLINE);
+    }
+
+    // line above the status text
+    mvwhline(m_pWin, 25, 1, 0, m_nWidth - 2);
+    mvwhline(m_pWin, 25, 1, 0, m_nWidth - 2);
+    mvwaddch(m_pWin, 25, 0, ACS_LTEE);
+    mvwaddch(m_pWin, 25, 20, ACS_BTEE);
+    mvwaddch(m_pWin, 25, 75, ACS_BTEE);
+
+    // status text
+    wattron(m_pWin, A_BOLD);
+    mvwprintw(m_pWin, 26, 3, "%s", m_strStatus);
+    wattroff(m_pWin, A_BOLD);
+}
+
+void Draw_Dynamic_Items()
+{
+    // headers ("Char", "Binary", "Octal", "Decimal", "Hexadecimal")
+    int i = 1;
+    while (i < Name(player).Length && Name(player).TabKata[i] != '\0')
+    {
+        mvwprintw(m_pWin, 3, 7 + i, "%c", Name(player).TabKata[i]);
+        i++;
+    }
+    mvwprintw(m_pWin, 3, 45, "%d", Money(player));
+    mvwprintw(m_pWin, 3, 70, "%d", Life(player));
+    mvwprintw(m_pWin, 3, 95, "%d", GameTime);
+
+    //iterate on shit
+    mvwprintw(m_pWin, 6, 2, "%d", NBElmt_Queue(CustomerQueue));
+
+    //drawPanel();
 }
