@@ -32,7 +32,9 @@ int m_nXCoord = 0,
     m_nScrHeight,
     m_cTitleColor = (int)(COLOR_YELLOW),
     m_cCurrColor = (int)(COLOR_YELLOW),
-    m_cStatusColor = (int)(COLOR_YELLOW);
+    m_cStatusColor = (int)(COLOR_YELLOW),
+    m_cCurrX = 0;
+    m_cCurrY = 0;
 
 char m_strTitle[20],
     m_strHeaders[100],
@@ -58,6 +60,7 @@ void print_line_break()
     }
 
     sleep(1);
+    curs_set(1); 
 }
 
 void SaveToFile(char *FileName)
@@ -98,8 +101,7 @@ void SaveToFile(char *FileName)
         }
     }
     fprintf(save, "EQ\n");
-    //
-    printf("Save Sukses\n");
+    // printf("Save Sukses\n");
     fclose(save);
 }
 
@@ -111,7 +113,7 @@ void LoadFromFile(char *FileName)
     Stack handtemp;
     if (isPointValid(player.pos) && ElmtMx(*(player.currentMap), (int)Absis(player.pos), (int)Ordinat(player.pos)).tag == PLAYER_POS)
     {
-        printf("1\n");
+        //printf("1\n");
         SetTag_Matrix(player.currentMap, (int)Absis((player).pos), (int)Ordinat((player).pos), EMPTY);
     }
     load = fopen(FileName, "r");
@@ -144,7 +146,7 @@ void LoadFromFile(char *FileName)
     Input_Stack(&Food(player), load);
     //Customer Queue
     Load_Queue(&CustomerQueue, load);
-    printf("End Pembacaan Q\n");
+    //printf("End Pembacaan Q\n");
     //Pembacaan berhenti saat pembacaan menemukan 0 sebagai nilai Amount,
     //Amount pastilah [1..4]
 
@@ -155,8 +157,8 @@ void LoadFromFile(char *FileName)
         int NomerMeja;
         //TableNumber(*ArrayOfMeja[i])
         fscanf(load, "%d %d", &NomerMeja, &IsOccupied(*ArrayOfMeja[i]));
-        printf("%d Mantap\n", NomerMeja);
-        printf("%d", IsOccupied(*ArrayOfMeja[i]));
+        //printf("%d Mantap\n", NomerMeja);
+        //printf("%d", IsOccupied(*ArrayOfMeja[i]));
         if (IsOccupied(*ArrayOfMeja[i]) == 1)
         {
             Customer *customer = malloc(sizeof(Customer));
@@ -167,10 +169,10 @@ void LoadFromFile(char *FileName)
 
             (*ArrayOfMeja[i]).data.table.customer_here = customer;
             (*ArrayOfMeja[i]).data.table.isOccupied = true;
-            printf("BINGITS\n");
+            //printf("BINGITS\n");
         }
     }
-    printf("Load Sukses\n");
+    //printf("Load Sukses\n");
     fclose(load);
 }
 void PrintAllOrder()
@@ -797,30 +799,50 @@ void DisableRawInput()
     keypad(stdscr, FALSE);
 }
 
-void Menu(char *choices[], char *choices2[])
+void Menu(int height, int width, int offX, int offY, char *choices[], char *choices2[], char *ret)
 {
+    WINDOW *my_menu_win;
     ITEM **my_items;
     int c;
     MENU *my_menu;
-    int n_choices, i;
+    int n_choices, i, con = 1;
     ITEM *cur_item;
 
     EnableRawInput();
 
-    n_choices = ARRAY_SIZE(choices);
-    printw("%d", n_choices);
+    n_choices = ARRAY_SIZE(choices) + 1;
     my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 
+    /* Create items */
     for (i = 0; i < n_choices; ++i)
         my_items[i] = new_item(choices[i], choices2[0]);
     my_items[n_choices] = (ITEM *)NULL;
 
+    /* Crate menu */
     my_menu = new_menu((ITEM **)my_items);
-    post_menu(my_menu);
+
+    /* Create the window to be associated with the menu */
+    my_menu_win = newwin(height, width, m_nScrHeight / 2 - height/2 + offY, m_nScrWidth / 2 - width/2 + offX);
+    keypad(my_menu_win, TRUE);
+
+    /* Set main window and sub window */
+    set_menu_win(my_menu, my_menu_win);
+    set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
+
+    /* Set menu mark to the string " * " */
+    set_menu_mark(my_menu, " * ");
+
+    //box(my_menu_win, 0, 0);
     refresh();
 
-    while ((c = getch()) != KEY_F(1))
+    /* Post the menu */
+    post_menu(my_menu);
+    wrefresh(my_menu_win);
+
+    do
     {
+        c = wgetch(my_menu_win);
+
         switch (c)
         {
         case KEY_DOWN:
@@ -829,12 +851,22 @@ void Menu(char *choices[], char *choices2[])
         case KEY_UP:
             menu_driver(my_menu, REQ_UP_ITEM);
             break;
+        case 10:
+            {
+                *ret = item_name(current_item(my_menu))[1];
+                con = 0;
+                break;
+            }
         }
     }
+    while (con);
 
-    free_item(*my_items);
+    unpost_menu(my_menu);
     free_menu(my_menu);
+    for (i = 0; i < n_choices; ++i)
+        free_item(my_items[i]);
     DisableRawInput();
+    endwin();
 }
 
 void MainScreen()
@@ -842,6 +874,7 @@ void MainScreen()
     //printf("Main Screen\n");
     const char mesg1[] = "Welcome to Dapur Sadikin!";
     const char mesg2[] = "Name: ";
+    const char mesg3[] = "Good to see you again.";
     char rawInput[100] = "";
     int width = 80, height = 20;
     char *choices[] = {
@@ -849,35 +882,50 @@ void MainScreen()
         " NEW GAME",
         };
     char *empty[] = {""};
+    char ret;
 
     WINDOW *new_win;
 
     refresh();
     new_win = newwin(height, width, (LINES - height) / 2, (COLS - width) / 2);
     box(new_win, 0, 0);
-
     wrefresh(new_win);
 
-    while (gameState == MAIN_MENU)
+    attron(A_BOLD);
+    mvprintw(m_nScrHeight / 2 - 2, (m_nScrWidth - strlen(mesg1)) / 2, "%s", mesg1);
+    attroff(A_BOLD);
+
+    Menu(9, 40, 10, 3,choices, empty, &ret);
+
+    refresh();
+    new_win = newwin(height, width, (LINES - height) / 2, (COLS - width) / 2);
+    box(new_win, 0, 0);
+    wrefresh(new_win);
+
+    attron(A_BOLD);
+    mvprintw(m_nScrHeight / 2 - 2, (m_nScrWidth - strlen(mesg1)) / 2, "%s", mesg1);
+    attroff(A_BOLD);
+
+    if(ret == 'N')
     {
         Create_New_Player(&player);
 
-        attron(A_BOLD);
-        mvprintw(m_nScrHeight / 2 - 2, (m_nScrWidth - strlen(mesg1)) / 2, "%s", mesg1);
-        attroff(A_BOLD);
-
-        //Menu(choices, empty);
-
-        mvprintw(m_nScrHeight / 2 + 3, (m_nScrWidth - strlen(mesg2)) / 2 - 5, "%s", mesg2);
+        mvprintw(m_nScrHeight / 2 + 1, (m_nScrWidth - strlen(mesg2)) / 2 - 5, "%s", mesg2);
 
         getstr(rawInput);
         //scanf("%s", &rawInput);
 
         Set_Player_Name(&player, rawInput, strlen(rawInput) + 1);
-
-        LINE_BREAK;
-        gameState = IN_GAME;
     }
+    else
+    {
+        LoadFromFile("save.txt");
+        mvprintw(m_nScrHeight / 2 + 1, (m_nScrWidth - strlen(mesg3)) / 2, "%s", mesg3);
+    }
+
+    LINE_BREAK;
+    gameState = IN_GAME;
+
 }
 
 void MainGame()
@@ -887,29 +935,55 @@ void MainGame()
     Draw_Dynamic_Items(m_pWin);
     CreateEmpty_Queue(&CustomerQueue, 5);
 
-    // while (gameState == IN_GAME)
-    // {
-    //     refresh();
-    //     wrefresh(m_pWin);
-
-    //     // Print_Screen();
-    //     // printf("|-----------------------------------------------------------------------------------------------|\n");
-    //     // printf("\nInput : ");
-    //     // scanf("%s", &rawInput);
-    //     // InputProcessor(rawInput, 10);
-    //     // if (Life(player) <= 0)
-    //     // {
-    //     //     printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
-    //     //     printf("GAME OVER!\n");
-    //     //     gameState = CREDITS;
-    //     // }
-    // }
+    while (gameState == IN_GAME)
+    {
+        refresh();
+        wrefresh(m_pWin);
+        wmove(m_pWin, m_cCurrY, m_cCurrX);
+        wclrtoeol(m_pWin);
+        wgetstr(m_pWin, rawInput);
+        // Print_Screen();
+        // printf("|-----------------------------------------------------------------------------------------------|\n");
+        // printf("\nInput : ");
+        // scanf("%s", &rawInput);
+        InputProcessor(rawInput, 10);
+        // if (Life(player) <= 0)
+        // {
+        //     printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
+        //     printf("GAME OVER!\n");
+        //     gameState = CREDITS;
+        // }
+        Draw_Dynamic_Items(m_pWin);
+    }
     DeAlokasi_Queue(&CustomerQueue);
     Dealokasi_All_Meja();
 }
 
 void Credits()
 {
+    const char mesg[] = "Save game?";
+    const char mesgg[] = "Game saved.";
+    char *choices[] = {
+        " YES",
+        " NO",
+    };
+    char *empty[] = {""};
+    char ret;
+
+    attron(A_BOLD);
+    mvprintw(m_nScrHeight / 2 - 3, (m_nScrWidth - strlen(mesg)) / 2 , "%s", mesg);
+    attroff(A_BOLD);
+
+    Menu(9, 40, 14, 2, choices, empty, &ret);
+
+    clear();
+    refresh();
+
+    if(ret == 'Y'){
+        SaveToFile("save.txt");
+        mvprintw(m_nScrHeight / 2 + 8, (m_nScrWidth - strlen(mesgg)) / 2, "%s", mesgg);
+    }
+
     const char mesg1[] = "Thank you for playing!";
     const char mesg2[] = "Courtesy of DAPUR SADIKIN @2018";
 
@@ -944,11 +1018,6 @@ void Credits()
     catch input at command section, guarantee with no cursor
         arrow immediately pushes input
         anything else buffers
-
-    welcome - scren welcome, NAME!, newgame. loadgame button
-    credits - savegame quitgame button
-    
-    load game session (categorize by date and name?)
 */
 
 void Draw_Window()
@@ -1025,12 +1094,14 @@ void Draw_Static_Items()
     // status text
     wattron(m_pWin, A_BOLD);
     mvwprintw(m_pWin, 26, 3, "%s", m_strStatus);
+    getyx(m_pWin, m_cCurrY, m_cCurrX);
+    
     wattroff(m_pWin, A_BOLD);
 }
 
 void Draw_Dynamic_Items()
 {
-    // headers ("Char", "Binary", "Octal", "Decimal", "Hexadecimal")
+    // headers
     int i = 1;
     while (i < Name(player).Length && Name(player).TabKata[i] != '\0')
     {

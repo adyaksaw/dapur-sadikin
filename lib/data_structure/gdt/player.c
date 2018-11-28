@@ -33,7 +33,7 @@ void Move_Player_Direction (Matrix * M, Player * player, Direction dir){
 }
 
 boolean isPointValid(Point P){
-    printf("CHECKING (%.0f, %f.0f).\n", Absis(P), Ordinat(P));
+    //printf("CHECKING (%.0f, %f.0f).\n", Absis(P), Ordinat(P));
     return Absis(P) >= 1 && Absis(P) <= 8 && Ordinat(P) >= 1 && Ordinat(P) <= 8;
 }
 

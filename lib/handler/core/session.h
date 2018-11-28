@@ -51,7 +51,9 @@ extern int m_nXCoord,
     m_nScrHeight,
     m_cTitleColor,
     m_cCurrColor,
-    m_cStatusColor;
+    m_cStatusColor,
+    m_cCurrX,
+    m_cCurrY;
 
 void print_line_break();
 
