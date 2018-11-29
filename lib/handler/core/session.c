@@ -84,7 +84,7 @@ void SaveToFile(char *FileName)
         }
     }
     fprintf(save, "EQ\n");
-    printf("Save Sukses\n");
+    //printf("Save Sukses\n");
     fclose(save);
 }
 
@@ -96,7 +96,7 @@ void LoadFromFile(char *FileName)
     Stack handtemp;
     if (isPointValid(player.pos) && ElmtMx(*(player.currentMap), (int)Absis(player.pos), (int)Ordinat(player.pos)).tag == PLAYER_POS)
     {
-        printf("1\n");
+        //printf("1\n");
         SetTag_Matrix(player.currentMap, (int)Absis((player).pos), (int)Ordinat((player).pos), EMPTY);
     }
     load = fopen(FileName, "r");
@@ -129,7 +129,7 @@ void LoadFromFile(char *FileName)
     Input_Stack(&Food(player), load);
     //Customer Queue
     Load_Queue(&CustomerQueue, load);
-    printf("End Pembacaan Q\n");
+    //printf("End Pembacaan Q\n");
     //Pembacaan berhenti saat pembacaan menemukan 0 sebagai nilai Amount,
     //Amount pastilah [1..4]
 
@@ -140,7 +140,7 @@ void LoadFromFile(char *FileName)
         int NomerMeja;
         //TableNumber(*ArrayOfMeja[i])
         fscanf(load, "%d %d", &NomerMeja, &IsOccupied(*ArrayOfMeja[i]));
-        printf("%d Mantap\n", NomerMeja);
+        //printf("%d Mantap\n", NomerMeja);
         //printf("%d", IsOccupied(*ArrayOfMeja[i]));
         if (IsOccupied(*ArrayOfMeja[i]) == 1)
         {
@@ -152,10 +152,10 @@ void LoadFromFile(char *FileName)
 
             (*ArrayOfMeja[i]).data.table.customer_here = customer;
             (*ArrayOfMeja[i]).data.table.isOccupied = true;
-            printf("BINGITS\n");
+            //printf("BINGITS\n");
         }
     }
-    printf("Load Sukses\n");
+    //printf("Load Sukses\n");
     fclose(load);
 }
 
@@ -246,14 +246,14 @@ void Initialize_Session()
     for (i = 1; i <= 23; i++)
     {
         ArrayOfItem[i] = SearchItemTree(resep, i);
-        printf("Nama item ke %d: ", i);
-        printKata((ArrayOfItem[i].name));
-        printf(" %d\n", ItemID(ArrayOfItem[i]));
+        //printf("Nama item ke %d: ", i);
+        //printKata((ArrayOfItem[i].name));
+        //printf(" %d\n", ItemID(ArrayOfItem[i]));
     }
     // PrintTree(resep, 2);
 
     GameTime = 0;
-    printf("Init\n");
+    //printf("Init\n");
     //PrintAllMemory(&Map1);
     /*
         Melakukan inisialisasi dari array of pointer ArrayOfMeja.
@@ -1204,7 +1204,7 @@ void printKataW(Kata k, WINDOW *w, int row, int col)
     int i = 1;
     while (i <= k.Length && k.TabKata[i] != '\0')
     {
-        mvwprintw(w, row - 1 + i, col, "%c", k.TabKata[i]);
+        mvwprintw(w, row, col - 1 + i, "%c", k.TabKata[i]);
         i++;
     }
 }
