@@ -1025,7 +1025,7 @@ void MainGame()
 
         InputProcessor(rawInput, 10);
 
-        if (Life(player) <= 5)
+        if (Life(player) <= 0)
         {
             m_gOver = 1;
             wclear(g_win);
