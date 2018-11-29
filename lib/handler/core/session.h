@@ -146,7 +146,8 @@ void Draw_Dynamic_Items();
 
 //possible problems
 void PrtStk(Stack S, int row, int col);
-void PrintTreee(BinTree P, int h)
+void PrintTreee(BinTree P, int h);
+void PrintTreeWithIndentt(BinTree P, int h, int idt);
 
 void Print_RoomW(Matrix M);
 

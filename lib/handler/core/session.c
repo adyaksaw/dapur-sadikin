@@ -36,12 +36,12 @@ void print_line_break()
 
     while (n--)
     {
-        //sleep(1);
+        sleep(1);
         printw("%s", breakline);
         refresh();
     }
 
-    //sleep(1);
+    sleep(1);
     curs_set(1);
 }
 
@@ -242,13 +242,13 @@ void Initialize_Session()
         printf("File tidak terdeteksi\n");
     resep = BuildBalanceTree(23, fp);
 
-    for (i = 1; i <= 23; i++)
-    {
-        ArrayOfItem[i] = SearchItemTree(resep, i);
-        printf("Nama item ke %d: ", i);
-        printKata((ArrayOfItem[i].name));
-        printf(" %d\n", ItemID(ArrayOfItem[i]));
-    }
+    // for (i = 1; i <= 23; i++)
+    // {
+    //     ArrayOfItem[i] = SearchItemTree(resep, i);
+    //     printf("Nama item ke %d: ", i);
+    //     printKata((ArrayOfItem[i].name));
+    //     printf(" %d\n", ItemID(ArrayOfItem[i]));
+    // }
 
     GameTime = 0;
     //printf("Init\n");
@@ -331,7 +331,7 @@ void reduceAllCustPatience()
                 Reduce_Patience(CustomerQueue.T[i]);
                 if (Patience(*(CustomerQueue.T[i])) == 0)
                 {
-                    mvwprintw(g_win, 11, 0,  "Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
+                    mvwprintw(g_win, 11, 0, "Terlalu lama menunggu, ada pelanggan di antrian yang bosan dan memilih makan di geprek.\n");
                     normalizedQueue(&CustomerQueue, i);
                     RemoveCustomerFromTable(ArrayOfMeja[i]);
                     Reduce_Life(&player);
@@ -645,16 +645,16 @@ void InputProcessor(char input[], int input_length)
         PrintAllTable();
     }
     else if (IsKataSama(processedInput, tanganInput))
-    { //COMMAND hand
-        PrintData_Stack(player.hand, 1); //DICEK
+    {                                    //COMMAND hand
+        PrintData_Stack(player.hand, 1); //DISKIP
     }
     else if (IsKataSama(processedInput, buangTanganInput))
     { //COMMAND CH
         CreateEmpty_Stack(&(player.hand));
     }
     else if (IsKataSama(processedInput, nampanInput))
-    { //COMMAND tray
-        PrintData_Stack(player.food, 0); //DICEK
+    {                                    //COMMAND tray
+        PrintData_Stack(player.food, 0); //DISKIP
     }
     else if (IsKataSama(processedInput, buangNampanInput))
     { //COMMAND CH
@@ -707,7 +707,7 @@ void InputProcessor(char input[], int input_length)
         }
         else
         {
-            PrintNotif("Tidak ada meja kosong disekitarmu!");
+            PrintNotif("Tidak ada meja kosong di sekitarmu!");
         }
     }
     else if (IsKataSama(processedInput, placeInput))
@@ -742,9 +742,14 @@ void InputProcessor(char input[], int input_length)
             else
             {
                 PrintNotif("Antrian kosong.");
-
+            }
+        }
+        else
+        {
+            PrintNotif("Tidak ada meja kosong di sekitarmu!");
         }
     }
+
     else if (IsKataSama(processedInput, helpInput))
     { //COMMAND help
         wprintw(g_win, "Ketik help untuk melihat daftar command.\n");
@@ -810,9 +815,9 @@ void InputProcessor(char input[], int input_length)
             mvwprintw(g_win, 11, 4, "Kamu mengambil ItemID %d dari kompor, yaitu: ", (*Closest_Stove).data.stove.itemID);
             //printKata((ArrayOfItem[(*Closest_Stove).data.stove.itemID].name)); PROBLEM
             int j = 1;
-            while (j < ArrayOfItem[(*Closest_Stove).data.stove.itemID].name.Length && ArrayOfItem[(*Closest_Stove).data.stove.itemID].name.TabKata[j] != '\0')
+            while (j < (ArrayOfItem[(*Closest_Stove).data.stove.itemID].name).Length && (ArrayOfItem[(*Closest_Stove).data.stove.itemID].name).TabKata[j] != '\0')
             {
-                mvwprintw(g_win, 13, j+5, "%c", ArrayOfItem[(*Closest_Stove).data.stove.itemID].name.TabKata[j]);
+                mvwprintw(g_win, 12, j, "%c", (ArrayOfItem[(*Closest_Stove).data.stove.itemID].name).TabKata[j]);
                 j++;
             }
             Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
@@ -824,18 +829,18 @@ void InputProcessor(char input[], int input_length)
         }
     }
     else if (IsKataSama(processedInput, recipeInput))
-    { // COMMAND recipe PROBLEM
+    { // COMMAND recipe
         wprintw(g_win, "Berikut adalah resep makanan di game ini!\n\n");
         PrintTreee(resep, 3);
         return;
     }
     else if (IsKataSama(processedInput, loadInput))
     {
-        LoadFromFile("save.txt");
+        LoadFromFile("Save.txt");
     }
     else if (IsKataSama(processedInput, saveInput))
     {
-        SaveToFile("save.txt");
+        SaveToFile("Save.txt");
     }
     Print_RoomW(*(player.currentMap));
 }
@@ -1021,7 +1026,6 @@ void MainGame()
         // }
         Draw_Dynamic_Items(m_pWin);
         wrefresh(m_pWin);
-        wrefresh(g_win);
     }
     DeAlokasi_Queue(&CustomerQueue);
     Dealokasi_All_Meja();
@@ -1179,8 +1183,8 @@ void PrtStk(Stack S, int row, int col)
     if (IsEmpty_Stack(S))
     {
         mvwprintw(m_pWin, row, col, "<kosong>");
-        for(int i=1; i<=6; i++)
-            mvwprintw(m_pWin, row+i, col, "               ");
+        for (int i = 1; i <= 6; i++)
+            mvwprintw(m_pWin, row + i, col, "               ");
     }
     else
     {
@@ -1199,43 +1203,41 @@ void PrtStk(Stack S, int row, int col)
     }
 }
 
-void PrintTreee(BinTree P, int h)
+void PrintTreeWithIndentt(BinTree P, int h, int idt)
 {
-    void PrintTreeWithIndentt(BinTree P, int h, int idt)
+    int i;
+    if (!IsTreeEmpty(P))
     {
-        int i;
-        if (!IsTreeEmpty(P))
+        wprintw(g_win, "%d ", Akar(P).id);
+        //printKata(Akar(P).name);
+        int j = 1;
+        while (j < Akar(P).name.Length && Akar(P).name.TabKata[j] != '\0')
         {
-            wprintw(g_win, "%d ", Akar(P).id);
-            //printKata(Akar(P).name);
-            int j = 1;
-            while (j < Akar(P).name.Length && Akar(P).name.TabKata[j] != '\0')
+            wprintw(g_win, "%c", Akar(P).name.TabKata[j]);
+            j++;
+        }
+        wprintw(g_win, "\n");
+        if (!IsTreeEmpty(Left(P)))
+        {
+            for (i = 1; i <= h + idt; i++)
             {
-                wprintw(g_win, "%c", Akar(P).name.TabKata[j]);
-                j++;
+                wprintw(g_win, " ");
             }
-            wprintw(g_win, "\n");
-            if (!IsTreeEmpty(Left(P)))
+            PrintTreeWithIndentt(Left(P), h, idt + h);
+        }
+        if (!IsTreeEmpty(Right(P)))
+        {
+            for (i = 1; i <= h + idt; i++)
             {
-                for (i = 1; i <= h + idt; i++)
-                {
-                    wprintw(g_win, " ");
-                }
-                PrintTreeWithIndentt(Left(P), h, idt + h);
+                wprintw(g_win, " ");
             }
-            if (!IsTreeEmpty(Right(P)))
-            {
-                for (i = 1; i <= h + idt; i++)
-                {
-                    wprintw(g_win, " ");
-                }
-                PrintTreeWithIndentt(Right(P), h, idt + h);
-            }
+            PrintTreeWithIndentt(Right(P), h, idt + h);
         }
     }
-    /*Kamus Lokal*/
+}
 
-    /*Algoritma*/
+void PrintTreee(BinTree P, int h)
+{
     PrintTreeWithIndentt(P, h, 0);
 }
 
