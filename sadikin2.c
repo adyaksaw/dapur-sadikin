@@ -18,6 +18,9 @@ int main()
 
     MainGame();
 
+    gameState = CREDITS;
+    Credits();
+
     attroff(COLOR_PAIR(1));
     endwin();
 }

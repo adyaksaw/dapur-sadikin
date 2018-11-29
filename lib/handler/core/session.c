@@ -15,8 +15,9 @@ int m_nXCoord = 0,
     m_cTitleColor = (int)(COLOR_YELLOW),
     m_cCurrColor = (int)(COLOR_YELLOW),
     m_cStatusColor = (int)(COLOR_YELLOW),
-    m_cCurrX = 0;
-m_cCurrY = 0;
+    m_cCurrX = 0,
+    m_cCurrY = 0,
+    m_gOver = 0;
 
 char m_strTitle[20],
     m_strHeaders[100],
@@ -242,14 +243,14 @@ void Initialize_Session()
         printf("File tidak terdeteksi\n");
     resep = BuildBalanceTree(23, fp);
 
-    //PrintTree(resep, 2);
-    // for (i = 1; i <= 23; i++)
-    // {
-    //     ArrayOfItem[i] = SearchItemTree(resep, i);
-    //     printf("Nama item ke %d: ", i);
-    //     printKata((ArrayOfItem[i].name));
-    //     printf(" %d\n", ItemID(ArrayOfItem[i]));
-    // }
+    for (i = 1; i <= 23; i++)
+    {
+        ArrayOfItem[i] = SearchItemTree(resep, i);
+        // printf("Nama item ke %d: ", i);
+        //printKata((ArrayOfItem[i].name));
+        // printf(" %d\n", ItemID(ArrayOfItem[i]));
+    }
+    PrintTree(resep, 2);
 
     GameTime = 0;
     //printf("Init\n");
@@ -557,13 +558,13 @@ void InputProcessor(char input[], int input_length)
     { //COMMAND status
         //Print_Player(player);
         wprintw(g_win, "Nama : ");
-        int i = 1;
-        while (i <= Name(player).Length && Name(player).TabKata[i] != '\0')
-        {
-            wprintw(g_win, "%c", Name(player).TabKata[i]);
-            i++;
-        }
-        //printKata(player.name);
+        // int i = 1;
+        // while (i <= Name(player).Length && Name(player).TabKata[i] != '\0')
+        // {
+        //     wprintw(g_win, "%c", Name(player).TabKata[i]);
+        //     i++;
+        // }
+        printKataWaja(player.name, g_win);
         wprintw(g_win, "\n");
         wprintw(g_win, "Uang : %d\n", player.money);
         wprintw(g_win, "Nyawa : %d\n", player.life);
@@ -690,14 +691,14 @@ void InputProcessor(char input[], int input_length)
                 {
                     mvwprintw(g_win, 11, 1, "Customer pada meja %d telah memesan FoodID %d, yaitu ", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
                     //printf("Customer pada meja %d telah memesan FoodID %d, yaitu ", TableNumber(*ClosestTable), OrdersAt(*ClosestTable));
-                    //printKata(ArrayOfItem[OrdersAt(*ClosestTable)].name);
+                    printKataW(ArrayOfItem[OrdersAt(*ClosestTable)].name, g_win, 13, 7);
                 }
-                int j = 1;
-                while (j < ArrayOfItem[OrdersAt(*ClosestTable)].name.Length && ArrayOfItem[OrdersAt(*ClosestTable)].name.TabKata[j] != '\0')
-                {
-                    mvwprintw(g_win, 13, j + 6, "%c", ArrayOfItem[OrdersAt(*ClosestTable)].name.TabKata[j]);
-                    j++;
-                }
+                // int j = 1;
+                // while (j < ArrayOfItem[OrdersAt(*ClosestTable)].name.Length && ArrayOfItem[OrdersAt(*ClosestTable)].name.TabKata[j] != '\0')
+                // {
+                //     mvwprintw(g_win, 13, j + 6, "%c", ArrayOfItem[OrdersAt(*ClosestTable)].name.TabKata[j]);
+                //     j++;
+                // }
                 return;
             }
             else
@@ -814,14 +815,14 @@ void InputProcessor(char input[], int input_length)
         {
             // PROBLEM here
             mvwprintw(g_win, 11, 4, "Kamu mengambil ItemID %d dari kompor, yaitu: ", ItemsIn(*Closest_Stove));
-            //printKata((ArrayOfItem[(*Closest_Stove).data.stove.itemID].name)); PROBLEM
+            printKataW((ArrayOfItem[(*Closest_Stove).data.stove.itemID].name), g_win, 13, 6);
 
-            int j = 1;
-            while (j < (ArrayOfItem[ItemsIn(*Closest_Stove)].name).Length && (ItemName(ArrayOfItem[ItemsIn(*Closest_Stove)])[j] != '\0'))
-            {
-                mvwprintw(g_win, 12, j, "%c", (ItemName(ArrayOfItem[ItemsIn(*Closest_Stove)]))[j]);
-                j++;
-            }
+            // int j = 1;
+            // while (j < (ArrayOfItem[ItemsIn(*Closest_Stove)].name).Length && (ItemName(ArrayOfItem[ItemsIn(*Closest_Stove)])[j] != '\0'))
+            // {
+            //     mvwprintw(g_win, 12, j, "%c", (ItemName(ArrayOfItem[ItemsIn(*Closest_Stove)]))[j]);
+            //     j++;
+            // }
             Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
             return;
         }
@@ -996,6 +997,9 @@ void MainScreen()
 
 void MainGame()
 {
+    const char mesg1[] = "Dikarenakan banyak pelanggan yang tidak puas,";
+    const char mesg2[] = "terjadi demo, dan restoranmu disegel oleh negara.";
+    const char mesg3[] = "GAME OVER!";
     char rawInput[10] = "";
     int height = 27;
     int width = 52;
@@ -1020,12 +1024,24 @@ void MainGame()
         wclear(g_win);
 
         InputProcessor(rawInput, 10);
-        // if (Life(player) <= 0)
-        // {
-        //     printf("Dikarenakan banyak pelanggan yang tidak puas, akhirnya terjadi demo, dan restoranmu disegel oleh negara.\n");
-        //     printf("GAME OVER!\n");
-        //     gameState = CREDITS;
-        // }
+
+        if (Life(player) <= 5)
+        {
+            m_gOver = 1;
+            wclear(g_win);
+            mvwprintw(g_win, height/2 -3, width/2 - strlen(mesg1)/2, "%s", mesg1);
+            mvwprintw(g_win, height / 2 - 2, width / 2 - strlen(mesg2) / 2, "%s", mesg2);
+
+            wattron(g_win, A_BOLD);
+            mvwprintw(g_win, height/2+1, width / 2 - strlen(mesg3)/2, "%s", mesg3);
+            wattroff(g_win, A_BOLD);
+
+            wrefresh(g_win);
+
+            getch();
+            gameState = CREDITS;
+        }
+        
         Draw_Dynamic_Items(m_pWin);
         wrefresh(m_pWin);
     }
@@ -1035,29 +1051,32 @@ void MainGame()
 
 void Credits()
 {
-    const char mesg[] = "Save game?";
-    const char mesgg[] = "Game saved.";
-    char *choices[] = {
-        " YES",
-        " NO",
-    };
-    char *empty[] = {""};
-    char ret;
+    if(!m_gOver)
+    {
+        const char mesg[] = "Save game?";
+        const char mesgg[] = "Game saved.";
+        char *choices[] = {
+            " YES",
+            " NO",
+        };
+        char *empty[] = {""};
+        char ret;
 
-    attron(A_BOLD);
-    mvprintw(m_nScrHeight / 2 - 3, (m_nScrWidth - strlen(mesg)) / 2, "%s", mesg);
-    attroff(A_BOLD);
+        attron(A_BOLD);
+        mvprintw(m_nScrHeight / 2 - 3, (m_nScrWidth - strlen(mesg)) / 2, "%s", mesg);
+        attroff(A_BOLD);
 
-    Menu(9, 40, 14, 2, choices, empty, &ret);
+        Menu(9, 40, 14, 2, choices, empty, &ret);
+
+        if (ret == 'Y')
+        {
+            SaveToFile("save.txt");
+            mvprintw(m_nScrHeight / 2 + 8, (m_nScrWidth - strlen(mesgg)) / 2, "%s", mesgg);
+        }
+    }
 
     clear();
     refresh();
-
-    if (ret == 'Y')
-    {
-        SaveToFile("save.txt");
-        mvprintw(m_nScrHeight / 2 + 8, (m_nScrWidth - strlen(mesgg)) / 2, "%s", mesgg);
-    }
 
     const char mesg1[] = "Thank you for playing!";
     const char mesg2[] = "Courtesy of DAPUR SADIKIN @2018";
@@ -1082,7 +1101,7 @@ void Draw_Window()
     // update the screen width/height variables and make sure that the window will
     // still fit in case the user happens to resize their terminal (e.g., xterm);
     // throws an exception if screen too small in either direction
-    checkScreenSize();
+    //checkScreenSize();
 
     m_pWin = newwin(m_nHeight, m_nWidth, m_nYCoord, m_nXCoord);
     box(m_pWin, 0, 0);
@@ -1180,6 +1199,26 @@ void Draw_Dynamic_Items()
     //drawPanel();
 }
 
+void printKataW(Kata k, WINDOW *w, int row, int col)
+{
+    int i = 1;
+    while (i <= k.Length && k.TabKata[i] != '\0')
+    {
+        mvwprintw(w, row - 1 + i, col, "%c", k.TabKata[i]);
+        i++;
+    }
+}
+
+void printKataWaja(Kata k, WINDOW *w)
+{
+    int i = 1;
+    while (i <= k.Length && k.TabKata[i] != '\0')
+    {
+        wprintw(w, "%c", k.TabKata[i]);
+        i++;
+    }
+}
+
 void PrtStk(Stack S, int row, int col)
 {
     if (IsEmpty_Stack(S))
@@ -1194,13 +1233,13 @@ void PrtStk(Stack S, int row, int col)
         {
             mvwprintw(m_pWin, row - 1 + i, col, "               ");
             mvwprintw(m_pWin, row - 1 + i, col, "[%d]", i);
-            //printKata(S.T[i].name);
-            int j = 1;
-            while (j < S.T[i].name.Length && S.T[i].name.TabKata[j] != '\0')
-            {
-                mvwprintw(m_pWin, 3, 7 + j, "%c", S.T[i].name.TabKata[j]);
-                j++;
-            }
+            printKataW(S.T[i].name, m_pWin, 3, 7);
+            // int j = 1;
+            // while (j < S.T[i].name.Length && S.T[i].name.TabKata[j] != '\0')
+            // {
+            //     mvwprintw(m_pWin, 3, 7 + j, "%c", S.T[i].name.TabKata[j]);
+            //     j++;
+            // }
         }
     }
 }
@@ -1211,13 +1250,13 @@ void PrintTreeWithIndentt(BinTree P, int h, int idt)
     if (!IsTreeEmpty(P))
     {
         wprintw(g_win, "%d ", Akar(P).id);
-        //printKata(Akar(P).name);
-        int j = 1;
-        while (j < Akar(P).name.Length && Akar(P).name.TabKata[j] != '\0')
-        {
-            wprintw(g_win, "%c", Akar(P).name.TabKata[j]);
-            j++;
-        }
+        printKataWaja(Akar(P).name, g_win);
+        // int j = 1;
+        // while (j < Akar(P).name.Length && Akar(P).name.TabKata[j] != '\0')
+        // {
+        //     wprintw(g_win, "%c", Akar(P).name.TabKata[j]);
+        //     j++;
+        // }
         wprintw(g_win, "\n");
         if (!IsTreeEmpty(Left(P)))
         {

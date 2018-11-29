@@ -68,7 +68,8 @@ extern int m_nXCoord,
     m_cCurrColor,
     m_cStatusColor,
     m_cCurrX,
-    m_cCurrY;
+    m_cCurrY,
+    m_gOver;
 
 void print_line_break();
 
