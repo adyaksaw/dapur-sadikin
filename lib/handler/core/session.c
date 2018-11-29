@@ -166,7 +166,7 @@ void PrintOrder()
     {
         if (IsOccupied(*(ArrayOfMeja[i])))
         {
-            mvwprintw(m_pWin, 16 + n, 2, "ID %d, %d", OrdersAt(*(ArrayOfMeja[i])), i);
+            mvwprintw(m_pWin, 16, 2 + n, "ID %d, %d", OrdersAt(*(ArrayOfMeja[i])), i);
             n++;
         }
     }
@@ -1029,11 +1029,11 @@ void MainGame()
         {
             m_gOver = 1;
             wclear(g_win);
-            mvwprintw(g_win, height/2 -3, width/2 - strlen(mesg1)/2, "%s", mesg1);
+            mvwprintw(g_win, height / 2 - 3, width / 2 - strlen(mesg1) / 2, "%s", mesg1);
             mvwprintw(g_win, height / 2 - 2, width / 2 - strlen(mesg2) / 2, "%s", mesg2);
 
             wattron(g_win, A_BOLD);
-            mvwprintw(g_win, height/2+1, width / 2 - strlen(mesg3)/2, "%s", mesg3);
+            mvwprintw(g_win, height / 2 + 1, width / 2 - strlen(mesg3) / 2, "%s", mesg3);
             wattroff(g_win, A_BOLD);
 
             wrefresh(g_win);
@@ -1041,7 +1041,7 @@ void MainGame()
             getch();
             gameState = CREDITS;
         }
-        
+
         Draw_Dynamic_Items(m_pWin);
         wrefresh(m_pWin);
     }
@@ -1051,7 +1051,7 @@ void MainGame()
 
 void Credits()
 {
-    if(!m_gOver)
+    if (!m_gOver)
     {
         const char mesg[] = "Save game?";
         const char mesgg[] = "Game saved.";
