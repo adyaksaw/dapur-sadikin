@@ -242,6 +242,7 @@ void Initialize_Session()
         printf("File tidak terdeteksi\n");
     resep = BuildBalanceTree(23, fp);
 
+    //PrintTree(resep, 2);
     // for (i = 1; i <= 23; i++)
     // {
     //     ArrayOfItem[i] = SearchItemTree(resep, i);
@@ -812,12 +813,13 @@ void InputProcessor(char input[], int input_length)
         if (Closest_Stove != NULL)
         {
             // PROBLEM here
-            mvwprintw(g_win, 11, 4, "Kamu mengambil ItemID %d dari kompor, yaitu: ", (*Closest_Stove).data.stove.itemID);
+            mvwprintw(g_win, 11, 4, "Kamu mengambil ItemID %d dari kompor, yaitu: ", ItemsIn(*Closest_Stove));
             //printKata((ArrayOfItem[(*Closest_Stove).data.stove.itemID].name)); PROBLEM
+
             int j = 1;
-            while (j < (ArrayOfItem[(*Closest_Stove).data.stove.itemID].name).Length && (ArrayOfItem[(*Closest_Stove).data.stove.itemID].name).TabKata[j] != '\0')
+            while (j < (ArrayOfItem[ItemsIn(*Closest_Stove)].name).Length && (ItemName(ArrayOfItem[ItemsIn(*Closest_Stove)])[j] != '\0'))
             {
-                mvwprintw(g_win, 12, j, "%c", (ArrayOfItem[(*Closest_Stove).data.stove.itemID].name).TabKata[j]);
+                mvwprintw(g_win, 12, j, "%c", (ItemName(ArrayOfItem[ItemsIn(*Closest_Stove)]))[j]);
                 j++;
             }
             Push_Stack(&player.hand, ArrayOfItem[(*Closest_Stove).data.stove.itemID]);
